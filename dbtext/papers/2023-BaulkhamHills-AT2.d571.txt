@@ -542,7 +542,7 @@ document
       source_document_id: 571
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"top_criterion_original": "correct solution"}
+      meta_json: {"final": "$3\\sec^2(3x-4)$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "top_criterion_original": "correct solution"}
     difficulty
       band: 2
       wm: UF
@@ -618,7 +618,7 @@ document
       source_document_id: 571
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"top_criterion_original": "correct solution"}
+      meta_json: {"final": "$\\cot x$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "top_criterion_original": "correct solution"}
     difficulty
       band: 2
       wm: UF
@@ -679,7 +679,7 @@ document
       source_document_id: 571
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Differentiates $\\cos 3x$, or correct use of the product or quotient rule"]]
-      meta_json: {"format_note": "Rubric rows kept from the source. Checked: d/dx[cos3x/x] = (-3x sin3x - cos3x)/x^2.", "overwritten_from_source": "Source answer had sin x in the numerator; corrected to sin 3x (u' = -3 sin 3x).", "top_criterion_original": "correct solution"}
+      meta_json: {"final": "$\\dfrac{-3x\\sin 3x-\\cos 3x}{x^2}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "format_note": "Rubric rows kept from the source. Checked: d/dx[cos3x/x] = (-3x sin3x - cos3x)/x^2.", "overwritten_from_source": "Source answer had sin x in the numerator; corrected to sin 3x (u' = -3 sin 3x).", "top_criterion_original": "correct solution"}
     difficulty
       band: 3
       wm: UF
@@ -740,7 +740,7 @@ document
       source_document_id: 571
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Differentiates $e^{2x}$, or correct use of the product rule"]]
-      meta_json: {"format_note": "Checked: e^{2x}(2+4x-2) = 4x e^{2x}.", "overwritten_from_source": "Source second line had e^{2x} in place of 2e^{2x} for the first term; corrected (final answer 4x e^{2x} unchanged).", "top_criterion_original": "correct solution"}
+      meta_json: {"final": "$4xe^{2x}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "format_note": "Checked: e^{2x}(2+4x-2) = 4x e^{2x}.", "overwritten_from_source": "Source second line had e^{2x} in place of 2e^{2x} for the first term; corrected (final answer 4x e^{2x} unchanged).", "top_criterion_original": "correct solution"}
     difficulty
       band: 3
       wm: UF
@@ -775,7 +775,7 @@ document
     source_document_id: 571
     prompt_version: parse-v1
     criteria_json: [[1, "Correct answer"]]
-    meta_json: {"format_note": "Source gave the answer 4/5 only; the standard-limit step added.", "top_criterion_original": "correct solution"}
+    meta_json: {"final": "$\\dfrac{4}{5}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "format_note": "Source gave the answer 4/5 only; the standard-limit step added.", "top_criterion_original": "correct solution"}
   part -  id 3833
     ordinal: 1
     latex: Find $\displaystyle\lim_{x\to 0}\dfrac{\sin 4x}{5x}$
@@ -842,7 +842,7 @@ document
     source_document_id: 571
     prompt_version: parse-v1
     criteria_json: [[3, "Correct answer"], [2, "Finds the critical value $k=\\dfrac{3}{8}$"], [1, "Finds $f''(x)$"]]
-    meta_json: {"format_note": "Rubric rows kept from the source. Checked: k=3/8 gives a double root of f'', so f''>=0 with equality at one point; the strict inequality k>3/8 is as in the source.", "overwritten_from_source": "Source wrote 'a>0 or Delta<0'; corrected to 'and' (both conditions are needed for a quadratic to be positive for all x).", "top_criterion_original": "correct solution"}
+    meta_json: {"final": "$k>\\dfrac{3}{8}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement", "format_note": "Rubric rows kept from the source. Checked: k=3/8 gives a double root of f'', so f''>=0 with equality at one point; the strict inequality k>3/8 is as in the source.", "overwritten_from_source": "Source wrote 'a>0 or Delta<0'; corrected to 'and' (both conditions are needed for a quadratic to be positive for all x).", "top_criterion_original": "correct solution"}
   part -  id 3834
     ordinal: 1
     latex: |
@@ -932,7 +932,7 @@ document
     source_document_id: 571
     prompt_version: parse-v1
     criteria_json: [[2, "Correct answer"], [1, "Finds one application of the trapezoidal rule"]]
-    meta_json: {"format_note": "Depths taken from the source working (figure not checked here). Checked: 1.35 x 14.2 = 19.17.", "top_criterion_original": "correct solution"}
+    meta_json: {"final": "$19.17\\text{ m}^2$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "format_note": "Depths taken from the source working (figure not checked here). Checked: 1.35 x 14.2 = 19.17.", "top_criterion_original": "correct solution"}
   figure 571_q9_1.png
     page: 8
     bbox: [99, 102, 484, 247]
@@ -1005,7 +1005,7 @@ document
     source_document_id: 571
     prompt_version: parse-v1
     criteria_json: [[2, "Correct answer"], [1, "Integrates correctly"]]
-    meta_json: {"top_criterion_original": "correct solution"}
+    meta_json: {"final": "$f(x)=x^3-2x^2+x+3$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "top_criterion_original": "correct solution"}
   part -  id 3836
     ordinal: 1
     latex: Find the equation of the curve passing through the point $(2,5)$ with gradient function $f'(x)=3x^2-4x+1$.
@@ -1079,7 +1079,7 @@ document
     source_document_id: 571
     prompt_version: parse-v1
     criteria_json: [[2, "Correct answer"], [1, "Correctly integrates"]]
-    meta_json: {"top_criterion_original": "correct solution"}
+    meta_json: {"final": "$\\dfrac{2}{3}\\ln 2\\text{ units}^2$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "top_criterion_original": "correct solution"}
   part -  id 3837
     ordinal: 1
     latex: Find the exact area of the region bounded by the curve $y=\dfrac{2}{3x}$, the $x$-axis and the lines $x=2$ and $x=4$.
@@ -1173,7 +1173,7 @@ document
     source_document_id: 571
     prompt_version: parse-v1
     criteria_json: [[3, "Correct answer"], [2, "Finds the equation of the tangent or the gradient of the normal"], [1, "Finds the correct derivative, or finds the equation of the normal with an incorrect derivative"]]
-    meta_json: {"format_note": "Rubric rows kept from the source (wording tidied). Checked: the point (pi,0) satisfies the corrected line, and y = e^(-pi)(x - pi) is equivalent.", "overwritten_from_source": "Source final line was e^pi y - x + pi/e^pi = 0; corrected to e^pi y - x + pi = 0 (multiplying y = (x - pi)/e^pi through by e^pi).", "top_criterion_original": "correct solution"}
+    meta_json: {"final": "$e^{\\pi}y-x+\\pi=0$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "format_note": "Rubric rows kept from the source (wording tidied). Checked: the point (pi,0) satisfies the corrected line, and y = e^(-pi)(x - pi) is equivalent.", "overwritten_from_source": "Source final line was e^pi y - x + pi/e^pi = 0; corrected to e^pi y - x + pi = 0 (multiplying y = (x - pi)/e^pi through by e^pi).", "top_criterion_original": "correct solution"}
   part -  id 3838
     ordinal: 1
     latex: Find the equation of the normal to the curve $y=e^x\sin x$ at the point $(\pi,0)$.
@@ -1300,7 +1300,7 @@ document
       source_document_id: 571
       prompt_version: parse-v1
       criteria_json: [[3, "Correct answer"], [2, "Solves a quadratic equation"], [1, "Has an equation in terms of $2^x$"]]
-      meta_json: {"format_note": "Rubric rows kept from the source. Checked: 2^1 - 4 x 2^-1 = 2 - 2 = 0.", "top_criterion_original": "correct solution"}
+      meta_json: {"final": "$x=-1$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "format_note": "Rubric rows kept from the source. Checked: 2^1 - 4 x 2^-1 = 2 - 2 = 0.", "top_criterion_original": "correct solution"}
     difficulty
       band: 4
       wm: UF
@@ -1350,7 +1350,7 @@ document
       source_document_id: 571
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Uses at least one log law correctly"]]
-      meta_json: {"top_criterion_original": "correct solution"}
+      meta_json: {"final": "$x=54$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "top_criterion_original": "correct solution"}
     difficulty
       band: 3
       wm: UF
@@ -1405,7 +1405,7 @@ document
       source_document_id: 571
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Integrates $(2x+1)^{-2}$"]]
-      meta_json: {"format_note": "Only part (a) of this question is in the input.", "marker_note": "The answer must include $+c$ for full marks.", "top_criterion_original": "correct solution must have $+c$"}
+      meta_json: {"final": "$-\\dfrac{1}{2(2x+1)}+c$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "format_note": "Only part (a) of this question is in the input.", "marker_note": "The answer must include $+c$ for full marks.", "top_criterion_original": "correct solution must have $+c$"}
     difficulty
       band: 3
       wm: UF
@@ -1449,7 +1449,7 @@ document
       source_document_id: 571
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Integrates without chain (missing $\\dfrac{1}{10}$)"]]
-      meta_json: {"top_criterion_original": "correct solution"}
+      meta_json: {"final": "$\\dfrac{1}{10}\\ln|5x^2+3|+c$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "top_criterion_original": "correct solution"}
     difficulty
       band: 3
       wm: UF
@@ -1519,7 +1519,7 @@ document
       source_document_id: 571
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"top_criterion_original": "correct solution"}
+      meta_json: {"final": "$\\frac{3}{2}x^2+4\\ln|x|+c$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "top_criterion_original": "correct solution"}
     difficulty
       band: 2
       wm: UF
@@ -1573,7 +1573,7 @@ document
       source_document_id: 571
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"format_note": "Source gave only the answer; the index-law step was added by us.", "top_criterion_original": "correct solution"}
+      meta_json: {"final": "$\\frac{1}{2}e^{2x}+c$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "format_note": "Source gave only the answer; the index-law step was added by us.", "top_criterion_original": "correct solution"}
     difficulty
       band: 2
       wm: UF
@@ -1617,7 +1617,7 @@ document
       source_document_id: 571
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Integrates without chain (missing $-\\dfrac{1}{4}$)"]]
-      meta_json: {"format_note": "Source gave only the answer; the one-line reason was added by us.", "top_criterion_original": "correct solution"}
+      meta_json: {"final": "$-\\frac{1}{4}\\cos(4x-3)+c$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "format_note": "Source gave only the answer; the one-line reason was added by us.", "top_criterion_original": "correct solution"}
     difficulty
       band: 2
       wm: UF
@@ -1661,7 +1661,7 @@ document
       source_document_id: 571
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"top_criterion_original": "correct solution"}
+      meta_json: {"final": "$\\frac{5^{x+1}}{\\ln 5}+c$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "top_criterion_original": "correct solution"}
     difficulty
       band: 3
       wm: UF
@@ -1753,7 +1753,7 @@ document
       source_document_id: 571
       prompt_version: parse-v1
       criteria_json: [[3, "Correct answer"], [2, "Integrates $\\sec^2 x$"], [1, "Changes $1-\\sin^2 x$ to $\\cos^2 x$"]]
-      meta_json: {"top_criterion_original": "correct solution"}
+      meta_json: {"final": "$2$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "top_criterion_original": "correct solution"}
     difficulty
       band: 3
       wm: UF
@@ -1823,7 +1823,7 @@ document
       source_document_id: 571
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"top_criterion_original": "correct solution"}
+      meta_json: {"final": "$x=\\frac{7}{2}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "top_criterion_original": "correct solution"}
     difficulty
       band: 2
       wm: UF
@@ -1899,7 +1899,7 @@ document
       source_document_id: 571
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Correct integral"]]
-      meta_json: {"top_criterion_original": "correct solution using part (a)"}
+      meta_json: {"final": "$\\frac{343}{12}\\approx 28.583$ units$^2$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "top_criterion_original": "correct solution using part (a)"}
     difficulty
       band: 3
       wm: UF
@@ -1967,7 +1967,7 @@ document
       source_document_id: 571
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"format_note": "Answer read from the given graph (figure not visible to the formatter); source answer kept.", "top_criterion_original": "correct solution"}
+      meta_json: {"final": "$x<1$ or $x>9$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement", "format_note": "Answer read from the given graph (figure not visible to the formatter); source answer kept.", "top_criterion_original": "correct solution"}
     difficulty
       band: 3
       wm: UF
@@ -2101,7 +2101,7 @@ document
       source_document_id: 571
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Derives without chain rule"]]
-      meta_json: {"top_criterion_original": "correct solution"}
+      meta_json: {"final": "$\\frac{3x}{\\sqrt{3x^2+6}}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "top_criterion_original": "correct solution"}
     difficulty
       band: 3
       wm: UF
@@ -2178,7 +2178,7 @@ document
       source_document_id: 571
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Correct integral"]]
-      meta_json: {"top_criterion_original": "correct solution"}
+      meta_json: {"final": "$1-\\dfrac{\\sqrt{6}}{3}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "top_criterion_original": "correct solution"}
     difficulty
       band: 3
       wm: UF
@@ -2249,7 +2249,7 @@ document
       source_document_id: 571
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Correct derivative able to apply chain rule once"]]
-      meta_json: {"format_note": "Source criterion said 'correct integral'; changed to 'derivative' as the question is a differentiation.", "top_criterion_original": "correct solution"}
+      meta_json: {"final": "$\\dfrac{dy}{dx}=10\\cos(2x)\\sin^4(2x)$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "format_note": "Source criterion said 'correct integral'; changed to 'derivative' as the question is a differentiation.", "top_criterion_original": "correct solution"}
     difficulty
       band: 3
       wm: UF
@@ -2321,7 +2321,7 @@ document
       source_document_id: 571
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Converts degrees to radians and derives without chain rule"]]
-      meta_json: {"top_criterion_original": "correct solution"}
+      meta_json: {"final": "$\\dfrac{dy}{dx}=\\dfrac{\\pi}{180}\\cos x^{\\circ}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "top_criterion_original": "correct solution"}
     difficulty
       band: 4
       wm: PR
@@ -2394,7 +2394,7 @@ document
       source_document_id: 571
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Uses at least one log law to simplify the question"]]
-      meta_json: {"top_criterion_original": "correct solution"}
+      meta_json: {"final": "$\\dfrac{2x+3}{4x+2}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "top_criterion_original": "correct solution"}
     difficulty
       band: 3
       wm: UF
@@ -2430,7 +2430,7 @@ document
     source_document_id: 571
     prompt_version: parse-v1
     criteria_json: [[3, "Correct answer"], [2, "Correct expression to find the area"], [1, "Finds the area of the triangle, or finds $\\displaystyle\\int_3^5\\left(\\dfrac{3}{y}+1\\right)dy$ or finds $\\displaystyle\\int\\dfrac{3}{x-1}\\,dx$"]]
-    meta_json: {"format_note": "Source criterion row 1 ended 'dx' for the integral in y; written as dy. The description of the region (triangle plus strip) is read from the source working; figure not visible.", "top_criterion_original": "correct solution"}
+    meta_json: {"final": "$5+3\\ln\\dfrac{5}{3}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "format_note": "Source criterion row 1 ended 'dx' for the integral in y; written as dy. The description of the region (triangle plus strip) is read from the source working; figure not visible.", "top_criterion_original": "correct solution"}
   figure 571_q18_1.png
     page: 17
     bbox: [128, 136, 453, 428]
@@ -2573,7 +2573,7 @@ document
       source_document_id: 571
       prompt_version: parse-v1
       criteria_json: [[3, "Correct answer"], [2, "Test nature of the points by a table or second derivative"], [1, "Finds $x=0,3$"]]
-      meta_json: {"format_note": "Figure 571_q19_s1 is the source's nature test (assumed sign table); not visible to the formatter.", "marker_note": "Note: Must conclude a horizontal inflection point to obtain full marks.", "top_criterion_original": "correct solution"}
+      meta_json: {"final": "Horizontal inflection point at $(0,0)$ and maximum point at $(3,6.75)$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement", "format_note": "Figure 571_q19_s1 is the source's nature test (assumed sign table); not visible to the formatter.", "marker_note": "Note: Must conclude a horizontal inflection point to obtain full marks.", "top_criterion_original": "correct solution"}
     figure 571_q19_s1.png
       page: 28
       bbox: [85, 115, 425, 167]
@@ -2648,7 +2648,7 @@ document
       source_document_id: 571
       prompt_version: parse-v1
       criteria_json: [[3, "Correct answer"], [2, "Tests for the change in concavity"], [1, "Finds $x=0,2$"]]
-      meta_json: {"overwritten_from_source": "1-mark row read 'Finds x=0,3' (copied from part (a)); f''(x)=0 gives x=0 and x=2.", "source_original": "Finds $x=0,3$", "top_criterion_original": "correct solution"}
+      meta_json: {"final": "$(0,0)$ and $(2,4)$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "overwritten_from_source": "1-mark row read 'Finds x=0,3' (copied from part (a)); f''(x)=0 gives x=0 and x=2.", "source_original": "Finds $x=0,3$", "top_criterion_original": "correct solution"}
     figure 571_q19_s2.png
       page: 28
       bbox: [85, 258, 425, 321]
@@ -2784,7 +2784,7 @@ document
       source_document_id: 571
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"overwritten_from_source": "Source range was -13.25 <= y <= 6.75; f(5) = -31.25 (and f(-2) = -12), so the least value on [-2, 5] is -31.25.", "source_original": "$-13.25\\le y\\le 6.75$", "top_criterion_original": "correct solution"}
+      meta_json: {"final": "$-31.25\\le y\\le 6.75$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement", "overwritten_from_source": "Source range was -13.25 <= y <= 6.75; f(5) = -31.25 (and f(-2) = -12), so the least value on [-2, 5] is -31.25.", "source_original": "$-13.25\\le y\\le 6.75$", "top_criterion_original": "correct solution"}
     difficulty
       band: 3
       wm: UF
@@ -3059,7 +3059,7 @@ document
       source_document_id: 571
       prompt_version: parse-v1
       criteria_json: [[3, "Correct answer"], [2, "Satisfies 2 criteria points"], [1, "Satisfies one criteria point. Criteria points: finds $t$; test for concavity; finds maximum $A$"]]
-      meta_json: {"format_note": "Checked: t = 1.1445, d2A/dt2 = -0.953, A = 0.458. A = 0 at both ends (t = 0 and t = 2pi/3), so 0.46 is the greatest value; the source does not show the end-point check.", "top_criterion_original": "correct solution"}
+      meta_json: {"final": "$0.46$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "format_note": "Checked: t = 1.1445, d2A/dt2 = -0.953, A = 0.458. A = 0 at both ends (t = 0 and t = 2pi/3), so 0.46 is the greatest value; the source does not show the end-point check.", "top_criterion_original": "correct solution"}
     difficulty
       band: 4
       wm: PR

@@ -207,7 +207,7 @@ document
       model: claude-sonnet-5-5
       prompt_version: gen-v2
       criteria_json: [[2, "Correct answer"], [1, "Sets up the area as two integrals with the correct limits and integrands, or equivalent merit"]]
-      meta_json: {"confidence": 0.97, "generated_note": "Figure is the question's own; no extra sketch needed.", "self_check": "Checked numerically with the two integrals; total 1.5."}
+      meta_json: {"confidence": 0.97, "final": "$\\frac{3}{2}$ units$^2$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "generated_note": "Figure is the question's own; no extra sketch needed.", "self_check": "Checked numerically with the two integrals; total 1.5."}
     difficulty
       band: 4
       wm: UF
@@ -278,7 +278,7 @@ document
       model: claude-sonnet-5-5
       prompt_version: gen-v2
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"confidence": 0.99, "generated_note": null, "self_check": "Standard chain rule."}
+      meta_json: {"confidence": 0.99, "final": "$2xe^{x^2}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "generated_note": null, "self_check": "Standard chain rule."}
     difficulty
       band: 2
       wm: UF
@@ -355,7 +355,7 @@ document
       model: claude-sonnet-5-5
       prompt_version: gen-v2
       criteria_json: [[2, "Correct answer"], [1, "Finds the primitive $\\dfrac{1}{2}e^{x^2}$, or equivalent merit"]]
-      meta_json: {"confidence": 0.99, "generated_note": null, "self_check": "Differentiating the primitive returns the integrand."}
+      meta_json: {"confidence": 0.99, "final": "$\\frac{1-e}{2}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "generated_note": null, "self_check": "Differentiating the primitive returns the integrand."}
     difficulty
       band: 3
       wm: UF
@@ -569,7 +569,7 @@ document
       model: claude-sonnet-5-5
       prompt_version: gen-v2
       criteria_json: [[3, "Correct answer"], [2, "Finds the gradient and the point of tangency, or equivalent merit"], [1, "Differentiates correctly using the product rule, or equivalent merit"]]
-      meta_json: {"confidence": 0.98, "generated_note": null, "self_check": "Tangent passes through the origin; value at x=1 checked."}
+      meta_json: {"confidence": 0.98, "final": "$y=\\frac{x}{e}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "generated_note": null, "self_check": "Tangent passes through the origin; value at x=1 checked."}
     difficulty
       band: 3
       wm: UF
@@ -641,7 +641,7 @@ document
       model: claude-sonnet-5-5
       prompt_version: gen-v2
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"confidence": 0.99, "generated_note": null, "self_check": "Differentiated the result to recover the integrand."}
+      meta_json: {"confidence": 0.99, "final": "$40x+\\frac{1}{2}e^{-2x+4}+C$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "generated_note": null, "self_check": "Differentiated the result to recover the integrand."}
     difficulty
       band: 2
       wm: UF
@@ -686,7 +686,7 @@ document
       model: claude-sonnet-5-5
       prompt_version: gen-v2
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"confidence": 0.98, "generated_note": null, "self_check": "Differentiating the result returns the integrand."}
+      meta_json: {"confidence": 0.98, "final": "$\\frac{1}{4}\\ln|x^4-4x^2|+C$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "generated_note": null, "self_check": "Differentiating the result returns the integrand."}
     difficulty
       band: 3
       wm: UF
@@ -867,7 +867,7 @@ document
       model: claude-sonnet-5-5
       prompt_version: gen-v2
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"confidence": 0.98, "generated_note": "Generated solution.", "self_check": "Differentiated tan x - x to get sec^2 x - 1 = tan^2 x."}
+      meta_json: {"confidence": 0.98, "final": "$\\tan x - x + C$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "generated_note": "Generated solution.", "self_check": "Differentiated tan x - x to get sec^2 x - 1 = tan^2 x."}
     difficulty
       band: 3
       wm: UF
@@ -967,7 +967,7 @@ document
       model: claude-sonnet-5-5
       prompt_version: gen-v2
       criteria_json: [[3, "Correct answer"], [2, "Solves $f'(x)=0$ for both values of $x$, or equivalent merit"], [1, "Finds $f'(x)=-\\sin x-\\cos x$, or equivalent merit"]]
-      meta_json: {"confidence": 0.97, "generated_note": "Generated solution.", "self_check": "f(7pi/4)=sqrt2 is the maximum value; f(3pi/4)=-sqrt2 the minimum."}
+      meta_json: {"confidence": 0.97, "final": "$x=\\frac{7\\pi}{4}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "generated_note": "Generated solution.", "self_check": "f(7pi/4)=sqrt2 is the maximum value; f(3pi/4)=-sqrt2 the minimum."}
     difficulty
       band: 3
       wm: UF
@@ -1072,7 +1072,7 @@ document
       model: claude-sonnet-5-5
       prompt_version: gen-v2
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"confidence": 0.97, "generated_note": "Generated solution.", "self_check": "Quotient rule gives (2cos x + 2x sin x)/cos^2 x, which equals the same expression."}
+      meta_json: {"confidence": 0.97, "final": "$2\\sec x+2x\\sec x\\tan x$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "generated_note": "Generated solution.", "self_check": "Quotient rule gives (2cos x + 2x sin x)/cos^2 x, which equals the same expression."}
     difficulty
       band: 3
       wm: UF
@@ -1175,7 +1175,7 @@ document
       model: claude-sonnet-5-5
       prompt_version: gen-v2
       criteria_json: [[2, "Correct answer"], [1, "Integrates to find $V=-80\\cos(0.5t)+C$, or equivalent merit"]]
-      meta_json: {"confidence": 0.97, "generated_note": "Generated solution.", "self_check": "Numerically 180-80*0.5403=136.78."}
+      meta_json: {"confidence": 0.97, "final": "$V \\approx 137$ litres", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "generated_note": "Generated solution.", "self_check": "Numerically 180-80*0.5403=136.78."}
     difficulty
       band: 3
       wm: UF
@@ -1296,7 +1296,7 @@ document
       model: claude-sonnet-5-5
       prompt_version: gen-v2
       criteria_json: [[2, "Correct answer"], [1, "Obtains $t=\\dfrac{\\ln 0.625}{-0.12}$, or equivalent merit"]]
-      meta_json: {"confidence": 0.97, "generated_note": "Generated solution.", "self_check": "400*exp(-0.12*3.9167)=250.0."}
+      meta_json: {"confidence": 0.97, "final": "235 minutes", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "generated_note": "Generated solution.", "self_check": "400*exp(-0.12*3.9167)=250.0."}
     difficulty
       band: 3
       wm: UF
@@ -1368,7 +1368,7 @@ document
       model: claude-sonnet-5-5
       prompt_version: gen-v2
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"confidence": 0.98, "generated_note": "Generated solution.", "self_check": "Chain rule."}
+      meta_json: {"confidence": 0.98, "final": "$3\\sin^2 x\\cos x$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "generated_note": "Generated solution.", "self_check": "Chain rule."}
     difficulty
       band: 2
       wm: UF
@@ -1430,7 +1430,7 @@ document
       model: claude-sonnet-5-5
       prompt_version: gen-v2
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"confidence": 0.98, "generated_note": "Generated solution.", "self_check": "Differentiating the answer returns cos x sin^2 x."}
+      meta_json: {"confidence": 0.98, "final": "$\\frac{1}{3}\\sin^3 x + C$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "generated_note": "Generated solution.", "self_check": "Differentiating the answer returns cos x sin^2 x."}
     difficulty
       band: 3
       wm: UF
@@ -1536,7 +1536,7 @@ document
       model: claude-sonnet-5-5
       prompt_version: gen-v2
       criteria_json: [[2, "Correct answer"], [1, "Finds $t=1$ when stationary, or finds $a=-\\dfrac{6}{(t+1)^2}$, or equivalent merit"]]
-      meta_json: {"confidence": 0.98, "generated_note": "Generated solution.", "self_check": "Checked v(1)=0 and a formula."}
+      meta_json: {"confidence": 0.98, "final": "$-\\frac{3}{2}$ ms$^{-2}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "generated_note": "Generated solution.", "self_check": "Checked v(1)=0 and a formula."}
     difficulty
       band: 3
       wm: UF
@@ -1735,7 +1735,7 @@ document
       model: claude-sonnet-5-5
       prompt_version: gen-v2
       criteria_json: [[3, "Correct answer"], [2, "Integrates $v$ correctly and evaluates both stages, or equivalent merit"], [1, "Identifies the change of direction at $t=1$, or finds an antiderivative $6\\ln(t+1)-3t$, or equivalent merit"]]
-      meta_json: {"confidence": 0.95, "generated_note": "Generated solution; question wording says both 'exact' and '2 decimal places', so both forms are given.", "self_check": "Numerically: 1.1589 + 5.4082 = 6.5672."}
+      meta_json: {"confidence": 0.95, "final": "$9 - 6\\ln\\frac{3}{2} \\approx 6.57$ m", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "generated_note": "Generated solution; question wording says both 'exact' and '2 decimal places', so both forms are given.", "self_check": "Numerically: 1.1589 + 5.4082 = 6.5672."}
     difficulty
       band: 4
       wm: PR

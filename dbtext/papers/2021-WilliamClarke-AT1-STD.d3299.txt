@@ -323,7 +323,7 @@ document
     source_document_id: 3299
     prompt_version: parse-v1
     criteria_json: [[1, "Correct answer"]]
-    meta_json: {"corrected": "Corrected from source: the line read $0.012\\times100=1.24\\%$; it is $0.01238\\ldots\\times100$.", "overwritten_from_source": "Corrected from source: the line read $0.012\\times100=1.24\\%$; it is $0.01238\\ldots\\times100$.", "source_original": {"criteria": [[1, "Correct answer"]], "latex": "$$\\begin{aligned} \\text{Dividend yield} &= \\dfrac{\\text{Dividend}}{\\text{Share value}} \\\\ &= \\dfrac{0.48}{38.78} \\\\ &= 0.012 \\times 100 \\\\ &= 1.24\\% \\end{aligned}$$\n\n(Ignore rounding.)"}}
+    meta_json: {"corrected": "Corrected from source: the line read $0.012\\times100=1.24\\%$; it is $0.01238\\ldots\\times100$.", "final": "1.24%", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "overwritten_from_source": "Corrected from source: the line read $0.012\\times100=1.24\\%$; it is $0.01238\\ldots\\times100$.", "source_original": {"criteria": [[1, "Correct answer"]], "latex": "$$\\begin{aligned} \\text{Dividend yield} &= \\dfrac{\\text{Dividend}}{\\text{Share value}} \\\\ &= \\dfrac{0.48}{38.78} \\\\ &= 0.012 \\times 100 \\\\ &= 1.24\\% \\end{aligned}$$\n\n(Ignore rounding.)"}}
   part -  id 11563
     ordinal: 1
     latex: |
@@ -415,7 +415,7 @@ document
       source_document_id: 3299
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Completes the table correctly for Year 4 or Year 5, or equivalent merit"]]
-      meta_json: {"format_note": "Source printed Year 4 depreciation as '$1638.40 = $1637'; rounded value should be $1638. Fixed to show $1638.40 only."}
+      meta_json: {"final": "Year 4: salvage $6554, depreciation $1638; Year 5: salvage $5243, depreciation $1311", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement", "format_note": "Source printed Year 4 depreciation as '$1638.40 = $1637'; rounded value should be $1638. Fixed to show $1638.40 only."}
     difficulty
       band: 2
       wm: UF
@@ -463,7 +463,7 @@ document
       source_document_id: 3299
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Correct value of $n$ without working, or equivalent merit"]]
-      meta_json: {"corrected": "Corrected from source: $0.8^8$ was given as $0.262$; $0.262$ is $0.8^6$ and $0.8^7=0.209$ is the first below $0.25$.", "overwritten_from_source": "Corrected from source: $0.8^8$ was given as $0.262$; $0.262$ is $0.8^6$ and $0.8^7=0.209$ is the first below $0.25$.", "source_original": {"criteria": [[2, "Correct answer"], [1, "Correct value of $n$ without working, or equivalent merit"]], "latex": "Using the depreciation formula $S = V_0(1-r)^n$, with $S = 4000$, $V_0 = 16000$ and $r = 0.20$:\n$$\\begin{aligned} 4000 &= 16000(1-0.20)^n \\\\ 0.8^n &= 0.25 \\end{aligned}$$\nTry values of $n$:\n$$\\begin{aligned} 0.8^7 &= 0.209 \\\\ 0.8^8 &= 0.262 \\end{aligned}$$\nSo $0.8^n<0.25$ first when $n=7$.\n$$\\therefore\\ n = 7 \\text{ years}$$"}}
+      meta_json: {"corrected": "Corrected from source: $0.8^8$ was given as $0.262$; $0.262$ is $0.8^6$ and $0.8^7=0.209$ is the first below $0.25$.", "final": "7 years", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "overwritten_from_source": "Corrected from source: $0.8^8$ was given as $0.262$; $0.262$ is $0.8^6$ and $0.8^7=0.209$ is the first below $0.25$.", "source_original": {"criteria": [[2, "Correct answer"], [1, "Correct value of $n$ without working, or equivalent merit"]], "latex": "Using the depreciation formula $S = V_0(1-r)^n$, with $S = 4000$, $V_0 = 16000$ and $r = 0.20$:\n$$\\begin{aligned} 4000 &= 16000(1-0.20)^n \\\\ 0.8^n &= 0.25 \\end{aligned}$$\nTry values of $n$:\n$$\\begin{aligned} 0.8^7 &= 0.209 \\\\ 0.8^8 &= 0.262 \\end{aligned}$$\nSo $0.8^n<0.25$ first when $n=7$.\n$$\\therefore\\ n = 7 \\text{ years}$$"}}
     difficulty
       band: 4
       wm: UF
@@ -593,7 +593,7 @@ document
       source_document_id: 3299
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "Between $7000 and $7500 (read from graph)", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement"}
     difficulty
       band: 2
       wm: UF
@@ -646,7 +646,7 @@ document
       source_document_id: 3299
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "Between $3000 and $3400 (read from graph)", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement"}
     difficulty
       band: 3
       wm: UF
@@ -778,7 +778,7 @@ document
       source_document_id: 3299
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Finds the difference without finding the individual salvage values, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$2553.76", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 2
       wm: UF
@@ -845,7 +845,7 @@ document
       source_document_id: 3299
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"marker_note": "More detail was needed than many students gave."}
+      meta_json: {"final": "The transaction was an amount credited to the account.", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement", "marker_note": "More detail was needed than many students gave."}
     difficulty
       band: 2
       wm: UF
@@ -887,7 +887,7 @@ document
       source_document_id: 3299
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Makes significant progress (only one error), or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$358.95, $158.95, $208.95, $58, $0", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 2
       wm: UF
@@ -944,7 +944,7 @@ document
       source_document_id: 3299
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Only one error (e.g. incorrect $n$ used on all calculations), or equivalent merit"]]
-      meta_json: {"marker_note": "No marks for a single application of the future value formula."}
+      meta_json: {"final": "$A = \\$1.94$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "marker_note": "No marks for a single application of the future value formula."}
       data_table Ts11064_1
         header_rows: 1
         label_col: 0
@@ -991,7 +991,7 @@ document
       source_document_id: 3299
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Correct method with one error, or equivalent merit"]]
-      meta_json: {"format_note": "Source criterion had no mark value; rubric written by us using the paper's 2 marks.", "marker_note": "Working needed for carry-forward errors. Mark allocation printed as 1 in the guidelines; the paper gives 2 marks."}
+      meta_json: {"final": "$B = \\$410.89$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "format_note": "Source criterion had no mark value; rubric written by us using the paper's 2 marks.", "marker_note": "Working needed for carry-forward errors. Mark allocation printed as 1 in the guidelines; the paper gives 2 marks."}
     difficulty
       band: 3
       wm: UF
@@ -1033,7 +1033,7 @@ document
       source_document_id: 3299
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"marker_note": "Working needed for carry-forward errors."}
+      meta_json: {"final": "$C = \\$408.95$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "marker_note": "Working needed for carry-forward errors."}
     difficulty
       band: 2
       wm: UF
@@ -1075,7 +1075,7 @@ document
       source_document_id: 3299
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"marker_note": "Working needed for carry-forward errors."}
+      meta_json: {"final": "$1.94", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "marker_note": "Working needed for carry-forward errors."}
     difficulty
       band: 3
       wm: UF
@@ -1122,7 +1122,7 @@ document
       source_document_id: 3299
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Correct approach with an error, or equivalent merit"]]
-      meta_json: {"marker_note": "-1 for not answering in full (only saying 'the full amount' without stating the amount); -1 for an error based on the answer to part (f)."}
+      meta_json: {"final": "$1.94", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "marker_note": "-1 for not answering in full (only saying 'the full amount' without stating the amount); -1 for an error based on the answer to part (f)."}
     difficulty
       band: 3
       wm: UF

@@ -558,7 +558,7 @@ document
       source_document_id: 458
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "The distribution is positively skewed.", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement"}
     difficulty
       band: 2
       wm: UF
@@ -601,7 +601,7 @@ document
       source_document_id: 458
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Finds the IQR, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "Since $52 < 52.5$, 52 is not an outlier.", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement"}
     difficulty
       band: 3
       wm: UF
@@ -664,7 +664,7 @@ document
       source_document_id: 458
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "24 students", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 2
       wm: UF
@@ -702,7 +702,7 @@ document
       source_document_id: 458
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "6%", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 3
       wm: UF
@@ -738,7 +738,7 @@ document
     source_document_id: 458
     prompt_version: parse-v1
     criteria_json: [[3, "Correct answer"], [2, "Obtains $\\sin x = \\pm 1$, or equivalent merit"], [1, "Obtains $\\sin^2 x = 1$, or equivalent merit"]]
-    meta_json: {}
+    meta_json: {"final": "$x = \\dfrac{\\pi}{2}$ or $x = \\dfrac{3\\pi}{2}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
   part -  id 9090
     ordinal: 1
     latex: Solve for $x$: $\sin x = \operatorname{cosec} x$ for $[0, 2\pi]$.
@@ -854,7 +854,7 @@ document
       source_document_id: 458
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"edited_from_original": "The question total was recorded as 3 marks while parts (i) and (ii) carry 1 + 1 = 2; the total is now 2 marks (checker flag 24 Nov)."}
+      meta_json: {"edited_from_original": "The question total was recorded as 3 marks while parts (i) and (ii) carry 1 + 1 = 2; the total is now 2 marks (checker flag 24 Nov).", "final": "$0$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 2
       wm: UF
@@ -896,7 +896,7 @@ document
       source_document_id: 458
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "$-5\\sec^2\\left(\\frac{\\pi}{4}-5x\\right)$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression"}
     difficulty
       band: 2
       wm: UF
@@ -937,7 +937,7 @@ document
     source_document_id: 458
     prompt_version: parse-v1
     criteria_json: [[3, "Correct answer"], [2, "Finds the gradient of the normal, or equivalent merit"], [1, "Finds the derivative, or equivalent merit"]]
-    meta_json: {"edited_from_original": "The question total was recorded as 2 marks while the question (and its 3-mark criteria) carry 3; the total is now 3 marks (checker flag 24 Nov)."}
+    meta_json: {"edited_from_original": "The question total was recorded as 2 marks while the question (and its 3-mark criteria) carry 3; the total is now 3 marks (checker flag 24 Nov).", "final": "$y = -\\frac{8}{9}x + \\frac{8\\pi}{27} + \\frac{3\\sqrt{3}}{8}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression"}
   part -  id 9093
     ordinal: 1
     latex: Find the equation of the normal to the curve $y = (\sin x)^3$ at the point $\left(\dfrac{\pi}{3}, \dfrac{3\sqrt{3}}{8}\right)$.
@@ -1110,7 +1110,7 @@ document
       source_document_id: 458
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Finds the mean or the standard deviation, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$\\bar{y} = 74$, $\\sigma_y \\approx 9.06$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 2
       wm: UF
@@ -1320,7 +1320,7 @@ document
       source_document_id: 458
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Finds the period or the amplitude, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "Period $16$ hours, amplitude $2$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 2
       wm: UF
@@ -1481,7 +1481,7 @@ document
       source_document_id: 458
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "States the maximum temperature or the times, or equivalent merit"]]
-      meta_json: {"corrected": "Corrected from source: second maximum is at $t=16$, i.e. 4 pm, not 8 pm.", "format_note": "Source said the maximum occurs at midnight and 8 pm; with period 16 hours the second maximum is at $t=16$, which is 4 pm, so corrected.", "source_original": "Maximum temperature is $27^\\circ$C; at midnight and 8 pm."}
+      meta_json: {"corrected": "Corrected from source: second maximum is at $t=16$, i.e. 4 pm, not 8 pm.", "final": "Maximum temperature is $27^\\circ$C, at $t=0$ and $t=16$ (midnight and 4 pm)", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement", "format_note": "Source said the maximum occurs at midnight and 8 pm; with period 16 hours the second maximum is at $t=16$, which is 4 pm, so corrected.", "source_original": "Maximum temperature is $27^\\circ$C; at midnight and 8 pm."}
     difficulty
       band: 2
       wm: UF
@@ -1544,7 +1544,7 @@ document
       source_document_id: 458
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Solves $\\cos\\left(\\dfrac{\\pi}{8}t\\right)=\\dfrac{1}{2}$, or equivalent merit"]]
-      meta_json: {"corrected": "Corrected from source: the working broke off with \"(wait)\" and never gave the time; it is $t=\\dfrac83$, 2:40 am.", "overwritten_from_source": "Corrected from source: the working broke off with \"(wait)\" and never gave the time; it is $t=\\dfrac83$, 2:40 am.", "source_original": {"criteria": [[2, "Correct answer"], [1, "Solves $\\cos\\left(\\dfrac{\\pi}{8}t\\right)=\\dfrac{1}{2}$, or equivalent merit"]], "latex": "Set $T = 26$:\n$$\\begin{aligned} 25 + 2\\cos\\left(\\dfrac{\\pi}{8}t\\right) &= 26 \\\\ \\cos\\left(\\dfrac{\\pi}{8}t\\right) &= \\dfrac{1}{2} \\end{aligned}$$\nThe acute angle is\n$$\\cos^{-1}\\dfrac{1}{2} = \\dfrac{\\pi}{3}$$\nCosine is positive in the first and fourth quadrants, so\n$$\\dfrac{\\pi}{8}t = \\dfrac{\\pi}{3},\\ \\pi\\ \\text{(wait)}$$"}}
+      meta_json: {"corrected": "Corrected from source: the working broke off with \"(wait)\" and never gave the time; it is $t=\\dfrac83$, 2:40 am.", "final": "$t=\\tfrac{8}{3}$ h, i.e. 2:40 am", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "overwritten_from_source": "Corrected from source: the working broke off with \"(wait)\" and never gave the time; it is $t=\\dfrac83$, 2:40 am.", "source_original": {"criteria": [[2, "Correct answer"], [1, "Solves $\\cos\\left(\\dfrac{\\pi}{8}t\\right)=\\dfrac{1}{2}$, or equivalent merit"]], "latex": "Set $T = 26$:\n$$\\begin{aligned} 25 + 2\\cos\\left(\\dfrac{\\pi}{8}t\\right) &= 26 \\\\ \\cos\\left(\\dfrac{\\pi}{8}t\\right) &= \\dfrac{1}{2} \\end{aligned}$$\nThe acute angle is\n$$\\cos^{-1}\\dfrac{1}{2} = \\dfrac{\\pi}{3}$$\nCosine is positive in the first and fourth quadrants, so\n$$\\dfrac{\\pi}{8}t = \\dfrac{\\pi}{3},\\ \\pi\\ \\text{(wait)}$$"}}
     difficulty
       band: 3
       wm: UF
@@ -1613,7 +1613,7 @@ document
       source_document_id: 458
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Finds one correct interval, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$T\\ge 26$ from midnight to 2:40 am, and from 1:20 pm to 6:40 pm", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement"}
     difficulty
       band: 4
       wm: PR

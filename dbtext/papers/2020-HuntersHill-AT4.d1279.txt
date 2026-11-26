@@ -930,7 +930,7 @@ document
     source_document_id: 1279
     prompt_version: parse-v1
     criteria_json: [[2, "Correct answer"], [1, "Recognises the geometric series with $a = \\dfrac{1}{5}$, $r = \\dfrac{1}{5}$ and the limiting sum, or equivalent merit"]]
-    meta_json: {}
+    meta_json: {"final": "$\\frac{1}{2}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
   part -  id 8528
     ordinal: 1
     latex: Evaluate $\displaystyle\sum_{n=1}^{\infty} 2\left(\dfrac{1}{5}\right)^n$
@@ -1011,7 +1011,7 @@ document
     source_document_id: 1279
     prompt_version: parse-v1
     criteria_json: [[3, "Correct answer"], [2, "Finds the gradient of the normal, or equivalent merit"], [1, "Finds the gradient of the tangent, or equivalent merit"]]
-    meta_json: {"corrected": "Corrected from source: the paper gave the point as $(2,0)$, which is not on the curve; $f(2)=2$, so the normal is $y=-x+4$, not $y=-x+2$.", "overwritten_from_source": "Corrected from source: the paper gave the point as $(2,0)$, which is not on the curve; $f(2)=2$, so the normal is $y=-x+4$, not $y=-x+2$.", "source_original": {"criteria": [[3, "Correct answer"], [2, "Finds the gradient of the normal, or equivalent merit"], [1, "Finds the gradient of the tangent, or equivalent merit"]], "latex": "Differentiate:\n$$f'(x) = \\dfrac{1}{x-1}$$\nGradient of the tangent at $x = 2$:\n$$f'(2) = \\dfrac{1}{2-1} = 1$$\nThe normal is perpendicular, so\n$$m_\\perp = \\dfrac{-1}{1} = -1$$\nEquation of the normal through $(2, 0)$:\n$$\\begin{aligned} y - 0 &= -1(x - 2) \\\\ y &= -x + 2 \\end{aligned}$$"}}
+    meta_json: {"corrected": "Corrected from source: the paper gave the point as $(2,0)$, which is not on the curve; $f(2)=2$, so the normal is $y=-x+4$, not $y=-x+2$.", "final": "$y = -x + 4$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "overwritten_from_source": "Corrected from source: the paper gave the point as $(2,0)$, which is not on the curve; $f(2)=2$, so the normal is $y=-x+4$, not $y=-x+2$.", "source_original": {"criteria": [[3, "Correct answer"], [2, "Finds the gradient of the normal, or equivalent merit"], [1, "Finds the gradient of the tangent, or equivalent merit"]], "latex": "Differentiate:\n$$f'(x) = \\dfrac{1}{x-1}$$\nGradient of the tangent at $x = 2$:\n$$f'(2) = \\dfrac{1}{2-1} = 1$$\nThe normal is perpendicular, so\n$$m_\\perp = \\dfrac{-1}{1} = -1$$\nEquation of the normal through $(2, 0)$:\n$$\\begin{aligned} y - 0 &= -1(x - 2) \\\\ y &= -x + 2 \\end{aligned}$$"}}
   part -  id 8529
     ordinal: 1
     latex: Find the equation of the normal to the curve $f(x) = \ln(x - 1) + 2$ at the point $(2, 2)$.
@@ -1094,7 +1094,7 @@ document
     source_document_id: 1279
     prompt_version: parse-v1
     criteria_json: [[2, "Correct answer"], [1, "One correct transformation or correct rewriting of the function, or equivalent merit"]]
-    meta_json: {"format_note": "Source check: Third alternative gives a dilation factor of $\\dfrac{1}{2}$ horizontally and a vertical factor of 4 after a shift of $\\dfrac{1}{2}$; check it is consistent with the first method. Checked 24 Nov: consistent; $4(2x+1)^2=(4x+2)^2$, so both descriptions give the same curve.", "overwritten_from_source": "Method 3 stopped at $\\dfrac{y}{4} = \\left(\\dfrac{x + \\frac{1}{2}}{\\frac{1}{2}}\\right)^2$ without stating the transformations; it now ends: dilated horizontally by a factor of $\\dfrac{1}{2}$, translated to the left by $\\dfrac{1}{2}$ and dilated vertically by a factor of $4$ (same curve as method 1) (checker flag 24 Nov)."}
+    meta_json: {"final": "Dilated horizontally by factor $\\frac{1}{4}$ and translated left by $\\frac{1}{2}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement", "format_note": "Source check: Third alternative gives a dilation factor of $\\dfrac{1}{2}$ horizontally and a vertical factor of 4 after a shift of $\\dfrac{1}{2}$; check it is consistent with the first method. Checked 24 Nov: consistent; $4(2x+1)^2=(4x+2)^2$, so both descriptions give the same curve.", "overwritten_from_source": "Method 3 stopped at $\\dfrac{y}{4} = \\left(\\dfrac{x + \\frac{1}{2}}{\\frac{1}{2}}\\right)^2$ without stating the transformations; it now ends: dilated horizontally by a factor of $\\dfrac{1}{2}$, translated to the left by $\\dfrac{1}{2}$ and dilated vertically by a factor of $4$ (same curve as method 1) (checker flag 24 Nov)."}
   part -  id 8530
     ordinal: 1
     latex: Describe the transformations applied to $y = x^2$ in order to give the transformed function of $y = (4x + 2)^2$.
@@ -1200,7 +1200,7 @@ document
     source_document_id: 1279
     prompt_version: parse-v1
     criteria_json: [[3, "Correct answer"], [2, "Correct mean, or equivalent merit"], [1, "Correct frequency table, or equivalent merit"]]
-    meta_json: {"corrected": "Corrected from source: the question asks for the sample standard deviation, $s\\approx1.6$; the working gave the population value $1.5$ (from the rounded mean), and wrote the mean as $2\\dfrac{3}{14}$ instead of $2\\dfrac{1}{14}$.", "overwritten_from_source": "Corrected from source: the question asks for the sample standard deviation, $s\\approx1.6$; the working gave the population value $1.5$ (from the rounded mean), and wrote the mean as $2\\dfrac{3}{14}$ instead of $2\\dfrac{1}{14}$.", "source_original": {"criteria": [[3, "Correct answer"], [2, "Correct mean, or equivalent merit"], [1, "Correct frequency table, or equivalent merit"]], "latex": "Total number of points $= 14$.\n\n\\extable{Ts8054_1}\n\nMean:\n$$\\begin{aligned} \\bar{x} = \\sum xp &= 0 \\times \\dfrac{3}{14} + 1 \\times \\dfrac{2}{14} + 2 \\times \\dfrac{4}{14} + 3 \\times \\dfrac{2}{14} + 4 \\times \\dfrac{2}{14} + 5 \\times \\dfrac{1}{14} \\\\ &= 2\\dfrac{3}{14} \\\\ &\\approx 2.1 \\end{aligned}$$\nStandard deviation:\n$$\\begin{aligned} \\sigma &= \\sqrt{E(X^2) - \\mu^2} \\\\ &= \\sqrt{\\left(0 + \\dfrac{2}{14} + 4 \\times \\dfrac{4}{14} + 9 \\times \\dfrac{2}{14} + 16 \\times \\dfrac{2}{14} + 25 \\times \\dfrac{1}{14}\\right) - 2.1^2} \\\\ &\\approx 1.5 \\end{aligned}$$"}}
+    meta_json: {"corrected": "Corrected from source: the question asks for the sample standard deviation, $s\\approx1.6$; the working gave the population value $1.5$ (from the rounded mean), and wrote the mean as $2\\dfrac{3}{14}$ instead of $2\\dfrac{1}{14}$.", "final": "mean $\\approx 2.1$ hours, sample standard deviation $\\approx 1.6$ hours", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "overwritten_from_source": "Corrected from source: the question asks for the sample standard deviation, $s\\approx1.6$; the working gave the population value $1.5$ (from the rounded mean), and wrote the mean as $2\\dfrac{3}{14}$ instead of $2\\dfrac{1}{14}$.", "source_original": {"criteria": [[3, "Correct answer"], [2, "Correct mean, or equivalent merit"], [1, "Correct frequency table, or equivalent merit"]], "latex": "Total number of points $= 14$.\n\n\\extable{Ts8054_1}\n\nMean:\n$$\\begin{aligned} \\bar{x} = \\sum xp &= 0 \\times \\dfrac{3}{14} + 1 \\times \\dfrac{2}{14} + 2 \\times \\dfrac{4}{14} + 3 \\times \\dfrac{2}{14} + 4 \\times \\dfrac{2}{14} + 5 \\times \\dfrac{1}{14} \\\\ &= 2\\dfrac{3}{14} \\\\ &\\approx 2.1 \\end{aligned}$$\nStandard deviation:\n$$\\begin{aligned} \\sigma &= \\sqrt{E(X^2) - \\mu^2} \\\\ &= \\sqrt{\\left(0 + \\dfrac{2}{14} + 4 \\times \\dfrac{4}{14} + 9 \\times \\dfrac{2}{14} + 16 \\times \\dfrac{2}{14} + 25 \\times \\dfrac{1}{14}\\right) - 2.1^2} \\\\ &\\approx 1.5 \\end{aligned}$$"}}
     data_table Ts8054_1
       header_rows: 0
       label_col: 1
@@ -1275,7 +1275,7 @@ document
     source_document_id: 1279
     prompt_version: parse-v1
     criteria_json: [[2, "Correct answer"], [1, "Differentiates the index $x^2\\cos x$, or equivalent merit"]]
-    meta_json: {}
+    meta_json: {"final": "$(2x\\cos x - x^2\\sin x)e^{x^2\\cos x}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression"}
   part -  id 8532
     ordinal: 1
     latex: Differentiate $e^{x^2 \cos x}$
@@ -1620,7 +1620,7 @@ document
       source_document_id: 1279
       prompt_version: parse-v1
       criteria_json: [[3, "Correct answer"], [2, "Integrates $v$ to find $x$, or equivalent merit"], [1, "Finds the equation for $v$, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$x = -\\frac{3}{10}t^2 + 3t + 13$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression"}
     difficulty
       band: 3
       wm: UF
@@ -1761,7 +1761,7 @@ document
       source_document_id: 1279
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "$\\frac{9}{16}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 2
       wm: UF
@@ -1807,7 +1807,7 @@ document
       source_document_id: 1279
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Correct expression for the two cases, or equivalent merit"]]
-      meta_json: {"overwritten_from_source": "Checker 24 Nov: added a solution diagram 1279_q19_s1 (two-stage probability tree, blue/green without replacement)."}
+      meta_json: {"final": "$\\dfrac{21}{40}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "overwritten_from_source": "Checker 24 Nov: added a solution diagram 1279_q19_s1 (two-stage probability tree, blue/green without replacement)."}
     difficulty
       band: 3
       wm: UF
@@ -1973,7 +1973,7 @@ document
       source_document_id: 1279
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Sets the integral equal to 1, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$a = 1$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 3
       wm: UF
@@ -2067,7 +2067,7 @@ document
       source_document_id: 1279
       prompt_version: parse-v1
       criteria_json: [[3, "Correct answer"], [2, "Correct expected value and variance formula, or equivalent merit"], [1, "Writes the integral for $E(X)$, or equivalent merit"]]
-      meta_json: {"checked_source_ok": "Variance $\\dfrac{43}{450}$ and $E(X)=\\dfrac{17}{30}$, $a=1$ re-derived 24 Nov: correct.", "format_note": "Source check: Integral of $2x^5 - x^3 + x^2$ is $\\dfrac{1}{3}x^6 - \\dfrac{1}{4}x^4 + \\dfrac{1}{3}x^3$, which equals $\\dfrac{5}{12}$; $\\dfrac{5}{12} - \\dfrac{289}{900} \\ne \\dfrac{43}{450}$, so check the variance value. Checked 24 Nov: the flag was wrong; $\\dfrac{5}{12}-\\dfrac{289}{900}=\\dfrac{86}{900}=\\dfrac{43}{450}$, so the variance is correct.", "overwritten_from_source": "The variance working jumped from $\\left[\\dfrac{1}{3}x^6-\\dfrac{1}{4}x^4+\\dfrac{1}{3}x^3\\right]_0^1-\\left(\\dfrac{17}{30}\\right)^2$ straight to $\\dfrac{43}{450}$ (and a wrong 'possible error' note said this value was wrong); it now shows $\\dfrac{5}{12}-\\dfrac{289}{900}=\\dfrac{86}{900}=\\dfrac{43}{450}$. Answer unchanged (checker flag 24 Nov)."}
+      meta_json: {"checked_source_ok": "Variance $\\dfrac{43}{450}$ and $E(X)=\\dfrac{17}{30}$, $a=1$ re-derived 24 Nov: correct.", "final": "$E(X) = \\dfrac{17}{30}$, $\\text{Var}(X) = \\dfrac{43}{450}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "format_note": "Source check: Integral of $2x^5 - x^3 + x^2$ is $\\dfrac{1}{3}x^6 - \\dfrac{1}{4}x^4 + \\dfrac{1}{3}x^3$, which equals $\\dfrac{5}{12}$; $\\dfrac{5}{12} - \\dfrac{289}{900} \\ne \\dfrac{43}{450}$, so check the variance value. Checked 24 Nov: the flag was wrong; $\\dfrac{5}{12}-\\dfrac{289}{900}=\\dfrac{86}{900}=\\dfrac{43}{450}$, so the variance is correct.", "overwritten_from_source": "The variance working jumped from $\\left[\\dfrac{1}{3}x^6-\\dfrac{1}{4}x^4+\\dfrac{1}{3}x^3\\right]_0^1-\\left(\\dfrac{17}{30}\\right)^2$ straight to $\\dfrac{43}{450}$ (and a wrong 'possible error' note said this value was wrong); it now shows $\\dfrac{5}{12}-\\dfrac{289}{900}=\\dfrac{86}{900}=\\dfrac{43}{450}$. Answer unchanged (checker flag 24 Nov)."}
     difficulty
       band: 4
       wm: UF
@@ -2114,7 +2114,7 @@ document
     source_document_id: 1279
     prompt_version: parse-v1
     criteria_json: [[4, "Correct answer"], [3, "Forms the quadratic inequality, or equivalent merit"], [2, "Finds $d = 12$ and $a = -23$, or equivalent merit"], [1, "Writes both term equations, or equivalent merit"]]
-    meta_json: {"format_note": "Source writes $S_n > 27365$; the question says at least, so $\\ge$ used (same answer)."}
+    meta_json: {"final": "$n = 70$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "format_note": "Source writes $S_n > 27365$; the question says at least, so $\\ge$ used (same answer)."}
   part -  id 8542
     ordinal: 1
     latex: In an arithmetic sequence, the fifth term is 25 and the eighteenth term 181. What is the smallest value of $n$ such that the sum of the first $n$ term in the sequence is at least 27365?
@@ -2226,7 +2226,7 @@ document
       source_document_id: 1279
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "$x \\ge 0$, that is $x \\in [0, \\infty)$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression"}
     difficulty
       band: 2
       wm: UF
@@ -2326,7 +2326,7 @@ document
       source_document_id: 1279
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Finds $x \\ge -1$ or $x \\le -3$, or equivalent merit"]]
-      meta_json: {"format_note": "Source criterion was a single 2-mark row; split top-down.", "marker_note": "If $x \\in [-1,\\infty)$ is used, need to show $x \\in (-\\infty,\\infty)$ for part 2 to get a mark."}
+      meta_json: {"final": "$c = -3$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "format_note": "Source criterion was a single 2-mark row; split top-down.", "marker_note": "If $x \\in [-1,\\infty)$ is used, need to show $x \\in (-\\infty,\\infty)$ for part 2 to get a mark."}
     difficulty
       band: 4
       wm: PR
@@ -2385,7 +2385,7 @@ document
       source_document_id: 1279
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "One correct intercept, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$x = -\\dfrac{\\pi}{4}$ or $x = \\dfrac{3\\pi}{4}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 3
       wm: UF
@@ -2478,7 +2478,7 @@ document
       source_document_id: 1279
       prompt_version: parse-v1
       criteria_json: [[3, "Correct answer"], [2, "Finds the nature of both points, or equivalent merit"], [1, "Finds the maximum or the minimum, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$\\left(\\dfrac{\\pi}{4}, \\sqrt{2}\\right)$ is a local maximum and $\\left(-\\dfrac{3\\pi}{4}, -\\sqrt{2}\\right)$ is a local minimum", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement"}
     difficulty
       band: 3
       wm: UF
@@ -2587,7 +2587,7 @@ document
       source_document_id: 1279
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Finds the $x$-values, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$\\left(-\\dfrac{\\pi}{4}, 0\\right)$ and $\\left(\\dfrac{3\\pi}{4}, 0\\right)$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
       data_table Ts8070_1
         header_rows: 0
         label_col: 1
@@ -2855,7 +2855,7 @@ document
       source_document_id: 1279
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "$x = 40$ m", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 2
       wm: UF
@@ -2901,7 +2901,7 @@ document
       source_document_id: 1279
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Correct trapezoidal rule substitution, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$4694 \\text{ m}^2$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 2
       wm: UF
@@ -2943,7 +2943,7 @@ document
     source_document_id: 1279
     prompt_version: parse-v1
     criteria_json: [[3, "Correct answer"], [2, "Finds both $z$-scores, or equivalent merit"], [1, "Finds one $z$-score, or equivalent merit"]]
-    meta_json: {}
+    meta_json: {"final": "PDHPE is his strongest subject.", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement"}
   part -  id 8553
     ordinal: 1
     latex: |
@@ -3101,7 +3101,7 @@ document
       source_document_id: 1279
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "$18$ km", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 3
       wm: UF
@@ -3171,7 +3171,7 @@ document
       source_document_id: 1279
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Finds $\\angle BCA$ and the $46^\\circ$ angle, or equivalent merit"]]
-      meta_json: {"corrected": "Corrected from source: the sine rule needs the unrounded $AC=18.27$ to give $47.437^\\circ$ (with $18$ it gives $48.4^\\circ$), and the $46^\\circ$ is measured from the west line, not the north line. The bearing $269^\\circ$ is unchanged.", "format_note": "Source uses 18 (rounded AC) in the sine rule and gives no diagram; the $46^\\circ$ reasoning is kept as written.", "overwritten_from_source": "Corrected from source: the sine rule needs the unrounded $AC=18.27$ to give $47.437^\\circ$ (with $18$ it gives $48.4^\\circ$), and the $46^\\circ$ is measured from the west line, not the north line. The bearing $269^\\circ$ is unchanged.", "source_original": {"criteria": [[2, "Correct answer"], [1, "Finds $\\angle BCA$ and the $46^\\circ$ angle, or equivalent merit"]], "latex": "Use the sine rule in $\\triangle ABC$:\n$$\\dfrac{\\sin\\angle BCA}{14} = \\dfrac{\\sin 106^\\circ}{18}$$\nSo $\\angle BCA = 47.437^\\circ$ (the obtuse value $132^\\circ$ is not possible, since the angles would exceed $180^\\circ$).\n\nThe north line at $C$ makes an angle of $136^\\circ - 90^\\circ = 46^\\circ$ with the line $CB$ direction.\n$$\\begin{aligned} \\text{Bearing} &= 270 - (47.437 - 46)^\\circ \\\\ &= 268^\\circ 33' \\\\ &\\approx 269^\\circ \\text{T} \\end{aligned}$$"}}
+      meta_json: {"corrected": "Corrected from source: the sine rule needs the unrounded $AC=18.27$ to give $47.437^\\circ$ (with $18$ it gives $48.4^\\circ$), and the $46^\\circ$ is measured from the west line, not the north line. The bearing $269^\\circ$ is unchanged.", "final": "$269^\\circ$ T", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "format_note": "Source uses 18 (rounded AC) in the sine rule and gives no diagram; the $46^\\circ$ reasoning is kept as written.", "overwritten_from_source": "Corrected from source: the sine rule needs the unrounded $AC=18.27$ to give $47.437^\\circ$ (with $18$ it gives $48.4^\\circ$), and the $46^\\circ$ is measured from the west line, not the north line. The bearing $269^\\circ$ is unchanged.", "source_original": {"criteria": [[2, "Correct answer"], [1, "Finds $\\angle BCA$ and the $46^\\circ$ angle, or equivalent merit"]], "latex": "Use the sine rule in $\\triangle ABC$:\n$$\\dfrac{\\sin\\angle BCA}{14} = \\dfrac{\\sin 106^\\circ}{18}$$\nSo $\\angle BCA = 47.437^\\circ$ (the obtuse value $132^\\circ$ is not possible, since the angles would exceed $180^\\circ$).\n\nThe north line at $C$ makes an angle of $136^\\circ - 90^\\circ = 46^\\circ$ with the line $CB$ direction.\n$$\\begin{aligned} \\text{Bearing} &= 270 - (47.437 - 46)^\\circ \\\\ &= 268^\\circ 33' \\\\ &\\approx 269^\\circ \\text{T} \\end{aligned}$$"}}
     difficulty
       band: 4
       wm: PR
@@ -3212,7 +3212,7 @@ document
     source_document_id: 1279
     prompt_version: parse-v1
     criteria_json: [[3, "Correct answer"], [2, "Draws both graphs correctly, or equivalent merit"], [1, "Draws one graph correctly, or equivalent merit"]]
-    meta_json: {"format_note": "Source said the $y$-intercept was $y=\\dfrac{\\pi}{4}$ for the line; I phrased it as the value of the absolute-value graph at $x=0$."}
+    meta_json: {"final": "4 solutions", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "format_note": "Source said the $y$-intercept was $y=\\dfrac{\\pi}{4}$ for the line; I phrased it as the value of the absolute-value graph at $x=0$."}
   figure 1279_q29_1.png
     page: 16
     bbox: [103, 451, 475, 628]
@@ -3350,7 +3350,7 @@ document
       source_document_id: 1279
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "14.1", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 2
       wm: UF
@@ -3391,7 +3391,7 @@ document
       source_document_id: 1279
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "Since $47.6\\% > 43.65\\%$, the country is an outlier.", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement"}
     difficulty
       band: 3
       wm: UF
@@ -3488,7 +3488,7 @@ document
       source_document_id: 1279
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"corrected": "Corrected from source: the working found $73.1$ but concluded \"about 74 years\".", "format_note": "I added a check using the equation; the source read the value from the graph only.", "marker_note": "Answers 72 to 74 are acceptable. Need to show algebra or diagram to get the mark.", "overwritten_from_source": "Corrected from source: the working found $73.1$ but concluded \"about 74 years\".", "source_original": {"criteria": [[1, "Correct answer"]], "latex": "From the line, at $x = 18\\%$, $y \\approx 74$.\n\nCheck: $y = 1.29 \\times 18 + 49.9 \\approx 73.1$.\n\n$\\therefore$ the life expectancy is about 74 years."}}
+      meta_json: {"corrected": "Corrected from source: the working found $73.1$ but concluded \"about 74 years\".", "final": "about 73 years", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "format_note": "I added a check using the equation; the source read the value from the graph only.", "marker_note": "Answers 72 to 74 are acceptable. Need to show algebra or diagram to get the mark.", "overwritten_from_source": "Corrected from source: the working found $73.1$ but concluded \"about 74 years\".", "source_original": {"criteria": [[1, "Correct answer"]], "latex": "From the line, at $x = 18\\%$, $y \\approx 74$.\n\nCheck: $y = 1.29 \\times 18 + 49.9 \\approx 73.1$.\n\n$\\therefore$ the life expectancy is about 74 years."}}
     difficulty
       band: 2
       wm: UF
@@ -3529,7 +3529,7 @@ document
       source_document_id: 1279
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "The line predicts a life expectancy over 100 years at 60%, which is extrapolation outside the data range.", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement"}
     difficulty
       band: 3
       wm: PR
@@ -3599,7 +3599,7 @@ document
       source_document_id: 1279
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"edited_from_original": "The question total was recorded as 8 marks while its parts carry 1 + 3 + 5 = 9; the total is now 9 marks (checker flag 24 Nov)."}
+      meta_json: {"edited_from_original": "The question total was recorded as 8 marks while its parts carry 1 + 3 + 5 = 9; the total is now 9 marks (checker flag 24 Nov).", "final": "$A = xe^{-\\frac{x}{5}}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression"}
     difficulty
       band: 2
       wm: PR
@@ -3687,7 +3687,7 @@ document
       source_document_id: 1279
       prompt_version: parse-v1
       criteria_json: [[3, "Correct answer"], [2, "Finds $x=5$ and the maximum area, or equivalent merit"], [1, "Solves $\\dfrac{dA}{dx}=0$, or equivalent merit"]]
-      meta_json: {"corrected": "Corrected from source: the second derivative had $-\\dfrac{x}{25}e^{-\\frac{x}{5}}$ instead of $+\\dfrac{x}{25}e^{-\\frac{x}{5}}$, so \"every term is negative\" was false; $A^{\\prime\\prime}(5)=-\\dfrac{1}{5e}<0$ still gives a maximum.", "overwritten_from_source": "Corrected from source: the second derivative had $-\\dfrac{x}{25}e^{-\\frac{x}{5}}$ instead of $+\\dfrac{x}{25}e^{-\\frac{x}{5}}$, so \"every term is negative\" was false; $A^{\\prime\\prime}(5)=-\\dfrac{1}{5e}<0$ still gives a maximum.", "source_original": {"criteria": [[3, "Correct answer"], [2, "Finds $x=5$ and the maximum area, or equivalent merit"], [1, "Solves $\\dfrac{dA}{dx}=0$, or equivalent merit"]], "latex": "A maximum occurs where $\\dfrac{dA}{dx} = 0$ and $\\dfrac{d^2A}{dx^2} < 0$.\n\nUsing the product rule, $\\dfrac{d}{dx}(uv) = u'v + uv'$, with\n$$\\begin{aligned} u &= x & v &= e^{-\\frac{x}{5}} \\\\ u' &= 1 & v' &= -\\dfrac{1}{5}e^{-\\frac{x}{5}} \\end{aligned}$$\n$$\\begin{aligned} \\dfrac{dA}{dx} &= x\\left(-\\dfrac{1}{5}e^{-\\frac{x}{5}}\\right) + e^{-\\frac{x}{5}} \\\\ &= e^{-\\frac{x}{5}}\\left(1 - \\dfrac{x}{5}\\right) = 0 \\end{aligned}$$\nSince $e^{-\\frac{x}{5}} > 0$ for all $x$, $x = 5$.\n\nSecond derivative:\n$$\\dfrac{d^2A}{dx^2} = -\\dfrac{1}{5}e^{-\\frac{x}{5}} - \\dfrac{1}{5}e^{-\\frac{x}{5}} - \\dfrac{x}{25}e^{-\\frac{x}{5}}$$\nAt $x = 5$ every term is negative, so $\\dfrac{d^2A}{dx^2} < 0$ and this is a maximum.\n\nAt $x = 5$:\n$$A = 5e^{-1}$$\n$$\\therefore\\ A_{\\max} = \\dfrac{5}{e} \\text{ units}^2 \\text{ at } x = 5$$"}}
+      meta_json: {"corrected": "Corrected from source: the second derivative had $-\\dfrac{x}{25}e^{-\\frac{x}{5}}$ instead of $+\\dfrac{x}{25}e^{-\\frac{x}{5}}$, so \"every term is negative\" was false; $A^{\\prime\\prime}(5)=-\\dfrac{1}{5e}<0$ still gives a maximum.", "final": "$A_{\\max} = \\dfrac{5}{e}$ units$^2$ at $x = 5$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement", "overwritten_from_source": "Corrected from source: the second derivative had $-\\dfrac{x}{25}e^{-\\frac{x}{5}}$ instead of $+\\dfrac{x}{25}e^{-\\frac{x}{5}}$, so \"every term is negative\" was false; $A^{\\prime\\prime}(5)=-\\dfrac{1}{5e}<0$ still gives a maximum.", "source_original": {"criteria": [[3, "Correct answer"], [2, "Finds $x=5$ and the maximum area, or equivalent merit"], [1, "Solves $\\dfrac{dA}{dx}=0$, or equivalent merit"]], "latex": "A maximum occurs where $\\dfrac{dA}{dx} = 0$ and $\\dfrac{d^2A}{dx^2} < 0$.\n\nUsing the product rule, $\\dfrac{d}{dx}(uv) = u'v + uv'$, with\n$$\\begin{aligned} u &= x & v &= e^{-\\frac{x}{5}} \\\\ u' &= 1 & v' &= -\\dfrac{1}{5}e^{-\\frac{x}{5}} \\end{aligned}$$\n$$\\begin{aligned} \\dfrac{dA}{dx} &= x\\left(-\\dfrac{1}{5}e^{-\\frac{x}{5}}\\right) + e^{-\\frac{x}{5}} \\\\ &= e^{-\\frac{x}{5}}\\left(1 - \\dfrac{x}{5}\\right) = 0 \\end{aligned}$$\nSince $e^{-\\frac{x}{5}} > 0$ for all $x$, $x = 5$.\n\nSecond derivative:\n$$\\dfrac{d^2A}{dx^2} = -\\dfrac{1}{5}e^{-\\frac{x}{5}} - \\dfrac{1}{5}e^{-\\frac{x}{5}} - \\dfrac{x}{25}e^{-\\frac{x}{5}}$$\nAt $x = 5$ every term is negative, so $\\dfrac{d^2A}{dx^2} < 0$ and this is a maximum.\n\nAt $x = 5$:\n$$A = 5e^{-1}$$\n$$\\therefore\\ A_{\\max} = \\dfrac{5}{e} \\text{ units}^2 \\text{ at } x = 5$$"}}
     difficulty
       band: 3
       wm: UF
@@ -3801,7 +3801,7 @@ document
       source_document_id: 1279
       prompt_version: parse-v1
       criteria_json: [[5, "Correct answer"], [4, "Correct integral and trapezium area, or equivalent merit"], [3, "Correct area expression, or equivalent merit"], [2, "Finds $S$ and $T$, or equivalent merit"], [1, "Finds $S$ or $T$, or equivalent merit"]]
-      meta_json: {"overwritten_from_source": "The area working ran the trapezium and the integral together in one chain, using undefined $h$, $a$, $b$ and skipping the antiderivative ($-\\int = +10[e^{-x/5}]$); it now finds the trapezium area $\\dfrac{25}{4}\\ln 4$ and the area under the curve $\\dfrac{15}{2}$ separately, then subtracts. Answer $\\dfrac{25}{4}\\ln 4-\\dfrac{15}{2}\\approx1.16$ units$^2$ unchanged (checker flag 24 Nov)."}
+      meta_json: {"final": "$\\dfrac{25}{4}\\ln 4 - \\dfrac{15}{2}$ units$^2$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "overwritten_from_source": "The area working ran the trapezium and the integral together in one chain, using undefined $h$, $a$, $b$ and skipping the antiderivative ($-\\int = +10[e^{-x/5}]$); it now finds the trapezium area $\\dfrac{25}{4}\\ln 4$ and the area under the curve $\\dfrac{15}{2}$ separately, then subtracts. Answer $\\dfrac{25}{4}\\ln 4-\\dfrac{15}{2}\\approx1.16$ units$^2$ unchanged (checker flag 24 Nov)."}
     figure 1279_q31_2.png
       page: 19
       bbox: [113, 439, 472, 641]
@@ -3869,7 +3869,7 @@ document
       source_document_id: 1279
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Finds $A$ or $k$, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$A = 1000$, $k = \\dfrac{\\ln 1.5}{2}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 3
       wm: UF
@@ -3914,7 +3914,7 @@ document
       source_document_id: 1279
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"corrected": "Corrected from source: $1000e^{2\\ln1.5}=1000\\times1.5^2=2250$; the guideline gave $2449.49$.", "marker_note": "No mark for incorrect rounding.", "overwritten_from_source": "Corrected from source: $1000e^{2\\ln1.5}=1000\\times1.5^2=2250$; the guideline gave $2449.49$.", "source_original": {"criteria": [[1, "Correct answer"]], "latex": "Substitute $t = 4$:\n$$\\begin{aligned} P &= 1000e^{4 \\times \\frac{\\ln 1.5}{2}} \\\\ &= 1000e^{2\\ln 1.5} \\\\ &\\approx 2449.49 \\end{aligned}$$\n$$\\therefore\\ P \\approx 2450 \\text{ white-ants}$$"}}
+      meta_json: {"corrected": "Corrected from source: $1000e^{2\\ln1.5}=1000\\times1.5^2=2250$; the guideline gave $2449.49$.", "final": "2250 white-ants", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "marker_note": "No mark for incorrect rounding.", "overwritten_from_source": "Corrected from source: $1000e^{2\\ln1.5}=1000\\times1.5^2=2250$; the guideline gave $2449.49$.", "source_original": {"criteria": [[1, "Correct answer"]], "latex": "Substitute $t = 4$:\n$$\\begin{aligned} P &= 1000e^{4 \\times \\frac{\\ln 1.5}{2}} \\\\ &= 1000e^{2\\ln 1.5} \\\\ &\\approx 2449.49 \\end{aligned}$$\n$$\\therefore\\ P \\approx 2450 \\text{ white-ants}$$"}}
     difficulty
       band: 2
       wm: UF
@@ -4067,7 +4067,7 @@ document
       source_document_id: 1279
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Finds $z = -1.28$, or equivalent merit"]]
-      meta_json: {"format_note": "Source rounded $\\mu$ to 210 although the question asks for 2 decimal places; I wrote 209.98 as well as the 209.984 working."}
+      meta_json: {"final": "$\\mu \\approx 209.98$ g", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "format_note": "Source rounded $\\mu$ to 210 although the question asks for 2 decimal places; I wrote 209.98 as well as the 209.984 working."}
     difficulty
       band: 3
       wm: UF
@@ -4202,7 +4202,7 @@ document
       source_document_id: 1279
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Finds $z_U = 2.33$, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$\\sigma \\approx 2.15$ g", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 3
       wm: PR

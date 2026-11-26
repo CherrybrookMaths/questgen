@@ -1259,7 +1259,7 @@ document
       source_document_id: 1329
       prompt_version: parse-v1
       criteria_json: [[3, "Correct answer"], [2, "Finds both stationary points and explains the nature of one, or equivalent merit"], [1, "Correct first derivative, or equivalent merit"]]
-      meta_json: {"format_note": "The source's expansion of f'(x) was a compressed single line; I wrote the product-rule steps out (same result, 3x(x-2)). Also source f''(x) line was written as (x-2)3+3x; replaced by differentiating 3x^2-6x."}
+      meta_json: {"final": "Local maximum at $(0, 4)$ and local minimum at $(2, 0)$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement", "format_note": "The source's expansion of f'(x) was a compressed single line; I wrote the product-rule steps out (same result, 3x(x-2)). Also source f''(x) line was written as (x-2)3+3x; replaced by differentiating 3x^2-6x."}
     difficulty
       band: 3
       wm: UF
@@ -1516,7 +1516,7 @@ document
       source_document_id: 1329
       prompt_version: parse-v1
       criteria_json: [[3, "Correct answer"], [2, "Finds $r$, or equivalent merit"], [1, "Correct first and second derivatives, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$r = 3$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 3
       wm: UF
@@ -1600,7 +1600,7 @@ document
       source_document_id: 1329
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Correct derivative and gradient, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$a = 3,\\ b = 5$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 3
       wm: PR
@@ -1669,7 +1669,7 @@ document
       source_document_id: 1329
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "$d = 3$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 2
       wm: UF
@@ -1716,7 +1716,7 @@ document
       source_document_id: 1329
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "$2$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 2
       wm: UF
@@ -1762,7 +1762,7 @@ document
       source_document_id: 1329
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "$10880$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 2
       wm: UF
@@ -1984,7 +1984,7 @@ document
       source_document_id: 1329
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Sets up the correct quadratic equation, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "20 complete rows", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 4
       wm: UF
@@ -2122,7 +2122,7 @@ document
       source_document_id: 1329
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Correct formula and substitution, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$\\dfrac{3+\\sqrt{7}}{2}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression"}
     difficulty
       band: 3
       wm: UF
@@ -2195,7 +2195,7 @@ document
       source_document_id: 1329
       prompt_version: parse-v1
       criteria_json: [[3, "Correct answer"], [2, "Substantial progress towards the solution, or equivalent merit"], [1, "Some progress towards the solution, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$-\\dfrac{2048}{3}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 3
       wm: UF
@@ -2406,7 +2406,7 @@ document
       source_document_id: 1329
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Substantial progress towards the solution, or equivalent merit"]]
-      meta_json: {"corrected": "Corrected from source: the cumulative distribution function was given only for $2\\le x\\le4$.", "overwritten_from_source": "Corrected from source: the cumulative distribution function was given only for $2\\le x\\le4$.", "source_original": {"criteria": [[2, "Correct answer"], [1, "Substantial progress towards the solution, or equivalent merit"]], "latex": "The cumulative distribution function is $F(x) = \\displaystyle\\int_2^x f(t)\\,dt$.\n$$\\begin{aligned} F(x) &= \\int_2^x \\dfrac{3}{26}(t-1)^2\\,dt \\\\ &= \\dfrac{3}{26}\\left[\\dfrac{(t-1)^3}{3}\\right]_2^x \\\\ &= \\dfrac{3}{26}\\left[\\dfrac{(x-1)^3}{3} - \\dfrac{1}{3}\\right] \\\\ &= \\dfrac{1}{26}\\left[(x-1)^3 - 1\\right] \\end{aligned}$$"}}
+      meta_json: {"corrected": "Corrected from source: the cumulative distribution function was given only for $2\\le x\\le4$.", "final": "$F(x)=0$ for $x<2$; $\\frac{1}{26}[(x-1)^3-1]$ for $2\\le x\\le 4$; $1$ for $x>4$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "overwritten_from_source": "Corrected from source: the cumulative distribution function was given only for $2\\le x\\le4$.", "source_original": {"criteria": [[2, "Correct answer"], [1, "Substantial progress towards the solution, or equivalent merit"]], "latex": "The cumulative distribution function is $F(x) = \\displaystyle\\int_2^x f(t)\\,dt$.\n$$\\begin{aligned} F(x) &= \\int_2^x \\dfrac{3}{26}(t-1)^2\\,dt \\\\ &= \\dfrac{3}{26}\\left[\\dfrac{(t-1)^3}{3}\\right]_2^x \\\\ &= \\dfrac{3}{26}\\left[\\dfrac{(x-1)^3}{3} - \\dfrac{1}{3}\\right] \\\\ &= \\dfrac{1}{26}\\left[(x-1)^3 - 1\\right] \\end{aligned}$$"}}
     difficulty
       band: 3
       wm: UF
@@ -2543,7 +2543,7 @@ document
       source_document_id: 1329
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "$21.6^\\circ$C", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 2
       wm: UF
@@ -2611,7 +2611,7 @@ document
       source_document_id: 1329
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "$83.85\\%$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 3
       wm: UF
@@ -2687,7 +2687,7 @@ document
       source_document_id: 1329
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "$\\dfrac{7}{30}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 2
       wm: UF
@@ -2784,7 +2784,7 @@ document
       source_document_id: 1329
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Substantial progress towards the correct solution, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$\\mu \\approx 210$ g", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     figure 1329_q13d_1.png
       page: 16
       bbox: [68, 381, 491, 571]
@@ -2902,7 +2902,7 @@ document
       source_document_id: 1329
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Substantial progress towards the correct solution, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$\\dfrac{44}{125}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 3
       wm: UF
@@ -2976,7 +2976,7 @@ document
       source_document_id: 1329
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Substantial progress towards the correct solution, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$\\dfrac{7128}{15625}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 3
       wm: UF
@@ -3038,7 +3038,7 @@ document
       source_document_id: 1329
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Correctly identifies the number of Year 11 students above 175 cm, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "70 students", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     figure 1329_q14a_1.png
       page: 18
       bbox: [68, 196, 492, 345]
@@ -3127,7 +3127,7 @@ document
       source_document_id: 1329
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Correct $A$ or correct $B$, or line in the form $y = Ax + B$"]]
-      meta_json: {}
+      meta_json: {"final": "$y = -2.13x + 22.10$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression"}
     difficulty
       band: 2
       wm: UF
@@ -3170,7 +3170,7 @@ document
       source_document_id: 1329
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Significant progress made towards solution, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "approximately 3.3 hours", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 2
       wm: UF
@@ -3248,7 +3248,7 @@ document
       source_document_id: 1329
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Significant progress towards correct solution, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$\\$392\\,000$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
       data_table Ts4505_1
         header_rows: 1
         label_col: 0
@@ -3339,7 +3339,7 @@ document
       source_document_id: 1329
       prompt_version: parse-v1
       criteria_json: [[2, "Correct mean and standard deviation"], [1, "Either mean or standard deviation correct"]]
-      meta_json: {}
+      meta_json: {"final": "$\\bar{x} = 3.1$, $\\sigma \\approx 0.9434$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 2
       wm: UF
@@ -3382,7 +3382,7 @@ document
       source_document_id: 1329
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Correct statements for both mean and standard deviation without justification, or correct mean statement and justification, or correct standard deviation statement and justification, or equivalent merit"]]
-      meta_json: {"format_note": "Values depend on the frequency table (not shown here); not rechecked."}
+      meta_json: {"final": "Both the mean and the standard deviation increase.", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement", "format_note": "Values depend on the frequency table (not shown here); not rechecked."}
     difficulty
       band: 3
       wm: PR
@@ -3434,7 +3434,7 @@ document
       source_document_id: 1329
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"corrected": "Corrected from source: the answer said profit \"will increase\" with advertising, which claims certainty and causation.", "overwritten_from_source": "Corrected from source: the answer said profit \"will increase\" with advertising, which claims certainty and causation.", "source_original": {"criteria": [[1, "Correct answer"]], "latex": "A strong positive correlation ($r=0.9$) means that profit will increase as the money spent on advertising increases."}}
+      meta_json: {"corrected": "Corrected from source: the answer said profit \"will increase\" with advertising, which claims certainty and causation.", "final": "Strong positive linear association: profit tends to be higher with more advertising spend; correlation does not show causation.", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement", "overwritten_from_source": "Corrected from source: the answer said profit \"will increase\" with advertising, which claims certainty and causation.", "source_original": {"criteria": [[1, "Correct answer"]], "latex": "A strong positive correlation ($r=0.9$) means that profit will increase as the money spent on advertising increases."}}
     difficulty
       band: 3
       wm: PR
@@ -3499,7 +3499,7 @@ document
       source_document_id: 1329
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Significant progress towards correct solution, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "24", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 3
       wm: PR
@@ -3581,7 +3581,7 @@ document
       source_document_id: 1329
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Substantially correct solution, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$\\tfrac{3}{4}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 3
       wm: UF
@@ -3652,7 +3652,7 @@ document
       source_document_id: 1329
       prompt_version: parse-v1
       criteria_json: [[3, "Correct answer"], [2, "Correctly solves one case, or equivalent merit"], [1, "Identifies both cases to be considered or finds one correct answer, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$x = 0, \\frac{\\pi}{3}, \\pi, \\frac{5\\pi}{3}, 2\\pi$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 3
       wm: UF
@@ -3727,7 +3727,7 @@ document
       source_document_id: 1329
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "$P(0, 2)$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 2
       wm: UF
@@ -3787,7 +3787,7 @@ document
       source_document_id: 1329
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Correct primitive, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$2$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 2
       wm: UF
@@ -3833,7 +3833,7 @@ document
       source_document_id: 1329
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"format_note": "Reason inferred from the figure's regions; the answer C is the source's."}
+      meta_json: {"final": "$C$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "format_note": "Reason inferred from the figure's regions; the answer C is the source's."}
     difficulty
       band: 2
       wm: UF
@@ -3903,7 +3903,7 @@ document
       source_document_id: 1329
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"format_note": "Source working read 'Area = 4 x 2 = 8 (area A = area C = 2 and area B = 4)', which was muddled; rewritten as 2 + 4 + 2 = 8, same answer."}
+      meta_json: {"final": "$8$ units$^2$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "format_note": "Source working read 'Area = 4 x 2 = 8 (area A = area C = 2 and area B = 4)', which was muddled; rewritten as 2 + 4 + 2 = 8, same answer."}
     difficulty
       band: 3
       wm: PR
@@ -3977,7 +3977,7 @@ document
       source_document_id: 1329
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "$-2$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 3
       wm: PR
@@ -4153,7 +4153,7 @@ document
       source_document_id: 1329
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Attempts to use the quotient rule, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$\\dfrac{x\\cos x - \\sin x}{x^2}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression"}
     difficulty
       band: 2
       wm: UF
@@ -4351,7 +4351,7 @@ document
       source_document_id: 1329
       prompt_version: parse-v1
       criteria_json: [[3, "Correct answer"], [2, "Significant progress towards solution, or equivalent merit"], [1, "Limited progress towards solution, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$x = 3\\ln t + 3\\ln 2 + 1$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression"}
     difficulty
       band: 4
       wm: UF
@@ -4416,7 +4416,7 @@ document
       source_document_id: 1329
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "$x \\approx 1.69$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 2
       wm: UF
@@ -4474,7 +4474,7 @@ document
       source_document_id: 1329
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Significant progress towards correct solution, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$e - 3$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 2
       wm: UF
@@ -4627,7 +4627,7 @@ document
       source_document_id: 1329
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Significant progress towards correct solution, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$2(1+\\ln 2)$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression"}
     difficulty
       band: 3
       wm: UF
@@ -4780,7 +4780,7 @@ document
       source_document_id: 1329
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Significant progress towards correct solution, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$1.325$ units$^2$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 2
       wm: UF
@@ -4838,7 +4838,7 @@ document
       source_document_id: 1329
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "The approximation is an underestimate.", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement"}
     figure 1329_q16e_1.png
       page: 29
       bbox: [112, 131, 442, 328]

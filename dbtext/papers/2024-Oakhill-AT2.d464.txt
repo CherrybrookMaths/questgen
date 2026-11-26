@@ -918,7 +918,7 @@ document
     source_document_id: 464
     prompt_version: parse-v1
     criteria_json: [[3, "Correct answer"], [2, "Correct angles and a correct sine rule equation, or equivalent merit"], [1, "Finds the correct angles, or equivalent merit"]]
-    meta_json: {"criteria_original": [[1, "Correct angles"], [1, "Correct sine rule"], [1, "Rounding and units"]], "format_note": "Source solved $\\dfrac{x}{\\sin18^\\circ}=\\dfrac{8}{\\sin70^\\circ}$, which gives $x=BC\\approx 2.6$ km, and stopped before a final value; the question asks for $AB$ (figure labels $x$ as the second leg). Rubric rows (angles, sine rule, rounding and units) rewritten top-down.", "overwritten_from_source": "Source found $x=BC=\\dfrac{8\\sin18^\\circ}{\\sin70^\\circ}\\approx2.6$ km and gave no final value; the question asks for AB, now $\\dfrac{8\\sin92^\\circ}{\\sin70^\\circ}\\approx8.5$ km (checked by coordinates: $B=(8.51,0)$).", "top_criterion_original": "Rounding and units"}
+    meta_json: {"criteria_original": [[1, "Correct angles"], [1, "Correct sine rule"], [1, "Rounding and units"]], "final": "$AB\\approx 8.5$ km", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "format_note": "Source solved $\\dfrac{x}{\\sin18^\\circ}=\\dfrac{8}{\\sin70^\\circ}$, which gives $x=BC\\approx 2.6$ km, and stopped before a final value; the question asks for $AB$ (figure labels $x$ as the second leg). Rubric rows (angles, sine rule, rounding and units) rewritten top-down.", "overwritten_from_source": "Source found $x=BC=\\dfrac{8\\sin18^\\circ}{\\sin70^\\circ}\\approx2.6$ km and gave no final value; the question asks for AB, now $\\dfrac{8\\sin92^\\circ}{\\sin70^\\circ}\\approx8.5$ km (checked by coordinates: $B=(8.51,0)$).", "top_criterion_original": "Rounding and units"}
   figure 464_q11_1.png
     page: 5
     bbox: [115, 232, 375, 390]
@@ -1016,7 +1016,7 @@ document
     source_document_id: 464
     prompt_version: parse-v1
     criteria_json: [[3, "Correct answer"], [2, "Finds $\\tan x=\\pm\\sqrt{3}$ and the reference angle $\\dfrac{\\pi}{3}$, or equivalent merit"], [1, "Finds $\\tan x=\\pm\\sqrt{3}$, or equivalent merit"]]
-    meta_json: {"criteria_original": [[1, "$\\pm\\sqrt{3}$"], [1, "$\\dfrac{\\pi}{3}$"], [1, "4 answers"]], "top_criterion_original": "4 answers"}
+    meta_json: {"criteria_original": [[1, "$\\pm\\sqrt{3}$"], [1, "$\\dfrac{\\pi}{3}$"], [1, "4 answers"]], "final": "$x=\\frac{\\pi}{3},\\ \\frac{2\\pi}{3},\\ \\frac{4\\pi}{3},\\ \\frac{5\\pi}{3}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "top_criterion_original": "4 answers"}
   part -  id 2979
     ordinal: 1
     latex: Solve $\tan^2 x=3$ for $0\le x\le 2\pi$.
@@ -1093,7 +1093,7 @@ document
       source_document_id: 464
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Differentiates $\\cos(2x+1)$ to $-\\sin(2x+1)$, or equivalent merit"]]
-      meta_json: {"criteria_original": [[1, "$\\dfrac{d}{dx}\\cos f(x)$"], [1, "$\\times f'(x)$"]], "top_criterion_original": "$\\times f'(x)$"}
+      meta_json: {"criteria_original": [[1, "$\\dfrac{d}{dx}\\cos f(x)$"], [1, "$\\times f'(x)$"]], "final": "$-2\\sin(2x+1)$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "top_criterion_original": "$\\times f'(x)$"}
     difficulty
       band: 2
       wm: UF
@@ -1173,7 +1173,7 @@ document
       source_document_id: 464
       prompt_version: parse-v1
       criteria_json: [[3, "Correct answer"], [2, "Applies the log laws and differentiates, or equivalent merit"], [1, "Applies the log laws, or equivalent merit"]]
-      meta_json: {"criteria_original": [[1, "Log laws"], [1, "Differentiation"], [1, "Simplify. Or 2: log and quotient rule (-1 if careless error)"], [1, "simplified solution"]], "format_note": "Source rubric listed four rows for 3 marks ('Log laws', 'Differentiation', 'Simplify. Or 2: log and quotient rule (-1 if careless error)', 'simplified solution'); rewritten as 3/2/1, original in meta.criteria_original.", "marker_note": "Source rubric note: simplify, or 2 marks for the log and quotient rule method (1 off for a careless error).", "top_criterion_original": "simplified solution"}
+      meta_json: {"criteria_original": [[1, "Log laws"], [1, "Differentiation"], [1, "Simplify. Or 2: log and quotient rule (-1 if careless error)"], [1, "simplified solution"]], "final": "$\\dfrac{-1-x^2}{x(x^2-1)}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "format_note": "Source rubric listed four rows for 3 marks ('Log laws', 'Differentiation', 'Simplify. Or 2: log and quotient rule (-1 if careless error)', 'simplified solution'); rewritten as 3/2/1, original in meta.criteria_original.", "marker_note": "Source rubric note: simplify, or 2 marks for the log and quotient rule method (1 off for a careless error).", "top_criterion_original": "simplified solution"}
     difficulty
       band: 3
       wm: UF
@@ -1211,7 +1211,7 @@ document
     source_document_id: 464
     prompt_version: parse-v1
     criteria_json: [[3, "Correct answer"], [2, "Finds $y''$ and states $y''>0$ for concave up, or equivalent merit"], [1, "Finds $y''=12x^2-48$, or equivalent merit"]]
-    meta_json: {"criteria_original": [[1, "$y''$"], [1, "Stating $y''>0$ for concave up"], [1, "Solving inequality"]], "top_criterion_original": "Solving inequality"}
+    meta_json: {"criteria_original": [[1, "$y''$"], [1, "Stating $y''>0$ for concave up"], [1, "Solving inequality"]], "final": "$x<-2$ or $x>2$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "top_criterion_original": "Solving inequality"}
   part -  id 2982
     ordinal: 1
     latex: Find the values of $x$ for which $y=x^4-24x^2+2x-14$ is concave up.
@@ -1332,7 +1332,7 @@ document
       source_document_id: 464
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "States the gradient $m=1.87$, or equivalent merit"]]
-      meta_json: {"criteria_original": [[1, "$m$"], [1, "Explanation"]], "top_criterion_original": "Explanation"}
+      meta_json: {"criteria_original": [[1, "$m$"], [1, "Explanation"]], "final": "Gradient $=1.87$: the taxi travels about $1.87$ km each minute (speed in km/min)", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement", "top_criterion_original": "Explanation"}
     difficulty
       band: 2
       wm: PR
@@ -1370,7 +1370,7 @@ document
       source_document_id: 464
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"criteria_generated": "source rubric empty: rows written from the part marks"}
+      meta_json: {"criteria_generated": "source rubric empty: rows written from the part marks", "final": "$r=0.993$ is close to 1, so a close, positive relationship between distance travelled and time taken", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement"}
     difficulty
       band: 2
       wm: PR
@@ -1411,7 +1411,7 @@ document
       source_document_id: 464
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"criteria_generated": "source rubric empty: rows written from the part marks", "format_note": "Source working stopped at 't =' with no value; completed here."}
+      meta_json: {"criteria_generated": "source rubric empty: rows written from the part marks", "final": "$5.0$ minutes", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "format_note": "Source working stopped at 't =' with no value; completed here."}
     difficulty
       band: 2
       wm: UF
@@ -1493,7 +1493,7 @@ document
       source_document_id: 464
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"criteria_generated": "source rubric empty: rows written from the part marks", "overwritten_from_source": "Source had $0.2+0.08+0.04=0.056$ and no multiplication by 100; now $0.32$ and $32$ households (table: P(3)=0.2, P(4)=0.08, P(5)=0.04)."}
+      meta_json: {"criteria_generated": "source rubric empty: rows written from the part marks", "final": "$32$ households", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "overwritten_from_source": "Source had $0.2+0.08+0.04=0.056$ and no multiplication by 100; now $0.32$ and $32$ households (table: P(3)=0.2, P(4)=0.08, P(5)=0.04)."}
     difficulty
       band: 2
       wm: UF
@@ -1537,7 +1537,7 @@ document
       source_document_id: 464
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"criteria_generated": "source rubric empty: rows written from the part marks"}
+      meta_json: {"criteria_generated": "source rubric empty: rows written from the part marks", "final": "$2.04$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 2
       wm: UF
@@ -1654,7 +1654,7 @@ document
       source_document_id: 464
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"criteria_generated": "source rubric empty: rows written from the part marks"}
+      meta_json: {"criteria_generated": "source rubric empty: rows written from the part marks", "final": "$15$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 2
       wm: UF
@@ -1692,7 +1692,7 @@ document
       source_document_id: 464
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"criteria_generated": "source rubric empty: rows written from the part marks"}
+      meta_json: {"criteria_generated": "source rubric empty: rows written from the part marks", "final": "$25$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 2
       wm: UF
@@ -1913,7 +1913,7 @@ document
     source_document_id: 464
     prompt_version: parse-v1
     criteria_json: [[2, "Correct answer"], [1, "Finds $P(\\text{none left-handed})=0.75^3$, or equivalent merit"]]
-    meta_json: {"criteria_original": [[1, "3 LH"], [1, "1-3LH"]], "top_criterion_original": "1-3LH"}
+    meta_json: {"criteria_original": [[1, "3 LH"], [1, "1-3LH"]], "final": "$0.578$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "top_criterion_original": "1-3LH"}
   part -  id 2993
     ordinal: 1
     latex: |
@@ -1983,7 +1983,7 @@ document
     source_document_id: 464
     prompt_version: parse-v1
     criteria_json: [[3, "Correct answer"], [2, "Solves the quadratic equation, or equivalent merit"], [1, "Forms the quadratic equation, or equivalent merit"]]
-    meta_json: {"criteria_original": [[1, "Create quadratic"], [1, "Solve to get 2 answers"], [1, "Discard one answer"]], "top_criterion_original": "Discard one answer"}
+    meta_json: {"criteria_original": [[1, "Create quadratic"], [1, "Solve to get 2 answers"], [1, "Discard one answer"]], "final": "$x=4$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "top_criterion_original": "Discard one answer"}
   part -  id 2994
     ordinal: 1
     latex: Solve $\log_2 x+\log_2(x-3)=2$.
@@ -2211,7 +2211,7 @@ document
       source_document_id: 464
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Finds $T'(t)$, or equivalent merit"]]
-      meta_json: {"criteria_generated": "source rubric empty: rows written from the part marks", "format_note": "Source working stopped at $T'(4)=15\\ln\\sqrt{2}\\,e^{\\ln\\sqrt{2}\\times 4}$ with no value; completed here ($60\\ln\\sqrt2=30\\ln2\\approx20.79$, checked numerically)."}
+      meta_json: {"criteria_generated": "source rubric empty: rows written from the part marks", "final": "$30\\ln 2\\approx 20.8$ degrees per hour", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "format_note": "Source working stopped at $T'(4)=15\\ln\\sqrt{2}\\,e^{\\ln\\sqrt{2}\\times 4}$ with no value; completed here ($60\\ln\\sqrt2=30\\ln2\\approx20.79$, checked numerically)."}
     difficulty
       band: 3
       wm: UF
@@ -2445,7 +2445,7 @@ document
     source_document_id: 464
     prompt_version: parse-v1
     criteria_json: [[3, "Correct answer"], [2, "Describes two correct transformations, or equivalent merit"], [1, "Describes one correct transformation, or equivalent merit"]]
-    meta_json: {"criteria_original": [[1, "each transformation"]], "top_criterion_original": "each transformation"}
+    meta_json: {"criteria_original": [[1, "each transformation"]], "final": "Translate 5 units down; dilate horizontally with scale factor 2; translate 1 unit left.", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement", "top_criterion_original": "each transformation"}
   part -  id 3000
     ordinal: 1
     latex: Describe three transformations which, when applied in succession, change the graph of $y=x^2+5$ to the graph with equation $y=\left(\dfrac{x+1}{2}\right)^2$.
@@ -2638,7 +2638,7 @@ document
       source_document_id: 464
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Writes $P(A\\cap G)+P(B\\cap G)$ with correct values, or equivalent merit"]]
-      meta_json: {"criteria_generated": "source rubric empty: rows written from the part marks"}
+      meta_json: {"criteria_generated": "source rubric empty: rows written from the part marks", "final": "$\\frac{8}{21}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 3
       wm: UF
@@ -2711,7 +2711,7 @@ document
       source_document_id: 464
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Writes $P(B\\mid G)=\\dfrac{P(B\\cap G)}{P(G)}$ with a correct numerator or denominator, or equivalent merit"]]
-      meta_json: {"criteria_generated": "source rubric empty: rows written from the part marks"}
+      meta_json: {"criteria_generated": "source rubric empty: rows written from the part marks", "final": "$\\dfrac{1}{2}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 4
       wm: UF
@@ -2884,7 +2884,7 @@ document
       source_document_id: 464
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Finds $h'(t)=\\dfrac{5\\pi}{12}\\cos\\dfrac{\\pi t}{12}$, or equivalent merit"]]
-      meta_json: {"criteria_generated": "source rubric empty: rows written from the part marks", "overwritten_from_source": "Source had $h'(8)=-94.24777961$ and 'decreasing at $94.25$ m/h'; now $-\\dfrac{5\\pi}{24}\\approx-0.65$ m/h (independent check: $\\dfrac{5\\pi}{12}\\cos\\dfrac{2\\pi}{3}$, and a finite difference of $h$ at $t=8$ gives $-0.654$)."}
+      meta_json: {"criteria_generated": "source rubric empty: rows written from the part marks", "final": "$-0.65$ m/h (height decreasing at 0.65 m/h)", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "overwritten_from_source": "Source had $h'(8)=-94.24777961$ and 'decreasing at $94.25$ m/h'; now $-\\dfrac{5\\pi}{24}\\approx-0.65$ m/h (independent check: $\\dfrac{5\\pi}{12}\\cos\\dfrac{2\\pi}{3}$, and a finite difference of $h$ at $t=8$ gives $-0.654$)."}
     difficulty
       band: 3
       wm: UF
@@ -2932,7 +2932,7 @@ document
       source_document_id: 464
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Finds $h(10)=10.5$, or equivalent merit"]]
-      meta_json: {"criteria_generated": "source rubric empty: rows written from the part marks"}
+      meta_json: {"criteria_generated": "source rubric empty: rows written from the part marks", "final": "The water is 10.5 m deep, more than 5.5 m, so the boat will be able to dock.", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement"}
     difficulty
       band: 2
       wm: PR
@@ -2996,7 +2996,7 @@ document
       source_document_id: 464
       prompt_version: parse-v1
       criteria_json: [[3, "Correct answer"], [2, "Finds $t=14$ and $t=22$, or equivalent merit"], [1, "Forms $\\sin\\dfrac{\\pi t}{12}=-0.5$, or equivalent merit"]]
-      meta_json: {"criteria_generated": "source rubric empty: rows written from the part marks", "criteria_inferred": true, "format_note": "Source rubric empty; rows written from the 3 marks.", "overwritten_from_source": "Source final line read '12am-2pm and 11pm-12am'; $t=22$ hours after midnight is 10 pm, so now '10 pm to 12 am' (the source's own $t=22$ is unchanged)."}
+      meta_json: {"criteria_generated": "source rubric empty: rows written from the part marks", "criteria_inferred": true, "final": "Between 12 am and 2 pm, and between 10 pm and 12 am", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement", "format_note": "Source rubric empty; rows written from the 3 marks.", "overwritten_from_source": "Source final line read '12am-2pm and 11pm-12am'; $t=22$ hours after midnight is 10 pm, so now '10 pm to 12 am' (the source's own $t=22$ is unchanged)."}
     difficulty
       band: 4
       wm: PR
@@ -3056,7 +3056,7 @@ document
       source_document_id: 464
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"criteria_generated": "source rubric empty: rows written from the part marks"}
+      meta_json: {"criteria_generated": "source rubric empty: rows written from the part marks", "final": "$-2$ m/s (2 m/s to the left)", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 2
       wm: UF
@@ -3161,7 +3161,7 @@ document
       source_document_id: 464
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"criteria_generated": "source rubric empty: rows written from the part marks"}
+      meta_json: {"criteria_generated": "source rubric empty: rows written from the part marks", "final": "$a=\\dfrac{4}{(t+1)^2}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression"}
     difficulty
       band: 2
       wm: UF

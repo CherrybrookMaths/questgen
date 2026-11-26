@@ -1209,7 +1209,7 @@ document
       model: claude-opus-5-5
       prompt_version: gen-v2
       criteria_json: [[2, "Correct answer"], [1, "Finds $\\dfrac{dy}{dx}=3x^2+3$, or equivalent merit"]]
-      meta_json: {"check": "Derivative by power rule; numeric central difference at x=-1 gives 6.", "confidence": 0.99}
+      meta_json: {"check": "Derivative by power rule; numeric central difference at x=-1 gives 6.", "confidence": 0.99, "final": "6", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 2
       wm: UF
@@ -1278,7 +1278,7 @@ document
       model: claude-opus-5-5
       prompt_version: gen-v2
       criteria_json: [[2, "Correct answer"], [1, "Finds $Q_1$ or $Q_3$, or equivalent merit"]]
-      meta_json: {"check": "Quartiles by the median-of-halves method (NESA convention); IQR does not depend on m since m is the 13th value.", "concern": "Uses the HSC median-of-halves quartile method (median excluded); some calculators give the same 16 and 27.5 here.", "confidence": 0.95}
+      meta_json: {"check": "Quartiles by the median-of-halves method (NESA convention); IQR does not depend on m since m is the 13th value.", "concern": "Uses the HSC median-of-halves quartile method (median excluded); some calculators give the same 16 and 27.5 here.", "confidence": 0.95, "final": "$11.5$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 3
       wm: UF
@@ -1329,7 +1329,7 @@ document
       model: claude-opus-5-5
       prompt_version: gen-v2
       criteria_json: [[2, "Correct answer"], [1, "Finds $Q_3+1.5\\times\\text{IQR}=44.75$, or equivalent merit"]]
-      meta_json: {"check": "Fence computed twice; checked that m=44 gives no outlier and m=45 does (quartiles unchanged).", "concern": "Answer 44 assumes m must be a whole number (count of cars); a marker may also accept 44.75 if m is not taken as an integer.", "confidence": 0.93}
+      meta_json: {"check": "Fence computed twice; checked that m=44 gives no outlier and m=45 does (quartiles unchanged).", "concern": "Answer 44 assumes m must be a whole number (count of cars); a marker may also accept 44.75 if m is not taken as an integer.", "confidence": 0.93, "final": "$44$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 4
       wm: PR
@@ -1424,7 +1424,7 @@ document
       model: claude-opus-5-5
       prompt_version: gen-v2
       criteria_json: [[2, "Correct answer"], [1, "Finds $d=4$, or equivalent merit"]]
-      meta_json: {"check": "Solved simultaneous equations; listed sequence 22, 26, 30, 34, 38, 42 matches T3 and T6.", "confidence": 0.99}
+      meta_json: {"check": "Solved simultaneous equations; listed sequence 22, 26, 30, 34, 38, 42 matches T3 and T6.", "confidence": 0.99, "final": "$22$ seats", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 3
       wm: UF
@@ -1492,7 +1492,7 @@ document
       model: claude-opus-5-5
       prompt_version: gen-v2
       criteria_json: [[2, "Correct answer"], [1, "Substitutes correctly into a sum formula, or equivalent merit"]]
-      meta_json: {"check": "Summed 22+26+...+54 directly in python: 342.", "confidence": 0.99}
+      meta_json: {"check": "Summed 22+26+...+54 directly in python: 342.", "confidence": 0.99, "final": "$342$ seats", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 2
       wm: UF
@@ -1558,7 +1558,7 @@ document
       model: claude-opus-5-5
       prompt_version: gen-v2
       criteria_json: [[2, "Correct answer"], [1, "Finds the correct range or the correct period, or equivalent merit"]]
-      meta_json: {"check": "Sampled h numerically: min -2, max 4, h(x+pi)=h(x).", "confidence": 0.99}
+      meta_json: {"check": "Sampled h numerically: min -2, max 4, h(x+pi)=h(x).", "confidence": 0.99, "final": "Range: $-2\\le h(x)\\le 4$; period: $\\pi$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement"}
     difficulty
       band: 2
       wm: UF
@@ -1636,7 +1636,7 @@ document
       model: claude-opus-5-5
       prompt_version: gen-v2
       criteria_json: [[2, "Correct answer"], [1, "Differentiates $4^{u}$ as $4^{u}\\ln 4$ or finds $f'(x)=2x$ in a chain rule, or equivalent merit"]]
-      meta_json: {"check": "Checked symbolically with sympy and numerically at x=0.5.", "confidence": 0.99}
+      meta_json: {"check": "Checked symbolically with sympy and numerically at x=0.5.", "confidence": 0.99, "final": "$\\dfrac{dy}{dx}=2x\\ln 4\\cdot 4^{x^2+3}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression"}
     difficulty
       band: 3
       wm: UF
@@ -1714,7 +1714,7 @@ document
       model: claude-opus-5-5
       prompt_version: gen-v2
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"check": "Measured the dot's centre in pixels against the 6.0 and 6.5 grid lines: 6.09.", "concern": "Read from graph; tolerance of about 6.1 likely.", "confidence": 0.95}
+      meta_json: {"check": "Measured the dot's centre in pixels against the 6.0 and 6.5 grid lines: 6.09.", "concern": "Read from graph; tolerance of about 6.1 likely.", "confidence": 0.95, "final": "$6.1$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 2
       wm: UF
@@ -1814,7 +1814,7 @@ document
       model: claude-opus-5-5
       prompt_version: gen-v2
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"check": "Re-fitted a least-squares line to the 23 points read from the scatterplot with and without (7.2, 6): gradient 0.53 to 0.57, intercept 2.82 to 2.42.", "concern": "Open-ended 'identify ONE effect': increased gradient, decreased y-intercept (or weaker fit) should all be acceptable; solution names gradient increase as the main effect.", "confidence": 0.9}
+      meta_json: {"check": "Re-fitted a least-squares line to the 23 points read from the scatterplot with and without (7.2, 6): gradient 0.53 to 0.57, intercept 2.82 to 2.42.", "concern": "Open-ended 'identify ONE effect': increased gradient, decreased y-intercept (or weaker fit) should all be acceptable; solution names gradient increase as the main effect.", "confidence": 0.9, "final": "The gradient of the regression line increases (steeper) and the $y$-intercept decreases.", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement"}
     difficulty
       band: 4
       wm: PR
@@ -1889,7 +1889,7 @@ document
       model: claude-opus-5-5
       prompt_version: gen-v2
       criteria_json: [[2, "Correct answer"], [1, "Finds $k=40$, or equivalent merit"]]
-      meta_json: {"check": "Substituted both data points; y(1)=40(0.8)=32.", "confidence": 0.99}
+      meta_json: {"check": "Substituted both data points; y(1)=40(0.8)=32.", "confidence": 0.99, "final": "$k=40,\\ a=0.8$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 2
       wm: UF
@@ -1941,7 +1941,7 @@ document
       model: claude-opus-5-5
       prompt_version: gen-v2
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"check": "Interpretation of growth factor 0.8.", "concern": "Either '80% retained each year' or '20% lost each year' should be accepted.", "confidence": 0.95}
+      meta_json: {"check": "Interpretation of growth factor 0.8.", "concern": "Either '80% retained each year' or '20% lost each year' should be accepted.", "confidence": 0.95, "final": "Each year the capacity is multiplied by $a=0.8$, i.e. it decreases by 20% per year", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement"}
     difficulty
       band: 2
       wm: PR
@@ -2115,7 +2115,7 @@ document
       model: claude-opus-5-5
       prompt_version: gen-v2
       criteria_json: [[2, "Correct answer"], [1, "Writes a correct integral for the area, or equivalent merit"]]
-      meta_json: {"check": "Antiderivative evaluated by hand; cross-checked with the parabola-chord formula (b-a)^3/6 = 6^3/6 = 36.", "confidence": 0.99}
+      meta_json: {"check": "Antiderivative evaluated by hand; cross-checked with the parabola-chord formula (b-a)^3/6 = 6^3/6 = 36.", "confidence": 0.99, "final": "$36$ units$^2$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 3
       wm: UF
@@ -2323,7 +2323,7 @@ document
       model: claude-opus-5-5
       prompt_version: gen-v2
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"check": "Product of branch probabilities.", "confidence": 0.99}
+      meta_json: {"check": "Product of branch probabilities.", "confidence": 0.99, "final": "$\\dfrac{3}{100}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 2
       wm: UF
@@ -2395,7 +2395,7 @@ document
       model: claude-opus-5-5
       prompt_version: gen-v2
       criteria_json: [[2, "Correct answer"], [1, "Finds $P(\\text{neither})=\\left(\\dfrac{97}{100}\\right)^2$, or equivalent merit"]]
-      meta_json: {"check": "Checked by direct sum 2(0.03)(0.97)+0.03^2 = 0.0591.", "concern": "Assumes independence of the two selections (large school).", "confidence": 0.97}
+      meta_json: {"check": "Checked by direct sum 2(0.03)(0.97)+0.03^2 = 0.0591.", "concern": "Assumes independence of the two selections (large school).", "confidence": 0.97, "final": "$\\dfrac{591}{10000}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 3
       wm: UF
@@ -2560,7 +2560,7 @@ document
       model: claude-opus-5-5
       prompt_version: gen-v2
       criteria_json: [[3, "Correct answer"], [2, "Shows $x=e$ is a minimum and evaluates $g$ at an endpoint, or equivalent merit"], [1, "Finds the stationary point at $x=e$, or equivalent merit"]]
-      meta_json: {"check": "Evaluated g on a fine grid over [2,5]: max at x=5, 3.1067.", "confidence": 0.97}
+      meta_json: {"check": "Evaluated g on a fine grid over [2,5]: max at x=5, 3.1067.", "confidence": 0.97, "final": "$\\dfrac{5}{\\ln 5}\\approx 3.11$ (at $x=5$)", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 4
       wm: PR
@@ -2698,7 +2698,7 @@ document
       model: claude-opus-5-5
       prompt_version: gen-v2
       criteria_json: [[2, "Correct answer"], [1, "Describes one of the two translations correctly, or equivalent merit"]]
-      meta_json: {"check": "Asymptotes move from x=0, y=0 to x=-1, y=1, consistent with both translations.", "confidence": 0.98}
+      meta_json: {"check": "Asymptotes move from x=0, y=0 to x=-1, y=1, consistent with both translations.", "confidence": 0.98, "final": "Translate $y=\\frac{1}{x}$ 1 unit to the left and 1 unit up.", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement"}
     difficulty
       band: 3
       wm: UF
@@ -2815,7 +2815,7 @@ document
       model: claude-opus-5-5
       prompt_version: gen-v2
       criteria_json: [[4, "Correct answer"], [3, "Applies the cosine rule with $\\angle BOC=152^\\circ$ and $OB\\approx15.04$ km, or equivalent merit"], [2, "Finds $OB\\approx15.04$ km, and finds $\\angle BOC=152^\\circ$, or equivalent merit"], [1, "Uses the area formula to form an equation for $OB$, or finds $\\angle BOC=152^\\circ$, or equivalent merit"]]
-      meta_json: {"check": "Python: x=sqrt(160*sqrt2)=15.042, BC^2=1515.36, BC=38.93; angle BOC also checked as 360-(253-101) reflex = 208 so the non-reflex is 152.", "confidence": 0.96}
+      meta_json: {"check": "Python: x=sqrt(160*sqrt2)=15.042, BC^2=1515.36, BC=38.93; angle BOC also checked as 360-(253-101) reflex = 208 so the non-reflex is 152.", "confidence": 0.96, "final": "$BC\\approx 39$ km", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 4
       wm: PR
@@ -2885,7 +2885,7 @@ document
       model: claude-opus-5-5
       prompt_version: gen-v2
       criteria_json: [[2, "Correct answer"], [1, "Uses $A=250$ when $t=10.54$, or equivalent merit"]]
-      meta_json: {"check": "k = ln(0.25)/10.54 = -0.131527.", "confidence": 0.98}
+      meta_json: {"check": "k = ln(0.25)/10.54 = -0.131527.", "confidence": 0.98, "final": "$k\\approx -0.1315$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 3
       wm: UF
@@ -2953,7 +2953,7 @@ document
       model: claude-opus-5-5
       prompt_version: gen-v2
       criteria_json: [[2, "Correct answer"], [1, "Finds $\\dfrac{dA}{dt}=1000ke^{kt}$ and equates it to $-9.48$, or equivalent merit"]]
-      meta_json: {"check": "Solved with rounded and unrounded k: t = 19.9987 and 19.9961, both 20.", "confidence": 0.97}
+      meta_json: {"check": "Solved with rounded and unrounded k: t = 19.9987 and 19.9961, both 20.", "confidence": 0.97, "final": "$t\\approx 20$ years", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 3
       wm: UF
@@ -3032,7 +3032,7 @@ document
       model: claude-opus-5-5
       prompt_version: gen-v2
       criteria_json: [[2, "Correct answer"], [1, "Uses symmetry to obtain $P(X>5.89)=0.116$, or equivalent merit"]]
-      meta_json: {"check": "Symmetry argument; cross-checked with z-score: P(Z<-z)=0.116 gives z=1.195, P(0<Z<1.195)=0.384.", "confidence": 0.98}
+      meta_json: {"check": "Symmetry argument; cross-checked with z-score: P(Z<-z)=0.116 gives z=1.195, P(0<Z<1.195)=0.384.", "confidence": 0.98, "final": "$0.384$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 3
       wm: PR
@@ -3149,7 +3149,7 @@ document
       model: claude-opus-5-5
       prompt_version: gen-v2
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"check": "Graph crosses at 0.5; cos(pi t)=0 has no other solution in [0,1.25pi].", "confidence": 0.98}
+      meta_json: {"check": "Graph crosses at 0.5; cos(pi t)=0 has no other solution in [0,1.25pi].", "confidence": 0.98, "final": "$t=0.5$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 2
       wm: UF
@@ -3248,7 +3248,7 @@ document
       model: claude-opus-5-5
       prompt_version: gen-v2
       criteria_json: [[2, "Correct answer"], [1, "Finds $\\dfrac{dv}{dt}=\\pi\\sin(\\pi t)\\,e^{\\cos(\\pi t)}$, or equivalent merit"]]
-      meta_json: {"check": "Central-difference derivative at t=0.5 = 3.14159.", "confidence": 0.99}
+      meta_json: {"check": "Central-difference derivative at t=0.5 = 3.14159.", "confidence": 0.99, "final": "$\\pi$ m/s$^2$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 3
       wm: UF
@@ -3329,7 +3329,7 @@ document
       model: claude-opus-5-5
       prompt_version: gen-v2
       criteria_json: [[2, "Correct answer"], [1, "Applies the trapezoidal rule with $h=0.25$ to the table values (e.g. finds the displacement), or equivalent merit"]]
-      meta_json: {"check": "Hand sum 5.43 x 0.125; exact integral of |v| is 0.710, so the estimate is reasonable.", "concern": "Distance (not displacement) needs |v|; since v=0 at the node t=0.5, applying the rule to |v| equals splitting at t=0.5. Rounding of final answer (0.68 vs 0.679) not specified.", "confidence": 0.93}
+      meta_json: {"check": "Hand sum 5.43 x 0.125; exact integral of |v| is 0.710, so the estimate is reasonable.", "concern": "Distance (not displacement) needs |v|; since v=0 at the node t=0.5, applying the rule to |v| equals splitting at t=0.5. Rounding of final answer (0.68 vs 0.679) not specified.", "confidence": 0.93, "final": "$0.68$ m", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 4
       wm: PR
@@ -3412,7 +3412,7 @@ document
       model: claude-opus-5-5
       prompt_version: gen-v2
       criteria_json: [[4, "Correct answer"], [3, "Uses the table to find that at least $8$ contributions must be doubled, or equivalent merit"], [2, "Forms a correct inequality or equation for the future value of the mixed contributions, or equivalent merit"], [1, "Uses $r=0.01$ and $n=10$ with the table, or equivalent merit"]]
-      meta_json: {"check": "Python: total FV with n contributions of 750 then 1500: n=2 gives 14060.91, n=3 gives 13256.81 (end-of-period). Annuity-due timing also gives n=2.", "concern": "Question wording (contributions at start or end of each period, whether 'number of payments' counts only the $750 ones) is slightly ambiguous; all readings tried give 2.", "confidence": 0.9}
+      meta_json: {"check": "Python: total FV with n contributions of 750 then 1500: n=2 gives 14060.91, n=3 gives 13256.81 (end-of-period). Annuity-due timing also gives n=2.", "concern": "Question wording (contributions at start or end of each period, whether 'number of payments' counts only the $750 ones) is slightly ambiguous; all readings tried give 2.", "confidence": 0.9, "final": "2", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 5
       wm: PR
@@ -3498,7 +3498,7 @@ document
       model: claude-opus-5-5
       prompt_version: gen-v2
       criteria_json: [[4, "Correct answer"], [3, "Finds the $y$-values $d+\\dfrac{7}{4}$ and $d-5$ at the stationary points and states one correct condition, or equivalent merit"], [2, "Finds the stationary points at $x=-\\dfrac{1}{2}$ and $x=1$, or equivalent merit"], [1, "Finds $\\dfrac{dy}{dx}=12x^2-6x-6$, or equivalent merit"]]
-      meta_json: {"check": "numpy roots: d=-1.74 and 4.99 give 3 real roots; d=-1.76 and 5.01 give 1.", "concern": "At d=-7/4 or d=5 there are two intercepts (repeated root), so strict inequalities.", "confidence": 0.98}
+      meta_json: {"check": "numpy roots: d=-1.74 and 4.99 give 3 real roots; d=-1.76 and 5.01 give 1.", "concern": "At d=-7/4 or d=5 there are two intercepts (repeated root), so strict inequalities.", "confidence": 0.98, "final": "$-\\tfrac{7}{4}<d<5$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression"}
     difficulty
       band: 5
       wm: PR
@@ -3676,7 +3676,7 @@ document
       model: claude-opus-5-5
       prompt_version: gen-v2
       criteria_json: [[2, "Correct answer"], [1, "States $\\cot x>0$, or gives one correct interval, or equivalent merit"]]
-      meta_json: {"check": "Sign of cos/sin in each quadrant.", "confidence": 0.98}
+      meta_json: {"check": "Sign of cos/sin in each quadrant.", "confidence": 0.98, "final": "$0<x<\\dfrac{\\pi}{2}$ or $\\pi<x<\\dfrac{3\\pi}{2}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression"}
     difficulty
       band: 3
       wm: UF
@@ -3941,7 +3941,7 @@ document
       model: claude-opus-5-5
       prompt_version: gen-v2
       criteria_json: [[4, "Correct answer"], [3, "Finds $\\theta\\approx0.62$ without justifying the maximum, or equivalent merit"], [2, "Finds a correct factorised $\\dfrac{dV}{d\\theta}$ and sets it equal to $0$, or equivalent merit"], [1, "Finds $\\dfrac{dV}{d\\theta}$ using the product rule, or equivalent merit"]]
-      meta_json: {"check": "Grid search of sin t cos^2 t on (0, pi/2): max at 0.61548 = atan(1/sqrt2).", "confidence": 0.98}
+      meta_json: {"check": "Grid search of sin t cos^2 t on (0, pi/2): max at 0.61548 = atan(1/sqrt2).", "confidence": 0.98, "final": "$\\theta\\approx0.62$ radians", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 5
       wm: UF
@@ -4000,7 +4000,7 @@ document
       model: claude-opus-5-5
       prompt_version: gen-v2
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"check": "Differentiated back.", "confidence": 0.99}
+      meta_json: {"check": "Differentiated back.", "confidence": 0.99, "final": "$\\dfrac{1}{2}\\sin 2x+C$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression"}
     difficulty
       band: 2
       wm: UF
@@ -4088,7 +4088,7 @@ document
       model: claude-opus-5-5
       prompt_version: gen-v2
       criteria_json: [[3, "Correct answer"], [2, "Obtains $\\ln f(x)=\\dfrac{1}{2}\\sin2x+C$ and uses $f(0)=1$, or equivalent merit"], [1, "Recognises $\\displaystyle\\int\\dfrac{f'(x)}{f(x)}\\,dx=\\ln f(x)+C$, or equivalent merit"]]
-      meta_json: {"check": "Checked f'/f = cos 2x and f(0)=1 for f=e^{sin(2x)/2}.", "confidence": 0.98}
+      meta_json: {"check": "Checked f'/f = cos 2x and f(0)=1 for f=e^{sin(2x)/2}.", "confidence": 0.98, "final": "$f(x)=e^{\\frac{1}{2}\\sin 2x}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression"}
     difficulty
       band: 5
       wm: PR
@@ -4154,7 +4154,7 @@ document
       model: claude-opus-5-5
       prompt_version: gen-v2
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"check": "FTC with upper limit 1, lower limit x^3.", "confidence": 0.99}
+      meta_json: {"check": "FTC with upper limit 1, lower limit x^3.", "confidence": 0.99, "final": "$g(x)=F(1)-F(x^3)$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression"}
     difficulty
       band: 3
       wm: UF
@@ -4231,7 +4231,7 @@ document
       model: claude-opus-5-5
       prompt_version: gen-v2
       criteria_json: [[2, "Correct answer"], [1, "Differentiates $F(x^3)$ using the chain rule, or equivalent merit"]]
-      meta_json: {"check": "Numerical: quad-based g(x) differentiated at x=0.8 matches -3x^2 sqrt(tan x^3).", "confidence": 0.98}
+      meta_json: {"check": "Numerical: quad-based g(x) differentiated at x=0.8 matches -3x^2 sqrt(tan x^3).", "confidence": 0.98, "final": "$g'(x)=-3x^2\\sqrt{\\tan(x^3)}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression"}
     difficulty
       band: 4
       wm: PR
@@ -4441,7 +4441,7 @@ document
       model: claude-opus-5-5
       prompt_version: gen-v2
       criteria_json: [[3, "Correct answer"], [2, "Finds that the $27$th payment is the last and evaluates $A_{26}$, or equivalent merit"], [1, "Solves $A_n=0$ (or tests values of $n$) to find $26<n<27$, or equivalent merit"]]
-      meta_json: {"check": "Simulated loan: after 26 payments owing 8254.41; 27th payment = 8254.41 x 1.005 = 8295.68; consistent with A_27 = -762.14.", "concern": "Assumes the final payment is the reduced amount that clears the loan (A_26 with interest). An answer of A_26 = $8254.41 (forgetting interest) or 760(1.1)^26 = $9057.81 (full scheduled payment) is possible if NESA reads it differently.", "confidence": 0.88}
+      meta_json: {"check": "Simulated loan: after 26 payments owing 8254.41; 27th payment = 8254.41 x 1.005 = 8295.68; consistent with A_27 = -762.14.", "concern": "Assumes the final payment is the reduced amount that clears the loan (A_26 with interest). An answer of A_26 = $8254.41 (forgetting interest) or 760(1.1)^26 = $9057.81 (full scheduled payment) is possible if NESA reads it differently.", "confidence": 0.88, "final": "$\\$8295.68$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 6
       wm: PR

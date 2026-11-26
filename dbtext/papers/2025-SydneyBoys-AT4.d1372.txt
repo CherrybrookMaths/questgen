@@ -1331,7 +1331,7 @@ document
       source_document_id: 1372
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Forms the equation $40(t-8)=100+25t$, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$t=28$ weeks", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 3
       wm: PR
@@ -1406,7 +1406,7 @@ document
       source_document_id: 1372
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "$t=48$ weeks", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 3
       wm: PR
@@ -1444,7 +1444,7 @@ document
     source_document_id: 1372
     prompt_version: parse-v1
     criteria_json: [[2, "Correct answer"], [1, "Finds the acute angle $43^\\circ 50'$ using the sine rule, or equivalent merit"]]
-    meta_json: {}
+    meta_json: {"final": "$136^\\circ10'$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
   figure 1372_q12_s1.png
     page: 47
     bbox: [413, 352, 555, 424]
@@ -1529,7 +1529,7 @@ document
     source_document_id: 1372
     prompt_version: parse-v1
     criteria_json: [[2, "Correct answer"], [1, "Finds $f'(x)=-\\tan x$, or equivalent merit"]]
-    meta_json: {}
+    meta_json: {"final": "$-1$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
   part -  id 1700
     ordinal: 1
     latex: If $f(x)=\ln(\cos x)$, find the value of $f'\left(\dfrac{\pi}{4}\right)$.
@@ -1623,7 +1623,7 @@ document
     source_document_id: 1372
     prompt_version: parse-v1
     criteria_json: [[2, "Correct answer"], [1, "Correctly differentiates $\\sqrt{x}$, or equivalent merit"]]
-    meta_json: {}
+    meta_json: {"final": "$\\dfrac{e^x(2x+1)}{2\\sqrt{x}}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression"}
   part -  id 1701
     ordinal: 1
     latex: Find $\dfrac{d}{dx}\left(\sqrt{x}\,e^x\right)$.
@@ -1704,7 +1704,7 @@ document
     source_document_id: 1372
     prompt_version: parse-v1
     criteria_json: [[1, "Correct answer"]]
-    meta_json: {}
+    meta_json: {"final": "$y=\\dfrac{1}{3}\\ln\\left|3x^2+1\\right|+c$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression"}
   part -  id 1702
     ordinal: 1
     latex: Find a primitive function $y$ given that $\dfrac{dy}{dx}=\dfrac{2x}{3x^2+1}$.
@@ -1766,7 +1766,7 @@ document
     source_document_id: 1372
     prompt_version: parse-v1
     criteria_json: [[1, "Correct answer"]]
-    meta_json: {"criteria_original": [[1, "Correct answer (students who forgot $+c$ lost half a mark)"]], "marker_note": "Students who forgot $+c$ lost half a mark.", "top_criterion_original": "Correct answer (students who forgot $+c$ lost half a mark)"}
+    meta_json: {"criteria_original": [[1, "Correct answer (students who forgot $+c$ lost half a mark)"]], "final": "$\\dfrac{-6}{3^x\\ln 3}+c$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "marker_note": "Students who forgot $+c$ lost half a mark.", "top_criterion_original": "Correct answer (students who forgot $+c$ lost half a mark)"}
   part -  id 1703
     ordinal: 1
     latex: Evaluate $\displaystyle\int\dfrac{6}{3^x}\,dx$.
@@ -1830,7 +1830,7 @@ document
     source_document_id: 1372
     prompt_version: parse-v1
     criteria_json: [[2, "Correct answer"], [1, "Correct primitive $\\dfrac{2}{\\pi}\\left[\\tan\\left(\\dfrac{\\pi x}{2}\\right)\\right]$, or equivalent merit"]]
-    meta_json: {"corrected": "Corrected from source: the last line factorised 6 − 2√3 as 2(2 − √3); it is 2(3 − √3), so the answer is 2(3 − √3)/(3π) = (6 − 2√3)/(3π).", "source_original": "$=\\dfrac{2(2-\\sqrt{3})}{3\\pi}$"}
+    meta_json: {"corrected": "Corrected from source: the last line factorised 6 − 2√3 as 2(2 − √3); it is 2(3 − √3), so the answer is 2(3 − √3)/(3π) = (6 − 2√3)/(3π).", "final": "$\\dfrac{2(3-\\sqrt{3})}{3\\pi}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "source_original": "$=\\dfrac{2(2-\\sqrt{3})}{3\\pi}$"}
   part -  id 1704
     ordinal: 1
     latex: Find the exact value of $\displaystyle\int_{\frac{1}{3}}^{\frac{1}{2}}\sec^2\left(\dfrac{\pi x}{2}\right)dx$.
@@ -1913,7 +1913,7 @@ document
     source_document_id: 1372
     prompt_version: parse-v1
     criteria_json: [[4, "Correct answer"], [3, "Finds both values of $y$ and one correct pair, or both pairs not clearly paired, or equivalent merit"], [2, "Solves the quadratic for $y$, or equivalent merit"], [1, "Substitutes to obtain a quadratic in one variable, or equivalent merit"]]
-    meta_json: {"criteria_original": [[4, "Correct solution with both pairs clearly stated"], [3, "Finds both values of $y$ and one correct pair, or both pairs not clearly paired, or equivalent merit"], [2, "Solves the quadratic for $y$, or equivalent merit"], [1, "Substitutes to obtain a quadratic in one variable, or equivalent merit"]], "marker_note": "Full marks need both pairs clearly stated.", "top_criterion_original": "Correct solution with both pairs clearly stated"}
+    meta_json: {"criteria_original": [[4, "Correct solution with both pairs clearly stated"], [3, "Finds both values of $y$ and one correct pair, or both pairs not clearly paired, or equivalent merit"], [2, "Solves the quadratic for $y$, or equivalent merit"], [1, "Substitutes to obtain a quadratic in one variable, or equivalent merit"]], "final": "$(x,y)=(-2,7)$ or $(6,3)$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "marker_note": "Full marks need both pairs clearly stated.", "top_criterion_original": "Correct solution with both pairs clearly stated"}
   part -  id 1705
     ordinal: 1
     latex: |
@@ -2021,7 +2021,7 @@ document
       source_document_id: 1372
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "$\\lambda=\\dfrac{343.2}{f}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression"}
     difficulty
       band: 2
       wm: UF
@@ -2071,7 +2071,7 @@ document
       source_document_id: 1372
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "429 vibrations per second", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 2
       wm: UF
@@ -2107,7 +2107,7 @@ document
     source_document_id: 1372
     prompt_version: parse-v1
     criteria_json: [[1, "Correct answer"]]
-    meta_json: {}
+    meta_json: {"final": "$-4\\le x\\le 9$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression"}
   figure 1372_q20_1.png
     page: 12
     bbox: [164, 445, 432, 724]
@@ -2233,7 +2233,7 @@ document
       source_document_id: 1372
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "0", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 2
       wm: UF
@@ -2283,7 +2283,7 @@ document
       source_document_id: 1372
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "-63", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 2
       wm: UF
@@ -2335,7 +2335,7 @@ document
       source_document_id: 1372
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Forms the equation $\\dfrac{n}{2}\\big(-36+3(n-1)\\big)=0$, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$n=13$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 3
       wm: UF
@@ -2560,7 +2560,7 @@ document
       source_document_id: 1372
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "$3x+y+2=0$ (or $y=-3x-2$)", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression"}
     difficulty
       band: 2
       wm: UF
@@ -2706,7 +2706,7 @@ document
       source_document_id: 1372
       prompt_version: parse-v1
       criteria_json: [[3, "Correct answer"], [2, "Finds the nature of the stationary points, or equivalent merit"], [1, "Finds the first derivative and the $x$-values of both stationary points, or equivalent merit"]]
-      meta_json: {"criteria_original": [[3, "Correctly identifies all points of the stationary points"], [2, "Finds the nature of the stationary points"], [1, "Finds the first derivative, and the $x$-values of both stationary points"]], "top_criterion_original": "Correctly identifies all points of the stationary points"}
+      meta_json: {"criteria_original": [[3, "Correctly identifies all points of the stationary points"], [2, "Finds the nature of the stationary points"], [1, "Finds the first derivative, and the $x$-values of both stationary points"]], "final": "Maximum at $(0,1)$; minimum at $(1,0.5)$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement", "top_criterion_original": "Correctly identifies all points of the stationary points"}
     difficulty
       band: 3
       wm: UF
@@ -2813,7 +2813,7 @@ document
     source_document_id: 1372
     prompt_version: parse-v1
     criteria_json: [[2, "Correct answer"], [1, "Correctly rewrites the integral as $\\dfrac{1}{6}\\displaystyle\\int6x\\left(3x^2+5\\right)^{-\\frac{1}{2}}dx$, or equivalent merit"]]
-    meta_json: {"criteria_original": [[2, "Provides the correct solution"], [1, "Correctly rewrites the integral as $\\dfrac{1}{6}\\displaystyle\\int 6x\\left(3x^2+5\\right)^{-\\frac{1}{2}}dx$"]], "top_criterion_original": "Provides the correct solution"}
+    meta_json: {"criteria_original": [[2, "Provides the correct solution"], [1, "Correctly rewrites the integral as $\\dfrac{1}{6}\\displaystyle\\int 6x\\left(3x^2+5\\right)^{-\\frac{1}{2}}dx$"]], "final": "$\\frac{1}{3}\\sqrt{3x^2+5}+c$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "top_criterion_original": "Provides the correct solution"}
   part -  id 1718
     ordinal: 1
     latex: Find $\displaystyle\int\dfrac{x}{\sqrt{3x^2+5}}\,dx$.
@@ -2879,7 +2879,7 @@ document
     source_document_id: 1372
     prompt_version: parse-v1
     criteria_json: [[2, "Correct answer"], [1, "Correctly calculates the area of the triangle from $t=0$ to $t=66\\dfrac{2}{3}$, or equivalent merit"]]
-    meta_json: {"corrected": "Corrected from source: typos v = -0.6 + 40 (should be -0.6t + 40) and 8333 1/3 (should be 833 1/3); answer 480 m unchanged.", "criteria_original": [[2, "Provides the correct solution; 1.5: Correct calculation for the areas of the triangles from $t=0$ to $t=150$"], [1, "Correct calculation for the area of the triangle from $t=0$ to $t=66\\dfrac{2}{3}$; 0.5: Correctly identifies that $t=66\\dfrac{2}{3}$ when $v=0$"]], "marker_note": "$1\\dfrac{1}{2}$ marks for correctly calculating the areas of both triangles from $t=0$ to $t=150$; $\\dfrac{1}{2}$ mark for identifying that $t=66\\dfrac{2}{3}$ when $v=0$.", "source_original": "$v=-0.6+40$; $=1333\\tfrac{1}{3}-8333\\tfrac{1}{3}$", "top_criterion_original": "Provides the correct solution; 1.5: Correct calculation for the areas of the triangles from $t=0$ to $t=150$"}
+    meta_json: {"corrected": "Corrected from source: typos v = -0.6 + 40 (should be -0.6t + 40) and 8333 1/3 (should be 833 1/3); answer 480 m unchanged.", "criteria_original": [[2, "Provides the correct solution; 1.5: Correct calculation for the areas of the triangles from $t=0$ to $t=150$"], [1, "Correct calculation for the area of the triangle from $t=0$ to $t=66\\dfrac{2}{3}$; 0.5: Correctly identifies that $t=66\\dfrac{2}{3}$ when $v=0$"]], "final": "480 metres", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "marker_note": "$1\\dfrac{1}{2}$ marks for correctly calculating the areas of both triangles from $t=0$ to $t=150$; $\\dfrac{1}{2}$ mark for identifying that $t=66\\dfrac{2}{3}$ when $v=0$.", "source_original": "$v=-0.6+40$; $=1333\\tfrac{1}{3}-8333\\tfrac{1}{3}$", "top_criterion_original": "Provides the correct solution; 1.5: Correct calculation for the areas of the triangles from $t=0$ to $t=150$"}
   figure 1372_q25_1.png
     page: 18
     bbox: [160, 100, 425, 305]
@@ -2981,7 +2981,7 @@ document
     source_document_id: 1372
     prompt_version: parse-v1
     criteria_json: [[2, "Correct answer"], [1, "Attempts to use the product rule correctly, or equivalent merit"]]
-    meta_json: {"criteria_original": [[2, "Provides the correct solution"], [1, "Attempted to use the product rule correctly"]], "top_criterion_original": "Provides the correct solution"}
+    meta_json: {"criteria_original": [[2, "Provides the correct solution"], [1, "Attempted to use the product rule correctly"]], "final": "$1+\\cot x$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "top_criterion_original": "Provides the correct solution"}
   part -  id 1720
     ordinal: 1
     latex: Find $\dfrac{d}{dx}\Big[\ln\left(e^x\sin x\right)\Big]$.
@@ -3104,7 +3104,7 @@ document
     source_document_id: 1372
     prompt_version: parse-v1
     criteria_json: [[2, "Correct answer"]]
-    meta_json: {"criteria_original": [[2, "Provides the correct solution with absolute value; 1.5: $\\dfrac{1}{2}\\ln(\\sin 2x)-2x^{-\\frac{1}{2}}+c$, i.e. left out the absolute value; 0.5: Rewrites the integral as $\\displaystyle\\int\\dfrac{\\cos 2x}{\\sin 2x}\\,dx+\\int x^{-\\frac{3}{2}}\\,dx$"]], "marker_note": "$1\\dfrac{1}{2}$ marks for $\\dfrac{1}{2}\\ln(\\sin2x)-2x^{-\\frac{1}{2}}+c$ (absolute value left out); $\\dfrac{1}{2}$ mark for rewriting the integral as $\\displaystyle\\int\\dfrac{\\cos2x}{\\sin2x}\\,dx+\\int x^{-\\frac{3}{2}}\\,dx$. The absolute value is required for full marks.", "top_criterion_original": "Provides the correct solution with absolute value; 1.5: $\\dfrac{1}{2}\\ln(\\sin 2x)-2x^{-\\frac{1}{2}}+c$, i.e. left out the absolute value; 0.5: Rewrites the integral as $\\displaystyle\\int\\dfrac{\\cos 2x}{\\sin 2x}\\,dx+\\int x^{-\\frac{3}{2}}\\,dx$"}
+    meta_json: {"criteria_original": [[2, "Provides the correct solution with absolute value; 1.5: $\\dfrac{1}{2}\\ln(\\sin 2x)-2x^{-\\frac{1}{2}}+c$, i.e. left out the absolute value; 0.5: Rewrites the integral as $\\displaystyle\\int\\dfrac{\\cos 2x}{\\sin 2x}\\,dx+\\int x^{-\\frac{3}{2}}\\,dx$"]], "final": "$\\dfrac{1}{2}\\ln|\\sin 2x|-\\dfrac{2}{\\sqrt{x}}+c$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "marker_note": "$1\\dfrac{1}{2}$ marks for $\\dfrac{1}{2}\\ln(\\sin2x)-2x^{-\\frac{1}{2}}+c$ (absolute value left out); $\\dfrac{1}{2}$ mark for rewriting the integral as $\\displaystyle\\int\\dfrac{\\cos2x}{\\sin2x}\\,dx+\\int x^{-\\frac{3}{2}}\\,dx$. The absolute value is required for full marks.", "top_criterion_original": "Provides the correct solution with absolute value; 1.5: $\\dfrac{1}{2}\\ln(\\sin 2x)-2x^{-\\frac{1}{2}}+c$, i.e. left out the absolute value; 0.5: Rewrites the integral as $\\displaystyle\\int\\dfrac{\\cos 2x}{\\sin 2x}\\,dx+\\int x^{-\\frac{3}{2}}\\,dx$"}
   part -  id 1721
     ordinal: 1
     latex: Find $\displaystyle\int\cot 2x+\dfrac{1}{x\sqrt{x}}\,dx$
@@ -3198,7 +3198,7 @@ document
     source_document_id: 1372
     prompt_version: parse-v1
     criteria_json: [[2, "Correct answer"], [1, "Correctly equates the expressions for $S_{20}$ and $4\\times S_{10}$, or equivalent merit"]]
-    meta_json: {"criteria_original": [[2, "Provides the correct solution"], [1, "Correctly equates the expressions of $S_{20}$ and $4\\times S_{10}$"]], "top_criterion_original": "Provides the correct solution"}
+    meta_json: {"criteria_original": [[2, "Provides the correct solution"], [1, "Correctly equates the expressions of $S_{20}$ and $4\\times S_{10}$"]], "final": "$d=10$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "top_criterion_original": "Provides the correct solution"}
   part -  id 1722
     ordinal: 1
     latex: |
@@ -3266,7 +3266,7 @@ document
     source_document_id: 1372
     prompt_version: parse-v1
     criteria_json: [[2, "Correct answer"], [1, "Writes the numerator as $-\\dfrac{4}{3}f'(x)$, or equivalent merit"]]
-    meta_json: {}
+    meta_json: {"final": "$-\\dfrac{4}{3}\\ln\\left|3x^2-12x+1\\right|+C$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression"}
   part -  id 1723
     ordinal: 1
     latex: Find $\displaystyle\int\dfrac{16-8x}{3x^2-12x+1}\,dx$.
@@ -3333,7 +3333,7 @@ document
     source_document_id: 1372
     prompt_version: parse-v1
     criteria_json: [[3, "Correct answer"], [2, "Obtains $6r^2-13r+6=0$, or equivalent merit"], [1, "Writes $\\dfrac{a^3}{1-r^3}=\\dfrac{27}{19}$ for the series of cubes, or equivalent merit"]]
-    meta_json: {}
+    meta_json: {"final": "$r=\\dfrac{2}{3}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
   part -  id 1724
     ordinal: 1
     latex: |
@@ -3399,7 +3399,7 @@ document
     source_document_id: 1372
     prompt_version: parse-v1
     criteria_json: [[3, "Correct answer"], [2, "Correct primitive $\\dfrac{2}{3}(\\sin x)^{\\frac{3}{2}}$, or equivalent merit"], [1, "Simplifies the integrand to $\\cos x(\\sin x)^{\\frac{1}{2}}$, or equivalent merit"]]
-    meta_json: {"corrected": "Corrected from source: cos x > 0 changed to cos x >= 0 (cos(pi/2) = 0).", "source_original": "$\\because x\\in\\left[0,\\frac{\\pi}{2}\\right],\\ \\cos x>0$"}
+    meta_json: {"corrected": "Corrected from source: cos x > 0 changed to cos x >= 0 (cos(pi/2) = 0).", "final": "$\\dfrac{2}{3}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "source_original": "$\\because x\\in\\left[0,\\frac{\\pi}{2}\\right],\\ \\cos x>0$"}
   part -  id 1725
     ordinal: 1
     latex: Evaluate $\displaystyle\int_0^{\frac{\pi}{2}}\sqrt{\sin x-\sin^3 x}\,dx$.
@@ -3738,7 +3738,7 @@ document
     source_document_id: 1372
     prompt_version: parse-v1
     criteria_json: [[4, "Correct answer"], [3, "Applies the interest rate in the years after deposits have stopped, or equivalent merit"], [2, "Takes the appropriate products of deposit amount and future value, or equivalent merit"], [1, "Identifies the appropriate values in the table, or equivalent merit"]]
-    meta_json: {"corrected": "Corrected from source: the main method's final value $215 974.18 does not match its own expression, which evaluates to $213 625.08 (agreeing with the source's alternate method, $213 625.09).", "criteria_original": [[4, "Correct answer with sufficient reasoning"], [3, "Applies the interest rate in the years after deposits have stopped, or equivalent merit"], [2, "Takes the appropriate products of deposit amount and future value, or equivalent merit"], [1, "Identifies the appropriate values in the table"]], "marker_note": "Correct answer with sufficient reasoning is required for full marks.", "source_original": "$6.38774\\times\\$15\\,000\\times 1.025^9+4.15252\\times\\$20\\,000\\times 1.025^5=\\$215\\,974.18$", "top_criterion_original": "Correct answer with sufficient reasoning"}
+    meta_json: {"corrected": "Corrected from source: the main method's final value $215 974.18 does not match its own expression, which evaluates to $213 625.08 (agreeing with the source's alternate method, $213 625.09).", "criteria_original": [[4, "Correct answer with sufficient reasoning"], [3, "Applies the interest rate in the years after deposits have stopped, or equivalent merit"], [2, "Takes the appropriate products of deposit amount and future value, or equivalent merit"], [1, "Identifies the appropriate values in the table"]], "final": "$\\$213\\,625.08$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "marker_note": "Correct answer with sufficient reasoning is required for full marks.", "source_original": "$6.38774\\times\\$15\\,000\\times 1.025^9+4.15252\\times\\$20\\,000\\times 1.025^5=\\$215\\,974.18$", "top_criterion_original": "Correct answer with sufficient reasoning"}
   part -  id 1728
     ordinal: 1
     latex: |
@@ -3877,7 +3877,7 @@ document
       source_document_id: 1372
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Correctly determines a value for $a$, or equivalent merit"]]
-      meta_json: {"criteria_original": [[2, "Correct values of $a$ and $c$"], [1, "Correctly determines a value for $a$"]], "top_criterion_original": "Correct values of $a$ and $c$"}
+      meta_json: {"criteria_original": [[2, "Correct values of $a$ and $c$"], [1, "Correctly determines a value for $a$"]], "final": "$a=10$, $c=12$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "top_criterion_original": "Correct values of $a$ and $c$"}
     difficulty
       band: 3
       wm: UF
@@ -3971,7 +3971,7 @@ document
       source_document_id: 1372
       prompt_version: parse-v1
       criteria_json: [[3, "Correct answer"], [2, "Correct graph of $h_2(t)$ (phase, amplitude and periodicity), or equivalent merit"]]
-      meta_json: {"criteria_original": [[3, "Correct graph of $h_2(t)$ and all correct times where both graphs are decreasing"], [2, "Correct graph of $h_2(t)$ (phase, amplitude and periodicity)"]], "marker_note": "Full marks need the correct graph of $h_2(t)$ and all the correct times where both graphs are decreasing.", "top_criterion_original": "Correct graph of $h_2(t)$ and all correct times where both graphs are decreasing"}
+      meta_json: {"criteria_original": [[3, "Correct graph of $h_2(t)$ and all correct times where both graphs are decreasing"], [2, "Correct graph of $h_2(t)$ (phase, amplitude and periodicity)"]], "final": "$t\\in(24,32)\\cup(40,48)$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "marker_note": "Full marks need the correct graph of $h_2(t)$ and all the correct times where both graphs are decreasing.", "top_criterion_original": "Correct graph of $h_2(t)$ and all correct times where both graphs are decreasing"}
     figure 1372_q34_s1.png
       page: 73
       bbox: [73, 244, 522, 534]
@@ -4066,7 +4066,7 @@ document
       source_document_id: 1372
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"]]
-      meta_json: {"criteria_original": [[2, "Correct rate of change; 1.5: Correctly differentiates the expression for the height of the car on the slower wheel; 0.5: Identifies the correct time value $t=16$"]], "marker_note": "$1\\dfrac{1}{2}$ marks for correctly differentiating the expression for the height of the car on the slower wheel; $\\dfrac{1}{2}$ mark for identifying the correct time value $t=16$.", "top_criterion_original": "Correct rate of change; 1.5: Correctly differentiates the expression for the height of the car on the slower wheel; 0.5: Identifies the correct time value $t=16$"}
+      meta_json: {"criteria_original": [[2, "Correct rate of change; 1.5: Correctly differentiates the expression for the height of the car on the slower wheel; 0.5: Identifies the correct time value $t=16$"]], "final": "increasing at $\\dfrac{5\\sqrt{3}\\pi}{24}$ m/s", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "marker_note": "$1\\dfrac{1}{2}$ marks for correctly differentiating the expression for the height of the car on the slower wheel; $\\dfrac{1}{2}$ mark for identifying the correct time value $t=16$.", "top_criterion_original": "Correct rate of change; 1.5: Correctly differentiates the expression for the height of the car on the slower wheel; 0.5: Identifies the correct time value $t=16$"}
     difficulty
       band: 4
       wm: UF
@@ -4144,7 +4144,7 @@ document
       source_document_id: 1372
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"criteria_original": [[1, "Correctly differentiates the expression"]], "top_criterion_original": "Correctly differentiates the expression"}
+      meta_json: {"criteria_original": [[1, "Correctly differentiates the expression"]], "final": "$e^{-x}-xe^{-x}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "top_criterion_original": "Correctly differentiates the expression"}
     difficulty
       band: 2
       wm: UF
@@ -4212,7 +4212,7 @@ document
       source_document_id: 1372
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"criteria_original": [[1, "Correct answer; 0.5: Appropriate use of the result from part (a)"]], "marker_note": "$\\dfrac{1}{2}$ mark for appropriate use of the result from part (a).", "top_criterion_original": "Correct answer; 0.5: Appropriate use of the result from part (a)"}
+      meta_json: {"criteria_original": [[1, "Correct answer; 0.5: Appropriate use of the result from part (a)"]], "final": "$-e^{-x}-xe^{-x}+c$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "marker_note": "$\\dfrac{1}{2}$ mark for appropriate use of the result from part (a).", "top_criterion_original": "Correct answer; 0.5: Appropriate use of the result from part (a)"}
     difficulty
       band: 4
       wm: UF
@@ -4319,7 +4319,7 @@ document
       source_document_id: 1372
       prompt_version: parse-v1
       criteria_json: [[4, "Correct answer"], [3, "Correctly integrates the expression, or equivalent merit"], [2, "Provides a correct expression for the shaded area, or equivalent merit"], [1, "Correctly determines the points of intersection, or equivalent merit"]]
-      meta_json: {"criteria_original": [[4, "Correct final answer"], [3, "Correctly integrates the expression"], [2, "Provides a correct expression for the shaded area"], [1, "Correctly determines the points of intersection"]], "top_criterion_original": "Correct final answer"}
+      meta_json: {"criteria_original": [[4, "Correct final answer"], [3, "Correctly integrates the expression"], [2, "Provides a correct expression for the shaded area"], [1, "Correctly determines the points of intersection"]], "final": "$1-\\dfrac{5}{2e}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "top_criterion_original": "Correct final answer"}
     figure 1372_q35_1.png
       page: 31
       bbox: [160, 328, 435, 466]
@@ -4515,7 +4515,7 @@ document
       source_document_id: 1372
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Finds $-\\dfrac{1}{\\ln 5}\\ln\\left(5-x^2\\right)+1$ for $0\\le x\\le 2$, or equivalent merit"]]
-      meta_json: {"criteria_original": [[2, "Correct piecewise $F(x)$ including the pieces for $x<0$ and $x>2$"], [1, "Finds $-\\dfrac{1}{\\ln 5}\\ln\\left(5-x^2\\right)+1$ for $0\\le x\\le 2$, or equivalent merit"]], "marker_note": "Full marks need the pieces for $x<0$ and $x>2$.", "top_criterion_original": "Correct piecewise $F(x)$ including the pieces for $x<0$ and $x>2$"}
+      meta_json: {"criteria_original": [[2, "Correct piecewise $F(x)$ including the pieces for $x<0$ and $x>2$"], [1, "Finds $-\\dfrac{1}{\\ln 5}\\ln\\left(5-x^2\\right)+1$ for $0\\le x\\le 2$, or equivalent merit"]], "final": "$F(x)=0$ for $x<0$; $1-\\dfrac{1}{\\ln 5}\\ln(5-x^2)$ for $0\\le x\\le 2$; $1$ for $x>2$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "marker_note": "Full marks need the pieces for $x<0$ and $x>2$.", "top_criterion_original": "Correct piecewise $F(x)$ including the pieces for $x<0$ and $x>2$"}
     difficulty
       band: 3
       wm: UF
@@ -4644,7 +4644,7 @@ document
     source_document_id: 1372
     prompt_version: parse-v1
     criteria_json: [[3, "Correct answer"], [2, "Solves $F''(x)=0$ for $x$, or equivalent merit"], [1, "Finds the pdf $F'(x)$, or equivalent merit"]]
-    meta_json: {}
+    meta_json: {"final": "$\\dfrac{16}{9}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
   part -  id 1738
     ordinal: 1
     latex: |
@@ -4785,7 +4785,7 @@ document
       source_document_id: 1372
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "$\\mu=3$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 3
       wm: PR

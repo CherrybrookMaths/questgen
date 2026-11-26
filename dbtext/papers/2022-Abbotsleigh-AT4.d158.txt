@@ -963,7 +963,7 @@ document
     source_document_id: 158
     prompt_version: parse-v1
     criteria_json: [[2, "Correct answer"], [1, "Writes the equation $3+16d=99$, or equivalent merit"]]
-    meta_json: {}
+    meta_json: {"final": "$d=6$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
   part -  id 4311
     ordinal: 1
     latex: |
@@ -1019,7 +1019,7 @@ document
     source_document_id: 158
     prompt_version: parse-v1
     criteria_json: [[2, "Correct answer"], [1, "Integrates to $\\dfrac{1}{5}\\cdot\\dfrac{x^{-1}}{-1}$, or equivalent merit"]]
-    meta_json: {}
+    meta_json: {"final": "$-\\dfrac{1}{5x}+C$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression"}
   part -  id 4312
     ordinal: 1
     latex: Find $\displaystyle\int \dfrac{1}{5x^{2}}\,dx$.
@@ -1088,7 +1088,7 @@ document
     source_document_id: 158
     prompt_version: parse-v1
     criteria_json: [[3, "Correct answer"], [2, "Writes the equation in point-gradient form, or equivalent merit"], [1, "Finds the gradient $1$, or equivalent merit"]]
-    meta_json: {}
+    meta_json: {"final": "$x-y-9=0$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression"}
   part -  id 4313
     ordinal: 1
     latex: Find the equation of the tangent to the curve $y=x^{2}-3x-5$ at the point $(2,-7)$.
@@ -1145,7 +1145,7 @@ document
     source_document_id: 158
     prompt_version: parse-v1
     criteria_json: [[1, "Correct answer"]]
-    meta_json: {}
+    meta_json: {"final": "$x<2$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement"}
   part -  id 4314
     ordinal: 1
     latex: Find the domain of the function $f(x)=\dfrac{1}{\sqrt{2-x}}$.
@@ -1198,7 +1198,7 @@ document
     source_document_id: 158
     prompt_version: parse-v1
     criteria_json: [[3, "Correct answer"], [2, "Substitutes the limits, or equivalent merit"], [1, "Finds the antiderivative $\\dfrac{1}{4}\\tan 4x$, or equivalent merit"]]
-    meta_json: {}
+    meta_json: {"final": "$\\dfrac{\\sqrt{3}}{4}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
   part -  id 4315
     ordinal: 1
     latex: Evaluate $\displaystyle\int_{0}^{\frac{\pi}{12}} \sec^{2}4x\,dx$.
@@ -1291,7 +1291,7 @@ document
       source_document_id: 158
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Obtains $-7(x^2-9)^{-8}$, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$\\dfrac{-14x}{(x^2-9)^8}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression"}
     difficulty
       band: 2
       wm: UF
@@ -1352,7 +1352,7 @@ document
       source_document_id: 158
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Finds correct $u'$ and $v'$ and sets up the quotient rule, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$\\dfrac{x^3(4\\cos x+x\\sin x)}{\\cos^2 x}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression"}
     difficulty
       band: 3
       wm: UF
@@ -1388,7 +1388,7 @@ document
     source_document_id: 158
     prompt_version: parse-v1
     criteria_json: [[2, "Correct answer"], [1, "Finds the arc length $\\dfrac{12\\pi}{7}$, or equivalent merit"]]
-    meta_json: {}
+    meta_json: {"final": "$\\left(24+\\dfrac{12\\pi}{7}\\right)$ cm", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
   figure 158_q12a_1.png
     page: 14
     bbox: [175, 150, 505, 280]
@@ -1469,7 +1469,7 @@ document
     source_document_id: 158
     prompt_version: parse-v1
     criteria_json: [[3, "Correct answer"], [2, "Writes the correct trapezoidal rule expression, or equivalent merit"], [1, "Finds $h=2$, or equivalent merit"]]
-    meta_json: {"corrected": "Corrected from source: the intermediate value read $12.004384\\ldots$; the bracket sum is $12.004834\\ldots$ (the answer $12.0$ was right).", "overwritten_from_source": "Corrected from source: the intermediate value read $12.004384\\ldots$; the bracket sum is $12.004834\\ldots$ (the answer $12.0$ was right).", "source_original": {"criteria": [[3, "Correct answer"], [2, "Writes the correct trapezoidal rule expression, or equivalent merit"], [1, "Finds $h=2$, or equivalent merit"]], "latex": "Three function values give 2 strips, so\n$$h=\\dfrac{6-2}{2}=2$$\nThe function values are at $x=2,4,6$.\n$$\\begin{aligned} A&\\approx\\dfrac{2}{2}\\left[\\dfrac{2}{\\ln 2}+\\dfrac{6}{\\ln 6}+2\\times\\dfrac{4}{\\ln 4}\\right] \\\\ &=12.004384\\ldots \\\\ &\\approx 12.0 \\end{aligned}$$"}}
+    meta_json: {"corrected": "Corrected from source: the intermediate value read $12.004384\\ldots$; the bracket sum is $12.004834\\ldots$ (the answer $12.0$ was right).", "final": "12.0", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "overwritten_from_source": "Corrected from source: the intermediate value read $12.004384\\ldots$; the bracket sum is $12.004834\\ldots$ (the answer $12.0$ was right).", "source_original": {"criteria": [[3, "Correct answer"], [2, "Writes the correct trapezoidal rule expression, or equivalent merit"], [1, "Finds $h=2$, or equivalent merit"]], "latex": "Three function values give 2 strips, so\n$$h=\\dfrac{6-2}{2}=2$$\nThe function values are at $x=2,4,6$.\n$$\\begin{aligned} A&\\approx\\dfrac{2}{2}\\left[\\dfrac{2}{\\ln 2}+\\dfrac{6}{\\ln 6}+2\\times\\dfrac{4}{\\ln 4}\\right] \\\\ &=12.004384\\ldots \\\\ &\\approx 12.0 \\end{aligned}$$"}}
   part -  id 4319
     ordinal: 1
     latex: |
@@ -1584,7 +1584,7 @@ document
       source_document_id: 158
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Applies the cosine rule, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$RQ = 20.7$ km", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 3
       wm: UF
@@ -1659,7 +1659,7 @@ document
       source_document_id: 158
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Uses the sine or cosine rule correctly to find $\\theta$, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$285^\\circ$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 4
       wm: PR
@@ -1737,7 +1737,7 @@ document
       source_document_id: 158
       prompt_version: parse-v1
       criteria_json: [[3, "Correct answer"], [2, "Finds $x=-\\dfrac{1}{3}$ and $x=1$, or equivalent merit"], [1, "Finds the derivative, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$A\\left(-\\tfrac{1}{3}, 2\\tfrac{22}{27}\\right),\\ B(1,4)$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression"}
     difficulty
       band: 3
       wm: UF
@@ -1802,7 +1802,7 @@ document
       source_document_id: 158
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Finds the second derivative $-6x+2$, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "the curve is concave down for $x>\\tfrac{1}{3}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement"}
     difficulty
       band: 3
       wm: UF
@@ -1848,7 +1848,7 @@ document
       source_document_id: 158
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "$k>4$ or $k<2\\tfrac{22}{27}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement"}
     difficulty
       band: 4
       wm: PR
@@ -1913,7 +1913,7 @@ document
       source_document_id: 158
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "$r=0.98$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 2
       wm: UF
@@ -1951,7 +1951,7 @@ document
       source_document_id: 158
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "Strong positive correlation.", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement"}
     difficulty
       band: 2
       wm: UF
@@ -1994,7 +1994,7 @@ document
       source_document_id: 158
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Finds the gradient $0.79$ or the intercept $5.75$, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$B=0.79A+5.75$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression"}
     difficulty
       band: 2
       wm: UF
@@ -2034,7 +2034,7 @@ document
       source_document_id: 158
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "$17.6$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 2
       wm: UF
@@ -2090,7 +2090,7 @@ document
       source_document_id: 158
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "$\\tfrac{1}{8}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 2
       wm: UF
@@ -2156,7 +2156,7 @@ document
       source_document_id: 158
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "$\\dfrac{3}{40}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 3
       wm: UF
@@ -2218,7 +2218,7 @@ document
       source_document_id: 158
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "$P(A)=\\dfrac{5}{8}$"]]
-      meta_json: {}
+      meta_json: {"final": "$\\dfrac{7}{10}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 3
       wm: UF
@@ -2386,7 +2386,7 @@ document
       source_document_id: 158
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "$\\dfrac{1}{2}\\left(7-x^{2}\\right)^{-\\frac{1}{2}}$, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$\\dfrac{dy}{dx}=\\dfrac{-x}{\\sqrt{7-x^{2}}}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression"}
     difficulty
       band: 2
       wm: UF
@@ -2436,7 +2436,7 @@ document
       source_document_id: 158
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Uses part (a) to write $-5\\displaystyle\\int\\dfrac{-x}{\\sqrt{7-x^{2}}}\\,dx$, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$-5\\sqrt{7-x^{2}}+C$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression"}
     difficulty
       band: 3
       wm: UF
@@ -2595,7 +2595,7 @@ document
       source_document_id: 158
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Table of outcomes (or similar), or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$\\dfrac{11}{36}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
       data_table Ts3733_1
         header_rows: 0
         label_col: 0
@@ -2644,7 +2644,7 @@ document
       source_document_id: 158
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "$\\dfrac{1}{9}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 2
       wm: UF
@@ -2720,7 +2720,7 @@ document
       source_document_id: 158
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Identifies the cases with sum $\\ge180$, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$\\dfrac{1291}{1296}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 4
       wm: PR
@@ -2776,7 +2776,7 @@ document
       source_document_id: 158
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "$g(f(x))=\\dfrac{3}{2x^{2}-4}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression"}
     difficulty
       band: 2
       wm: UF
@@ -2820,7 +2820,7 @@ document
       source_document_id: 158
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "$\\dfrac{3}{14}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 2
       wm: UF
@@ -2864,7 +2864,7 @@ document
     source_document_id: 158
     prompt_version: parse-v1
     criteria_json: [[3, "Correct answer"], [2, "Solutions from one factor and progress on the other, or equivalent merit"], [1, "Separates into two factors, or equivalent merit"]]
-    meta_json: {}
+    meta_json: {"final": "$x=\\pm\\dfrac{\\pi}{4},\\ \\pm\\dfrac{3\\pi}{4},\\ \\pm\\dfrac{\\pi}{3},\\ \\pm\\dfrac{2\\pi}{3}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression"}
   part -  id 4341
     ordinal: 1
     latex: Find all possible solutions to $\left(\tan^{2}x-1\right)\left(\sin^{2}x-3\cos^{2}x\right)=0$, for $-\pi\le x\le\pi$.
@@ -3028,7 +3028,7 @@ document
       source_document_id: 158
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Substitutes into $\\dfrac{a}{1-r}$, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$\\sqrt{5}+2$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression"}
     difficulty
       band: 4
       wm: UF
@@ -3067,7 +3067,7 @@ document
     source_document_id: 158
     prompt_version: parse-v1
     criteria_json: [[3, "Correct answer"], [2, "Finds $\\$13\\,540$ and $\\$10\\,460$, or equivalent merit"], [1, "Finds $\\$13\\,540$, or equivalent merit"]]
-    meta_json: {}
+    meta_json: {"final": "$\\$25\\,699.39$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
   part -  id 4344
     ordinal: 1
     latex: |
@@ -3160,7 +3160,7 @@ document
       source_document_id: 158
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "32 litres", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 2
       wm: UF
@@ -3204,7 +3204,7 @@ document
       source_document_id: 158
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Equation $8=32\\left(1-\\dfrac{t}{90}\\right)^{2}$, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "45 seconds", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 3
       wm: UF
@@ -3277,7 +3277,7 @@ document
       source_document_id: 158
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Finds the derivative, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$\\dfrac{16}{45}$ litres/sec", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 3
       wm: UF
@@ -3316,7 +3316,7 @@ document
     source_document_id: 158
     prompt_version: parse-v1
     criteria_json: [[3, "Correct answer"], [2, "Finds two of $a$, $b$, $c$, or equivalent merit"], [1, "Finds one of $a$, $b$, $c$, or equivalent merit"]]
-    meta_json: {}
+    meta_json: {"final": "$a=3,\\ b=-\\dfrac{\\pi}{3},\\ c=7$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression"}
   figure 158_q15c_1.png
     page: 37
     bbox: [85, 125, 490, 410]
@@ -3475,7 +3475,7 @@ document
       source_document_id: 158
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "$1.30$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 2
       wm: UF
@@ -3520,7 +3520,7 @@ document
       source_document_id: 158
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "$0.45$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 2
       wm: UF
@@ -3590,7 +3590,7 @@ document
       source_document_id: 158
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Uses the product rule, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$-44$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 3
       wm: UF
@@ -3654,7 +3654,7 @@ document
       source_document_id: 158
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Antiderivative $f(x)+g(x)+2x$, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$-10$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 4
       wm: PR
@@ -3827,7 +3827,7 @@ document
       source_document_id: 158
       prompt_version: parse-v1
       criteria_json: [[3, "Correct answer"], [2, "Finds $x=2$, or equivalent merit"], [1, "Finds the derivative, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$x=2$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
       data_table Ts3752_1
         header_rows: 0
         label_col: 0
@@ -3909,7 +3909,7 @@ document
       source_document_id: 158
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "$A_2=135\\,000\\left(1+\\frac{0.05}{k}\\right)^2-M\\left(1+\\frac{0.05}{k}\\right)-M$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression"}
     difficulty
       band: 3
       wm: UF
@@ -4040,7 +4040,7 @@ document
       source_document_id: 158
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "$n=120$, $\\beta=1.0125$ and equation $A_{120}=0$, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$\\$2178.02$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 4
       wm: UF
@@ -4093,7 +4093,7 @@ document
       source_document_id: 158
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Monthly repayment $\\$724.71$, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$\\$466.80$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 4
       wm: PR

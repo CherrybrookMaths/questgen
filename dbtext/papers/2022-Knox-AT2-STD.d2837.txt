@@ -175,7 +175,7 @@ document
       model: claude-sonnet-5-5
       prompt_version: gen-v2
       criteria_json: [[2, "Correct answer"], [1, "Writes $\\tan 36^\\circ = \\dfrac{h}{73}$, or equivalent merit"]]
-      meta_json: {"confidence": 0.96, "generated_note": "", "self_check": "73 tan36° = 53.0376 by calculator."}
+      meta_json: {"confidence": 0.96, "final": "53.04 m", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "generated_note": "", "self_check": "73 tan36° = 53.0376 by calculator."}
     difficulty
       band: 3
       wm: UF
@@ -245,7 +245,7 @@ document
       model: claude-sonnet-5-5
       prompt_version: gen-v2
       criteria_json: [[2, "Correct answer"], [1, "Writes $\\sin\\theta = \\dfrac{11}{15}$, or equivalent merit"]]
-      meta_json: {"confidence": 0.95, "generated_note": "", "self_check": "asin(11/15)=47.1666°; 0.1666×60 = 9.996' ≈ 10'."}
+      meta_json: {"confidence": 0.95, "final": "$47^\\circ 10'$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "generated_note": "", "self_check": "asin(11/15)=47.1666°; 0.1666×60 = 9.996' ≈ 10'."}
     difficulty
       band: 3
       wm: UF
@@ -398,7 +398,7 @@ document
       model: claude-sonnet-5-5
       prompt_version: gen-v2
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"confidence": 0.9, "generated_note": "", "self_check": "Time is the independent variable (x), height is y."}
+      meta_json: {"confidence": 0.9, "final": "Height ($y$)", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement", "generated_note": "", "self_check": "Time is the independent variable (x), height is y."}
     difficulty
       band: 2
       wm: UF
@@ -759,7 +759,7 @@ document
       model: claude-sonnet-5-5
       prompt_version: gen-v2
       criteria_json: [[3, "Correct answer"], [2, "Finds $\\angle BSM \\approx 65^\\circ$, or equivalent merit"], [1, "Finds $\\angle SMB \\approx 45^\\circ$, or equivalent merit"]]
-      meta_json: {"confidence": 0.9, "corrected": "Corrected from source: the answer $185^\\circ$ is the bearing of $M$ from $S$; the final leg $MS$ is the reverse, $005^\\circ$.", "generated_note": "Direction of travel: the final leg is sailed from M to S. The bearing of M from S is 185°, so the bearing of S from M is 185° - 180° = 5°. The line above gives 185° as the bearing of M from S; the answer to the question as worded (bearing to sail from M to S) should be 005°. Please review which answer the source guideline expects.", "overwritten_from_source": "Corrected from source: the answer $185^\\circ$ is the bearing of $M$ from $S$; the final leg $MS$ is the reverse, $005^\\circ$.", "self_check": "Computed in python: M=44.81°, S=65.19°, bearing 185.19°. Note the question asks for the bearing of the final leg MS (from M to S) as sailed; the source figure shows M below S, and the direction M to S is 5° (not 185°). See generated_note.", "source_original": {"criteria": [[3, "Correct answer"], [2, "Finds $\\angle BSM \\approx 65^\\circ$, or equivalent merit"], [1, "Finds $\\angle SMB \\approx 45^\\circ$, or equivalent merit"]], "latex": "In triangle $SBM$, $SB = 3$, $SM = 4$ and $\\angle SBM = 70^\\circ$. Use the sine rule to find $\\angle SMB$:\n$$\\dfrac{\\sin\\angle SMB}{3} = \\dfrac{\\sin 70^\\circ}{4}$$\n$$\\sin\\angle SMB = \\dfrac{3\\sin 70^\\circ}{4} \\approx 0.7048$$\n$\\angle SMB$ is acute because $SB < SM$ (the angle opposite the shorter side is smaller than $70^\\circ$), so\n$$\\angle SMB \\approx 44.81^\\circ$$\nAngle sum of triangle $SBM$:\n$$\\angle BSM = 180^\\circ - 70^\\circ - 44.81^\\circ \\approx 65.19^\\circ$$\n\\exfigure{2837_q3b_s2}\n\nThe bearing of $B$ from $S$ is $120^\\circ$ and $M$ lies a further $65.19^\\circ$ clockwise from $SB$, so the bearing of $M$ from $S$ is\n$$120^\\circ + 65.19^\\circ \\approx 185.19^\\circ \\approx 185^\\circ$$\n$$\\therefore\\ \\text{the yacht should sail on a bearing of } 185^\\circ$$"}}
+      meta_json: {"confidence": 0.9, "corrected": "Corrected from source: the answer $185^\\circ$ is the bearing of $M$ from $S$; the final leg $MS$ is the reverse, $005^\\circ$.", "final": "005^\\circ", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "generated_note": "Direction of travel: the final leg is sailed from M to S. The bearing of M from S is 185°, so the bearing of S from M is 185° - 180° = 5°. The line above gives 185° as the bearing of M from S; the answer to the question as worded (bearing to sail from M to S) should be 005°. Please review which answer the source guideline expects.", "overwritten_from_source": "Corrected from source: the answer $185^\\circ$ is the bearing of $M$ from $S$; the final leg $MS$ is the reverse, $005^\\circ$.", "self_check": "Computed in python: M=44.81°, S=65.19°, bearing 185.19°. Note the question asks for the bearing of the final leg MS (from M to S) as sailed; the source figure shows M below S, and the direction M to S is 5° (not 185°). See generated_note.", "source_original": {"criteria": [[3, "Correct answer"], [2, "Finds $\\angle BSM \\approx 65^\\circ$, or equivalent merit"], [1, "Finds $\\angle SMB \\approx 45^\\circ$, or equivalent merit"]], "latex": "In triangle $SBM$, $SB = 3$, $SM = 4$ and $\\angle SBM = 70^\\circ$. Use the sine rule to find $\\angle SMB$:\n$$\\dfrac{\\sin\\angle SMB}{3} = \\dfrac{\\sin 70^\\circ}{4}$$\n$$\\sin\\angle SMB = \\dfrac{3\\sin 70^\\circ}{4} \\approx 0.7048$$\n$\\angle SMB$ is acute because $SB < SM$ (the angle opposite the shorter side is smaller than $70^\\circ$), so\n$$\\angle SMB \\approx 44.81^\\circ$$\nAngle sum of triangle $SBM$:\n$$\\angle BSM = 180^\\circ - 70^\\circ - 44.81^\\circ \\approx 65.19^\\circ$$\n\\exfigure{2837_q3b_s2}\n\nThe bearing of $B$ from $S$ is $120^\\circ$ and $M$ lies a further $65.19^\\circ$ clockwise from $SB$, so the bearing of $M$ from $S$ is\n$$120^\\circ + 65.19^\\circ \\approx 185.19^\\circ \\approx 185^\\circ$$\n$$\\therefore\\ \\text{the yacht should sail on a bearing of } 185^\\circ$$"}}
     difficulty
       band: 5
       wm: PR
@@ -913,7 +913,7 @@ document
       model: claude-sonnet-5-5
       prompt_version: gen-v2
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"confidence": 0.7, "generated_note": "Values read from the graph image; approximate.", "self_check": "Read from graph: line passes about (1.55, 5.7) with gradient about 2.2, giving intercept about 2.4, so 2."}
+      meta_json: {"confidence": 0.7, "final": "2", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "generated_note": "Values read from the graph image; approximate.", "self_check": "Read from graph: line passes about (1.55, 5.7) with gradient about 2.2, giving intercept about 2.4, so 2."}
     difficulty
       band: 2
       wm: UF
@@ -958,7 +958,7 @@ document
       model: claude-sonnet-5-5
       prompt_version: gen-v2
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"confidence": 0.65, "generated_note": "Values read from the graph image; approximate.", "self_check": "Gradient from line endpoints about 2.17, so 2.2; consistent with the point (7, 17.4)."}
+      meta_json: {"confidence": 0.65, "final": "2.2", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "generated_note": "Values read from the graph image; approximate.", "self_check": "Gradient from line endpoints about 2.17, so 2.2; consistent with the point (7, 17.4)."}
     difficulty
       band: 3
       wm: UF
@@ -1021,7 +1021,7 @@ document
       model: claude-sonnet-5-5
       prompt_version: gen-v2
       criteria_json: [[2, "Correct answer"], [1, "Writes the equation $R=2.2F+2$, or equivalent merit"]]
-      meta_json: {"confidence": 0.7, "generated_note": "Based on values read from the graph.", "self_check": "The point (7, 17.4) lies on the plotted line, consistent with the answer."}
+      meta_json: {"confidence": 0.7, "final": "$R = 2.2F + 2$; estimated rear-limb length $17.4$ cm", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "generated_note": "Based on values read from the graph.", "self_check": "The point (7, 17.4) lies on the plotted line, consistent with the answer."}
     difficulty
       band: 3
       wm: UF
@@ -1162,7 +1162,7 @@ document
       model: claude-sonnet-5-5
       prompt_version: gen-v2
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"confidence": 0.97, "generated_note": null, "self_check": "125/(7/3)=53.571."}
+      meta_json: {"confidence": 0.97, "final": "53.6 km/h", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "generated_note": null, "self_check": "125/(7/3)=53.571."}
     difficulty
       band: 3
       wm: UF
@@ -1230,7 +1230,7 @@ document
       model: claude-sonnet-5-5
       prompt_version: gen-v2
       criteria_json: [[3, "Correct answer"], [2, "Finds both unit prices, or equivalent merit"], [1, "Finds one unit price, or equivalent merit"]]
-      meta_json: {"confidence": 0.97, "generated_note": null, "self_check": "0.0094 vs 0.009517 dollars per gram."}
+      meta_json: {"confidence": 0.97, "final": "Block A is the better buy.", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement", "generated_note": null, "self_check": "0.0094 vs 0.009517 dollars per gram."}
     difficulty
       band: 2
       wm: UF
@@ -1296,7 +1296,7 @@ document
       model: claude-sonnet-5-5
       prompt_version: gen-v2
       criteria_json: [[2, "Correct answer"], [1, "Converts to litres per hour, or converts litres to kilolitres, or equivalent merit"]]
-      meta_json: {"confidence": 0.97, "generated_note": null, "self_check": "35*3600/1000=126."}
+      meta_json: {"confidence": 0.97, "final": "126 kL/hour", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "generated_note": null, "self_check": "35*3600/1000=126."}
     difficulty
       band: 3
       wm: UF
@@ -1372,7 +1372,7 @@ document
       model: claude-sonnet-5-5
       prompt_version: gen-v2
       criteria_json: [[3, "Correct answer"], [2, "Finds the fuel in the tank and the fuel used, or equivalent merit"], [1, "Finds the fuel in the tank, or the fuel used, or equivalent merit"]]
-      meta_json: {"confidence": 0.9, "generated_note": "Gauge read as 4 of 7 sections shaded.", "self_check": "4/7*35=20; 3.75*5.2=19.5."}
+      meta_json: {"confidence": 0.9, "final": "0.5 L", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "generated_note": "Gauge read as 4 of 7 sections shaded.", "self_check": "4/7*35=20; 3.75*5.2=19.5."}
     difficulty
       band: 4
       wm: UF
@@ -1520,7 +1520,7 @@ document
       model: claude-sonnet-5-5
       prompt_version: gen-v2
       criteria_json: [[2, "Correct answer"], [1, "Substitutes correctly into the cosine rule, or equivalent merit"]]
-      meta_json: {"confidence": 0.97, "generated_note": null, "self_check": "Computed sqrt = 67.067."}
+      meta_json: {"confidence": 0.97, "final": "67 m", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "generated_note": null, "self_check": "Computed sqrt = 67.067."}
     difficulty
       band: 3
       wm: UF
@@ -1592,7 +1592,7 @@ document
       model: claude-sonnet-5-5
       prompt_version: gen-v2
       criteria_json: [[2, "Correct answer"], [1, "Finds $\\angle ROQ = 80^\\circ$, or equivalent merit"]]
-      meta_json: {"confidence": 0.97, "generated_note": null, "self_check": "600*sin80 = 590.88."}
+      meta_json: {"confidence": 0.97, "final": "$590.9 \\text{ m}^2$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "generated_note": null, "self_check": "600*sin80 = 590.88."}
     difficulty
       band: 3
       wm: UF
@@ -1687,7 +1687,7 @@ document
       model: claude-sonnet-5-5
       prompt_version: gen-v2
       criteria_json: [[5, "Correct answer"], [4, "Substitutes $x = 27$ into the regression equation, or equivalent merit"], [3, "Finds the gradient and the intercept, or equivalent merit"], [2, "Finds the gradient, or equivalent merit"], [1, "Identifies the correct values of $r$, $s_x$, $s_y$ for the gradient formula, or equivalent merit"]]
-      meta_json: {"confidence": 0.95, "generated_note": "Age taken as x and movies as y, since the question estimates movies from age.", "self_check": "m=0.3398, c=13.509, y=22.68 rounds to 23."}
+      meta_json: {"confidence": 0.95, "final": "about 23 movies", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "generated_note": "Age taken as x and movies as y, since the question estimates movies from age.", "self_check": "m=0.3398, c=13.509, y=22.68 rounds to 23."}
     difficulty
       band: 4
       wm: UF

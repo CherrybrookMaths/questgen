@@ -1128,7 +1128,7 @@ document
     source_document_id: 1365
     prompt_version: parse-v1
     criteria_json: [[2, "Correct answer"], [1, "Recognises the cancelling pattern, or equivalent merit"]]
-    meta_json: {"criteria_original": [[1, "To realise the pattern"], [1, "Correct answer"]], "explained": true, "marker_note": "Done well!", "owner_note_round3": true, "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "source_original": "$$\\dfrac{\\log32}{\\log31}\\times\\dfrac{\\log31}{\\log30}\\times\\dfrac{\\log30}{\\log29}\\times\\cdots\\times\\dfrac{\\log4}{\\log3}\\times\\dfrac{\\log3}{\\log2}$$\nThe terms cancel, so\n$$\\begin{aligned} x &= \\dfrac{\\log32}{\\log2} \\\\ &= \\dfrac{\\log2^5}{\\log2^1} \\\\ &= 5 \\end{aligned}$$\n$$\\therefore\\ x=5$$", "top_criterion_original": "To simplify"}
+    meta_json: {"criteria_original": [[1, "To realise the pattern"], [1, "Correct answer"]], "explained": true, "final": "$5$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "marker_note": "Done well!", "owner_note_round3": true, "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "source_original": "$$\\dfrac{\\log32}{\\log31}\\times\\dfrac{\\log31}{\\log30}\\times\\dfrac{\\log30}{\\log29}\\times\\cdots\\times\\dfrac{\\log4}{\\log3}\\times\\dfrac{\\log3}{\\log2}$$\nThe terms cancel, so\n$$\\begin{aligned} x &= \\dfrac{\\log32}{\\log2} \\\\ &= \\dfrac{\\log2^5}{\\log2^1} \\\\ &= 5 \\end{aligned}$$\n$$\\therefore\\ x=5$$", "top_criterion_original": "To simplify"}
   part -  id 109
     ordinal: 1
     latex: Evaluate $x$ when $x=\log_{31}32\times\log_{30}31\times\log_{29}30\times\ldots\times\log_2 3$ for $x\in\mathbb{Z}$.
@@ -1233,7 +1233,7 @@ document
       source_document_id: 1365
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Finds the centre, or equivalent merit"]]
-      meta_json: {"criteria_original": [[1, "Centre"], [1, "Correct answer"]], "marker_note": "Done well!", "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "Radius"}
+      meta_json: {"criteria_original": [[1, "Centre"], [1, "Correct answer"]], "final": "Centre $(2,-1)$, $r=3$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement", "marker_note": "Done well!", "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "Radius"}
     difficulty
       band: 2
       wm: UF
@@ -1303,7 +1303,7 @@ document
       source_document_id: 1365
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Forms the discriminant equation $(6m-4)^2-4(m^2+1)(4)=0$, or equivalent merit"]]
-      meta_json: {"criteria_original": [[1, "Discriminant equation $(6m-4)^2-4(m^2+1)(4)=0$"], [1, "Correct answer"]], "marker_note": "Comments: mistake with $m^2x^2$ (many students wrote $mx^2$); when factorising $20m^2-48m=0$, students didn't write $4m$.", "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "Both solutions"}
+      meta_json: {"criteria_original": [[1, "Discriminant equation $(6m-4)^2-4(m^2+1)(4)=0$"], [1, "Correct answer"]], "final": "$m=0$ or $m=\\dfrac{12}{5}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "marker_note": "Comments: mistake with $m^2x^2$ (many students wrote $mx^2$); when factorising $20m^2-48m=0$, students didn't write $4m$.", "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "Both solutions"}
     difficulty
       band: 4
       wm: UF
@@ -1412,7 +1412,7 @@ document
       source_document_id: 1365
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Finds the correct probability using a calculator or table, or equivalent merit"]]
-      meta_json: {"corrected": "Corrected from source: $0.8413$ was written $0.843$, and Method 3 had no final value.", "criteria_original": [[1, "Correct probability using calc or table"], [1, "Correct answer"]], "marker_note": "Well done!", "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "source_original": {"criteria": [[1, "Correct probability using calc or table"], [1, "Correct answer"]], "latex": "Method 1:\n$$\\begin{aligned} x_1 &= 56, & z_1 &= 1 \\\\ x_2 &= 67, & z_2 &= 2 \\end{aligned}$$\n$$\\begin{aligned} P(z>1)-P(z>2) &= 1-P(z<1)-(1-P(z<2)) \\\\ &= 0.9772-0.843 \\\\ &= 0.1359 \\end{aligned}$$\n$$0.1359\\times26\\times10^6=3.533400\\times10^6$$\nMethod 2 (empirical rule):\n$$13.5\\%\\times26\\times10^6=3.51\\times10^6$$\nMethod 3:\n$$P(x>67)=1-0.9772=0.0228$$\n$$P(x>56)=1-0.8413=0.1587$$\n$$\\therefore\\ (0.1587-0.0228)\\times26\\times10^6$$"}, "top_criterion_original": "Correct answer in 'million'"}
+      meta_json: {"corrected": "Corrected from source: $0.8413$ was written $0.843$, and Method 3 had no final value.", "criteria_original": [[1, "Correct probability using calc or table"], [1, "Correct answer"]], "final": "$3.5334\\times10^6$ (approximately $3.53\\times10^6$ people)", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "marker_note": "Well done!", "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "source_original": {"criteria": [[1, "Correct probability using calc or table"], [1, "Correct answer"]], "latex": "Method 1:\n$$\\begin{aligned} x_1 &= 56, & z_1 &= 1 \\\\ x_2 &= 67, & z_2 &= 2 \\end{aligned}$$\n$$\\begin{aligned} P(z>1)-P(z>2) &= 1-P(z<1)-(1-P(z<2)) \\\\ &= 0.9772-0.843 \\\\ &= 0.1359 \\end{aligned}$$\n$$0.1359\\times26\\times10^6=3.533400\\times10^6$$\nMethod 2 (empirical rule):\n$$13.5\\%\\times26\\times10^6=3.51\\times10^6$$\nMethod 3:\n$$P(x>67)=1-0.9772=0.0228$$\n$$P(x>56)=1-0.8413=0.1587$$\n$$\\therefore\\ (0.1587-0.0228)\\times26\\times10^6$$"}, "top_criterion_original": "Correct answer in 'million'"}
     difficulty
       band: 3
       wm: UF
@@ -1502,7 +1502,7 @@ document
       source_document_id: 1365
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Recognises conditional probability and writes the probability correctly, or equivalent merit"]]
-      meta_json: {"criteria_original": [[1, "Understanding it's conditional probability, writing the probability correctly"], [1, "Correct answer"]], "marker_note": "Well done!", "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "Correct rounded answer"}
+      meta_json: {"criteria_original": [[1, "Understanding it's conditional probability, writing the probability correctly"], [1, "Correct answer"]], "final": "$19\\%$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "marker_note": "Well done!", "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "Correct rounded answer"}
     difficulty
       band: 4
       wm: PR
@@ -1540,7 +1540,7 @@ document
     source_document_id: 1365
     prompt_version: parse-v1
     criteria_json: [[2, "Correct answer"], [1, "Obtains $x=-\\pi,0,\\pi$, or equivalent merit"]]
-    meta_json: {"corrected": "Corrected from source: the second solution was given to 4 decimal places ($2.5262$).", "criteria_original": [[1, "$x=-\\pi,0,\\pi$"], [1, "Correct answer"]], "marker_note": "Mistakes: missed all solutions for $\\sin x=0$; gave answers in degrees; gave answers in wrong quadrants and not 3 d.p.", "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "source_original": {"criteria": [[1, "$x=-\\pi,0,\\pi$"], [1, "Correct answer"]], "latex": "$$\\sin x(3\\sin x-\\sqrt3)=0$$\n$\\sin x=0$:\n$$\\therefore\\ x=-\\pi,\\ 0,\\ \\pi$$\n$3\\sin x=\\sqrt3$:\n$$\\begin{aligned} x &= \\sin^{-1}\\dfrac{\\sqrt3}{3} \\\\ &= 0.615,\\ 2.5262 \\end{aligned}$$\n$$\\therefore\\ x=-\\pi,\\ 0,\\ 0.615,\\ 2.5262,\\ \\pi$$"}, "top_criterion_original": "$0.615$, $2.5262$"}
+    meta_json: {"corrected": "Corrected from source: the second solution was given to 4 decimal places ($2.5262$).", "criteria_original": [[1, "$x=-\\pi,0,\\pi$"], [1, "Correct answer"]], "final": "$x=-\\pi,\\ 0,\\ 0.615,\\ 2.526,\\ \\pi$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "marker_note": "Mistakes: missed all solutions for $\\sin x=0$; gave answers in degrees; gave answers in wrong quadrants and not 3 d.p.", "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "source_original": {"criteria": [[1, "$x=-\\pi,0,\\pi$"], [1, "Correct answer"]], "latex": "$$\\sin x(3\\sin x-\\sqrt3)=0$$\n$\\sin x=0$:\n$$\\therefore\\ x=-\\pi,\\ 0,\\ \\pi$$\n$3\\sin x=\\sqrt3$:\n$$\\begin{aligned} x &= \\sin^{-1}\\dfrac{\\sqrt3}{3} \\\\ &= 0.615,\\ 2.5262 \\end{aligned}$$\n$$\\therefore\\ x=-\\pi,\\ 0,\\ 0.615,\\ 2.5262,\\ \\pi$$"}, "top_criterion_original": "$0.615$, $2.5262$"}
   part -  id 114
     ordinal: 1
     latex: Solve $3\sin^2 x-\sqrt{3}\sin x=0$ for $-\pi\le x\le\pi$ to 3 decimal places.
@@ -1654,7 +1654,7 @@ document
       source_document_id: 1365
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Finds $x$, or equivalent merit"]]
-      meta_json: {"criteria_original": [[1, "$x$"], [1, "Correct answer"]], "marker_note": "Well done!", "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "$y$"}
+      meta_json: {"criteria_original": [[1, "$x$"], [1, "Correct answer"]], "final": "$x=0.52,\\ y=0.14$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "marker_note": "Well done!", "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "$y$"}
     difficulty
       band: 3
       wm: PR
@@ -1718,7 +1718,7 @@ document
       source_document_id: 1365
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"marker_note": "Well done!", "top_criterion_original": "Correct probability"}
+      meta_json: {"final": "$\\dfrac{7}{19}$ (or $0.3684$)", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "marker_note": "Well done!", "top_criterion_original": "Correct probability"}
     difficulty
       band: 3
       wm: UF
@@ -1958,7 +1958,7 @@ document
       source_document_id: 1365
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"marker_note": "Some students made mistake with the negative sign.", "source_original": {"latex": "$$\\begin{aligned} g'(x) &= \\sin x\\cdot e^x+e^x\\cos x-[\\cos x\\cdot e^x+e^x(-\\sin x)] \\\\ &= e^x\\sin x+e^x\\cos x-e^x\\cos x+e^x\\sin x \\\\ &= 2e^x\\sin x \\end{aligned}$$"}, "top_criterion_original": "$2e^x\\sin x$"}
+      meta_json: {"final": "$g'(x)=2e^x\\sin x$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "marker_note": "Some students made mistake with the negative sign.", "source_original": {"latex": "$$\\begin{aligned} g'(x) &= \\sin x\\cdot e^x+e^x\\cos x-[\\cos x\\cdot e^x+e^x(-\\sin x)] \\\\ &= e^x\\sin x+e^x\\cos x-e^x\\cos x+e^x\\sin x \\\\ &= 2e^x\\sin x \\end{aligned}$$"}, "top_criterion_original": "$2e^x\\sin x$"}
     difficulty
       band: 3
       wm: UF
@@ -2026,7 +2026,7 @@ document
       source_document_id: 1365
       prompt_version: parse-v1
       criteria_json: [[null, "No marks breakdown shown (2 marks)."]]
-      meta_json: {}
+      meta_json: {"final": "$f(x)=\\dfrac12(e^x\\sin x-e^x\\cos x)$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression"}
     difficulty
       band: 3
       wm: UF
@@ -2104,7 +2104,7 @@ document
       source_document_id: 1365
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Recognises two separate geometric progressions, or equivalent merit"]]
-      meta_json: {"criteria_original": [[1, "Understanding 2 separate GPs"], [1, "Correct answer"]], "explained": true, "owner_note_round3": true, "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "source_original": "$GP_1=1+2+4+8+\\cdots$, with $a_1=1$, $r_1=2$.\n\n$$GP_2=\\dfrac13+\\dfrac19+\\dfrac1{27}+\\dfrac1{81}+\\cdots$$\nwith $a_2=\\dfrac13$, $r_2=\\dfrac13$.\n$$\\begin{aligned} T_n &= a_1r_1^{n-1}+a_2r_2^{n-1} \\\\ &= 1(2)^{n-1}+\\dfrac13\\left(\\dfrac13\\right)^{n-1} \\\\ &= 2^{n-1}+\\dfrac{1}{3^n} \\end{aligned}$$", "top_criterion_original": "General term"}
+      meta_json: {"criteria_original": [[1, "Understanding 2 separate GPs"], [1, "Correct answer"]], "explained": true, "final": "$T_n=2^{n-1}+\\dfrac{1}{3^n}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "owner_note_round3": true, "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "source_original": "$GP_1=1+2+4+8+\\cdots$, with $a_1=1$, $r_1=2$.\n\n$$GP_2=\\dfrac13+\\dfrac19+\\dfrac1{27}+\\dfrac1{81}+\\cdots$$\nwith $a_2=\\dfrac13$, $r_2=\\dfrac13$.\n$$\\begin{aligned} T_n &= a_1r_1^{n-1}+a_2r_2^{n-1} \\\\ &= 1(2)^{n-1}+\\dfrac13\\left(\\dfrac13\\right)^{n-1} \\\\ &= 2^{n-1}+\\dfrac{1}{3^n} \\end{aligned}$$", "top_criterion_original": "General term"}
     difficulty
       band: 4
       wm: PR
@@ -2154,7 +2154,7 @@ document
       source_document_id: 1365
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Obtains $2^n-1+\\dfrac12-\\dfrac12\\left(\\dfrac1{3^n}\\right)$, or equivalent merit"]]
-      meta_json: {"criteria_original": [[1, "$2^n-1+\\dfrac12-\\dfrac12\\left(\\dfrac1{3^n}\\right)$"], [1, "Correct answer"]], "marker_note": "Have to simplify to get the 2nd mark!", "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "Simplified final answer"}
+      meta_json: {"criteria_original": [[1, "$2^n-1+\\dfrac12-\\dfrac12\\left(\\dfrac1{3^n}\\right)$"], [1, "Correct answer"]], "final": "$S_n=2^n-\\dfrac12\\left(\\dfrac{1}{3^n}\\right)-\\dfrac12$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "marker_note": "Have to simplify to get the 2nd mark!", "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "Simplified final answer"}
     difficulty
       band: 4
       wm: UF
@@ -2218,7 +2218,7 @@ document
       source_document_id: 1365
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"marker_note": "Well done!", "top_criterion_original": "$73.9794$"}
+      meta_json: {"final": "73.9794 dB", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "marker_note": "Well done!", "top_criterion_original": "$73.9794$"}
     difficulty
       band: 2
       wm: UF
@@ -2287,7 +2287,7 @@ document
       source_document_id: 1365
       prompt_version: parse-v1
       criteria_json: [[3, "Correct answer"], [2, "Finds $I$, or equivalent merit"], [1, "Obtains $93.9794$, or equivalent merit"]]
-      meta_json: {"criteria_original": [[1, "$93.9794$"], [1, "Finding $I$"], [1, "Correct answer"]], "marker_note": "Many students may have thought $9900\\%$ was too high and lost the last mark for NOT writing $9900\\%$, and maybe that is why they left their answer as $99\\%$.", "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "$9900\\%$"}
+      meta_json: {"criteria_original": [[1, "$93.9794$"], [1, "Finding $I$"], [1, "Correct answer"]], "final": "9900%", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "marker_note": "Many students may have thought $9900\\%$ was too high and lost the last mark for NOT writing $9900\\%$, and maybe that is why they left their answer as $99\\%$.", "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "$9900\\%$"}
     difficulty
       band: 4
       wm: PR
@@ -2393,7 +2393,7 @@ document
       source_document_id: 1365
       prompt_version: parse-v1
       criteria_json: [[3, "Correct answer"], [2, "Tests the nature with $f'(x)$ or $f''(x)$ (must show numbers), or equivalent merit"], [1, "Factorises the derivative, or equivalent merit"]]
-      meta_json: {"criteria_original": [[1, "Factorised derivative"], [1, "Test with $f'(x)$ or $f''(x)$ (must show numbers)"], [1, "Correct answer"]], "marker_note": "Students can use either the first or the second derivative to test for the nature here. Overall, students did well. Must show numbers (calculation) when testing derivatives.", "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "Correct points and nature"}
+      meta_json: {"criteria_original": [[1, "Factorised derivative"], [1, "Test with $f'(x)$ or $f''(x)$ (must show numbers)"], [1, "Correct answer"]], "final": "Minimum at $(3,1)$, maximum at $(1,5)$.", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement", "marker_note": "Students can use either the first or the second derivative to test for the nature here. Overall, students did well. Must show numbers (calculation) when testing derivatives.", "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "Correct points and nature"}
     difficulty
       band: 3
       wm: UF
@@ -2463,7 +2463,7 @@ document
       source_document_id: 1365
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Solves $f''(x)=0$ to get $x=2$, or equivalent merit"]]
-      meta_json: {"criteria_original": [[1, "$f''(x)=6x-12=0$, $x=2$, P.O.I. is $(2,3)$"], [1, "Correct answer"]], "explained": true, "marker_note": "Students must test the second derivative for the concavity. When testing, the final value must be shown, i.e. $f''(3)>0$ is insufficient.", "owner_note_round3": true, "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "source_original": "$$\\begin{aligned} f''(x)=6x-12 &= 0 \\\\ x &= 2 \\end{aligned}$$\nP.O.I. is $(2,3)$.\n\nTesting:\n$$\\begin{aligned} f''(1) &= -6<0 &&\\text{concave down} \\\\ f''(3) &= 6>0 &&\\text{concave up} \\end{aligned}$$", "top_criterion_original": "Testing: $f''(1)=-6<0$ and $f''(3)=6>0$"}
+      meta_json: {"criteria_original": [[1, "$f''(x)=6x-12=0$, $x=2$, P.O.I. is $(2,3)$"], [1, "Correct answer"]], "explained": true, "final": "$(2,3)$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "marker_note": "Students must test the second derivative for the concavity. When testing, the final value must be shown, i.e. $f''(3)>0$ is insufficient.", "owner_note_round3": true, "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "source_original": "$$\\begin{aligned} f''(x)=6x-12 &= 0 \\\\ x &= 2 \\end{aligned}$$\nP.O.I. is $(2,3)$.\n\nTesting:\n$$\\begin{aligned} f''(1) &= -6<0 &&\\text{concave down} \\\\ f''(3) &= 6>0 &&\\text{concave up} \\end{aligned}$$", "top_criterion_original": "Testing: $f''(1)=-6<0$ and $f''(3)=6>0$"}
     difficulty
       band: 2
       wm: UF
@@ -2566,7 +2566,7 @@ document
     source_document_id: 1365
     prompt_version: parse-v1
     criteria_json: [[1, "Correct answer"]]
-    meta_json: {"explained": true, "marker_note": "Overall, students did well.", "owner_note_round3": true, "source_original": "Normal curve sketch with shaded area $p$ between $-N$ and $N$.\n$$\\therefore\\ P(z<N)=\\dfrac12+\\dfrac{p}{2}$$", "top_criterion_original": "Correct expression"}
+    meta_json: {"explained": true, "final": "$\\dfrac12+\\dfrac{p}{2}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "marker_note": "Overall, students did well.", "owner_note_round3": true, "source_original": "Normal curve sketch with shaded area $p$ between $-N$ and $N$.\n$$\\therefore\\ P(z<N)=\\dfrac12+\\dfrac{p}{2}$$", "top_criterion_original": "Correct expression"}
   figure 1365_q21_s1.png
     page: 16
     bbox: []
@@ -2681,7 +2681,7 @@ document
       source_document_id: 1365
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"marker_note": "Overall, students did well.", "top_criterion_original": "Period $\\pi$"}
+      meta_json: {"final": "Both curves have period $\\pi$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement", "marker_note": "Overall, students did well.", "top_criterion_original": "Period $\\pi$"}
     difficulty
       band: 2
       wm: UF
@@ -2748,7 +2748,7 @@ document
       source_document_id: 1365
       prompt_version: parse-v1
       criteria_json: [[null, "No explicit breakdown (2 marks)."]]
-      meta_json: {"marker_note": "A few students missed out $x=\\dfrac{3\\pi}{4}$ as a solution. Pay attention to the given graph and the domain as there are two points of intersection, which indicates two solutions. Some students converted $\\tan x$ into $\\sin x$ and $\\cos x$; be careful when introducing a new denominator. When given $\\tan^2x$ and $\\sec^2x$, students need to recognise the use of the identities."}
+      meta_json: {"final": "$x=\\dfrac{3\\pi}{4}$ or $\\dfrac{5\\pi}{4}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "marker_note": "A few students missed out $x=\\dfrac{3\\pi}{4}$ as a solution. Pay attention to the given graph and the domain as there are two points of intersection, which indicates two solutions. Some students converted $\\tan x$ into $\\sin x$ and $\\cos x$; be careful when introducing a new denominator. When given $\\tan^2x$ and $\\sec^2x$, students need to recognise the use of the identities."}
     difficulty
       band: 3
       wm: PR
@@ -2784,7 +2784,7 @@ document
     source_document_id: 1365
     prompt_version: parse-v1
     criteria_json: [[2, "Correct answer"], [1, "Writes a correct trapezoidal rule expression, or equivalent merit"]]
-    meta_json: {"criteria_original": [[1, "Correct trapezoidal expression"], [1, "Correct answer"]], "marker_note": "Overall, students did well. Common mistake is using 5 subintervals instead of 4.", "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "$3.98$"}
+    meta_json: {"criteria_original": [[1, "Correct trapezoidal expression"], [1, "Correct answer"]], "final": "$3.98$ (2 d.p.)", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "marker_note": "Overall, students did well. Common mistake is using 5 subintervals instead of 4.", "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "$3.98$"}
   part -  id 131
     ordinal: 1
     latex: By using the trapezoidal rule with 4 subintervals, estimate the area under the curve for: $$\int_0^4 \ln(x+1)\,dx.$$
@@ -2852,7 +2852,7 @@ document
     source_document_id: 1365
     prompt_version: parse-v1
     criteria_json: [[3, "Correct answer"], [2, "Finds the gradient of the normal, or equivalent merit"], [1, "Finds $f'(1)$, or equivalent merit"]]
-    meta_json: {"corrected": "Corrected from source: one line ended $+(e+1)^2$ instead of $+(e+1)^3$.", "criteria_original": [[1, "$f'(1)$"], [1, "Gradient of normal"], [1, "Correct answer"]], "marker_note": "GENERAL FORM! A few lost one mark due to leaving their expression with fractional coefficients.", "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "source_original": {"criteria": [[1, "$f'(1)$"], [1, "Gradient of normal"], [1, "Correct answer"]], "latex": "$$\\begin{aligned} f'(x) &= \\dfrac{(e^x+1)-e^xx}{(e^x+1)^2} \\\\ &= \\dfrac{e^x(1-x)+1}{(e^x+1)^2} \\end{aligned}$$\n$$\\therefore\\ f'(1)=\\dfrac{1}{(e+1)^2}$$\n$$m_{\\text{normal}}=-(e+1)^2$$\n$$f(1)=\\dfrac{1}{e+1}$$\n$$\\begin{aligned} y-\\dfrac{1}{e+1} &= -(e+1)^2(x-1) \\\\ (e+1)y-1 &= -(e+1)^3x+(e+1)^2 \\\\ (e+1)^3x+(e+1)y-(1+(e+1)^3) &= 0 \\end{aligned}$$\nAlternatively, using $y=mx+c$:\n$$\\begin{aligned} \\dfrac{1}{e+1} &= -(e+1)^2(1)+c \\\\ c &= \\dfrac{1}{e+1}+(e+1)^2 \\end{aligned}$$\n$$\\therefore\\ y=-(e+1)^2x+\\dfrac{1}{e+1}+(e+1)^2$$\n$$\\therefore\\ (e+1)^3x+(e+1)y-1-(e+1)^3=0$$"}, "top_criterion_original": "General form"}
+    meta_json: {"corrected": "Corrected from source: one line ended $+(e+1)^2$ instead of $+(e+1)^3$.", "criteria_original": [[1, "$f'(1)$"], [1, "Gradient of normal"], [1, "Correct answer"]], "final": "$(e+1)^3x+(e+1)y-1-(e+1)^3=0$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "marker_note": "GENERAL FORM! A few lost one mark due to leaving their expression with fractional coefficients.", "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "source_original": {"criteria": [[1, "$f'(1)$"], [1, "Gradient of normal"], [1, "Correct answer"]], "latex": "$$\\begin{aligned} f'(x) &= \\dfrac{(e^x+1)-e^xx}{(e^x+1)^2} \\\\ &= \\dfrac{e^x(1-x)+1}{(e^x+1)^2} \\end{aligned}$$\n$$\\therefore\\ f'(1)=\\dfrac{1}{(e+1)^2}$$\n$$m_{\\text{normal}}=-(e+1)^2$$\n$$f(1)=\\dfrac{1}{e+1}$$\n$$\\begin{aligned} y-\\dfrac{1}{e+1} &= -(e+1)^2(x-1) \\\\ (e+1)y-1 &= -(e+1)^3x+(e+1)^2 \\\\ (e+1)^3x+(e+1)y-(1+(e+1)^3) &= 0 \\end{aligned}$$\nAlternatively, using $y=mx+c$:\n$$\\begin{aligned} \\dfrac{1}{e+1} &= -(e+1)^2(1)+c \\\\ c &= \\dfrac{1}{e+1}+(e+1)^2 \\end{aligned}$$\n$$\\therefore\\ y=-(e+1)^2x+\\dfrac{1}{e+1}+(e+1)^2$$\n$$\\therefore\\ (e+1)^3x+(e+1)y-1-(e+1)^3=0$$"}, "top_criterion_original": "General form"}
   part -  id 132
     ordinal: 1
     latex: Let the equation of a curve be $f(x)=\dfrac{x}{e^x+1}$. Find the equation of the normal to the curve at the point where $x=1$ in general form.
@@ -2965,7 +2965,7 @@ document
       source_document_id: 1365
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"marker_note": "Overall, this question was done well.", "top_criterion_original": "$\\dfrac23$ km"}
+      meta_json: {"final": "$\\dfrac23$ km", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "marker_note": "Overall, this question was done well.", "top_criterion_original": "$\\dfrac23$ km"}
     difficulty
       band: 2
       wm: UF
@@ -3031,7 +3031,7 @@ document
       source_document_id: 1365
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Obtains $\\dfrac83$ radians, or equivalent merit"]]
-      meta_json: {"criteria_original": [[1, "$\\dfrac83$ radians"], [1, "Correct answer"]], "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "$153^\\circ$"}
+      meta_json: {"criteria_original": [[1, "$\\dfrac83$ radians"], [1, "Correct answer"]], "final": "$153^\\circ$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "$153^\\circ$"}
     difficulty
       band: 3
       wm: UF
@@ -3065,7 +3065,7 @@ document
     source_document_id: 1365
     prompt_version: parse-v1
     criteria_json: [[3, "Correct answer"], [2, "Uses a relevant trigonometric identity, or equivalent merit"], [1, "Differentiates correctly, or equivalent merit"]]
-    meta_json: {"criteria_original": [[1, "Differentiation"], [1, "Using any trig identities"], [1, "Correct answer"]], "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "Simplifying the final answer"}
+    meta_json: {"criteria_original": [[1, "Differentiation"], [1, "Using any trig identities"], [1, "Correct answer"]], "final": "$\\dfrac{2}{\\sin x\\cos x}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "Simplifying the final answer"}
   part -  id 135
     ordinal: 1
     latex: Differentiate $f(x)=\ln(\tan^2 x)$ and simplify your answers in terms of $\sin x$ and $\cos x$.
@@ -3256,7 +3256,7 @@ document
       source_document_id: 1365
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Forms $\\displaystyle \\int_0^k e^{-\\frac12x}\\,dx=1$, or equivalent merit"]]
-      meta_json: {"criteria_original": [[1, "$\\displaystyle \\int_0^k e^{-\\frac12x}\\,dx=1$"], [1, "Correct answer"]], "marker_note": "Students did well.", "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "$k=\\ln4$"}
+      meta_json: {"criteria_original": [[1, "$\\displaystyle \\int_0^k e^{-\\frac12x}\\,dx=1$"], [1, "Correct answer"]], "final": "$k=2\\ln2$ or $k=\\ln4$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "marker_note": "Students did well.", "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "$k=\\ln4$"}
     difficulty
       band: 3
       wm: UF
@@ -3338,7 +3338,7 @@ document
       source_document_id: 1365
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Obtains $2\\left(1-e^{-\\frac12x}\\right)$, or equivalent merit"]]
-      meta_json: {"corrected": "Corrected from source: the middle piece of $F(x)$ had a wrong minus sign, and a spurious limit stood in front of the integral.", "criteria_original": [[1, "$2\\left(1-e^{-\\frac12x}\\right)$"], [1, "Correct answer"]], "marker_note": "Students did well.", "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "source_original": {"criteria": [[1, "$2\\left(1-e^{-\\frac12x}\\right)$"], [1, "Correct answer"]], "latex": "$$\\begin{aligned} \\displaystyle\\lim_{x\\to\\infty}\\int_0^x e^{-\\frac12x}\\,dx &= -2\\left(e^{-\\frac12x}-1\\right) \\text{ or } 2\\left(1-e^{-\\frac12x}\\right) \\\\ &= -2e^{-\\frac12x}+2 \\\\ &= 2-2e^{-\\frac12x} \\end{aligned}$$\n$$\\therefore\\ F(x)=\\begin{cases}0, & x<0\\\\ -2\\left(1-e^{-\\frac12x}\\right), & 0\\le x\\le\\ln4\\\\ 1, & x\\ge\\ln4\\end{cases}$$"}, "top_criterion_original": "Full piecewise CDF"}
+      meta_json: {"corrected": "Corrected from source: the middle piece of $F(x)$ had a wrong minus sign, and a spurious limit stood in front of the integral.", "criteria_original": [[1, "$2\\left(1-e^{-\\frac12x}\\right)$"], [1, "Correct answer"]], "final": "$F(x)=\\begin{cases}0, & x<0\\\\ 2\\left(1-e^{-\\frac12x}\\right), & 0\\le x\\le\\ln4\\\\ 1, & x\\ge\\ln4\\end{cases}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "marker_note": "Students did well.", "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "source_original": {"criteria": [[1, "$2\\left(1-e^{-\\frac12x}\\right)$"], [1, "Correct answer"]], "latex": "$$\\begin{aligned} \\displaystyle\\lim_{x\\to\\infty}\\int_0^x e^{-\\frac12x}\\,dx &= -2\\left(e^{-\\frac12x}-1\\right) \\text{ or } 2\\left(1-e^{-\\frac12x}\\right) \\\\ &= -2e^{-\\frac12x}+2 \\\\ &= 2-2e^{-\\frac12x} \\end{aligned}$$\n$$\\therefore\\ F(x)=\\begin{cases}0, & x<0\\\\ -2\\left(1-e^{-\\frac12x}\\right), & 0\\le x\\le\\ln4\\\\ 1, & x\\ge\\ln4\\end{cases}$$"}, "top_criterion_original": "Full piecewise CDF"}
     difficulty
       band: 3
       wm: UF
@@ -3411,7 +3411,7 @@ document
       source_document_id: 1365
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"corrected": "Corrected from source: the sign error from part (b) was carried into this line.", "source_original": {"criteria": [[1, "Correct answer"]], "latex": "$F(x)=0.5$:\n$$\\begin{aligned} -2\\left(1-e^{-\\frac{x}{2}}\\right) &= \\dfrac12 \\\\ \\dfrac34 &= e^{-\\frac{x}{2}} \\end{aligned}$$\n$$\\therefore\\ x=2\\ln\\dfrac43$$"}, "top_criterion_original": "$2\\ln\\dfrac43$"}
+      meta_json: {"corrected": "Corrected from source: the sign error from part (b) was carried into this line.", "final": "$2\\ln\\dfrac43$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "source_original": {"criteria": [[1, "Correct answer"]], "latex": "$F(x)=0.5$:\n$$\\begin{aligned} -2\\left(1-e^{-\\frac{x}{2}}\\right) &= \\dfrac12 \\\\ \\dfrac34 &= e^{-\\frac{x}{2}} \\end{aligned}$$\n$$\\therefore\\ x=2\\ln\\dfrac43$$"}, "top_criterion_original": "$2\\ln\\dfrac43$"}
     difficulty
       band: 3
       wm: UF
@@ -3463,7 +3463,7 @@ document
       source_document_id: 1365
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"top_criterion_original": "Interpretation. Answers may vary; however, students need to mention the keyword 'median', not 'average', and show their understanding of cumulative probability distribution"}
+      meta_json: {"final": "It will take no more than 0.575 seconds for 50% of the students to get their cards registered by the school scanner.", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement", "top_criterion_original": "Interpretation. Answers may vary; however, students need to mention the keyword 'median', not 'average', and show their understanding of cumulative probability distribution"}
     difficulty
       band: 2
       wm: PR
@@ -3561,7 +3561,7 @@ document
       source_document_id: 1365
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Shows $P(x<c)=0.4$ or $40\\%$, or equivalent merit"]]
-      meta_json: {"criteria_original": [[1, "Showing $P(x<c)=0.4$ or $40\\%$"], [1, "Correct answer"]], "marker_note": "Overall, students did well.", "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "Final answer"}
+      meta_json: {"criteria_original": [[1, "Showing $P(x<c)=0.4$ or $40\\%$"], [1, "Correct answer"]], "final": "$c\\approx 0.446$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "marker_note": "Overall, students did well.", "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "Final answer"}
     difficulty
       band: 4
       wm: PR
@@ -3593,7 +3593,7 @@ document
     source_document_id: 1365
     prompt_version: parse-v1
     criteria_json: [[2, "Correct answer"], [1, "Writes a correct integral, or equivalent merit"]]
-    meta_json: {"criteria_original": [[1, "Integral"], [1, "Correct answer"]], "marker_note": "Students need to work on their algebra! Lots of students used the substitution method, which is not part of the Advanced course.", "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "Substitution and final solution"}
+    meta_json: {"criteria_original": [[1, "Integral"], [1, "Correct answer"]], "final": "$-\\dfrac43$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "marker_note": "Students need to work on their algebra! Lots of students used the substitution method, which is not part of the Advanced course.", "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "Substitution and final solution"}
   part -  id 141
     ordinal: 1
     latex: Evaluate $\displaystyle\int_{-1}^{1}\dfrac{-6x^2}{(x^3+2)^2}\,dx$ .
@@ -3674,7 +3674,7 @@ document
     source_document_id: 1365
     prompt_version: parse-v1
     criteria_json: [[3, "Correct answer"], [2, "Obtains $n=25$, or equivalent merit"], [1, "Forms the $S_n$ equation, or equivalent merit"]]
-    meta_json: {"criteria_original": [[1, "$S_n$ equation"], [1, "$n=25$"], [1, "Correct answer"]], "marker_note": "Question done well. A few students forgot to work out $x$.", "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "$x=73$"}
+    meta_json: {"criteria_original": [[1, "$S_n$ equation"], [1, "$n=25$"], [1, "Correct answer"]], "final": "$x=73$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "marker_note": "Question done well. A few students forgot to work out $x$.", "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "$x=73$"}
   part -  id 142
     ordinal: 1
     latex: Solve the equation $1+4+7+\cdots+x=925$ .
@@ -3873,7 +3873,7 @@ document
       source_document_id: 1365
       prompt_version: parse-v1
       criteria_json: [[4, "Correct answer"], [3, "Obtains $h=\\dfrac{H}{3}$, or equivalent merit"], [2, "Finds $\\dfrac{dV}{dh}$, or equivalent merit"], [1, "Finds $V$ in terms of $h$, or equivalent merit"]]
-      meta_json: {"criteria_original": [[1, "$V$ in terms of $h$"], [1, "$\\dfrac{dV}{dh}$"], [1, "$h=\\dfrac{H}{3}$"], [1, "Correct answer"]], "marker_note": "It is easier to differentiate when expanded.", "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "Testing for maximum (if using a $\\dfrac{dV}{dh}$ table, students cannot use just $+/-$; students need to write some value in terms of $R$ and $H$)"}
+      meta_json: {"criteria_original": [[1, "$V$ in terms of $h$"], [1, "$\\dfrac{dV}{dh}$"], [1, "$h=\\dfrac{H}{3}$"], [1, "Correct answer"]], "final": "$h=\\dfrac{H}{3}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "marker_note": "It is easier to differentiate when expanded.", "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "Testing for maximum (if using a $\\dfrac{dV}{dh}$ table, students cannot use just $+/-$; students need to write some value in terms of $R$ and $H$)"}
     difficulty
       band: 4
       wm: PR
@@ -4109,7 +4109,7 @@ document
       source_document_id: 1365
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"top_criterion_original": "$513$ mm"}
+      meta_json: {"final": "513 mm", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "top_criterion_original": "$513$ mm"}
     difficulty
       band: 3
       wm: UF
@@ -4248,7 +4248,7 @@ document
       source_document_id: 1365
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"top_criterion_original": "$5670$ mm"}
+      meta_json: {"final": "5670 mm", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "top_criterion_original": "$5670$ mm"}
     difficulty
       band: 3
       wm: UF
@@ -4532,7 +4532,7 @@ document
       source_document_id: 1365
       prompt_version: parse-v1
       criteria_json: [[3, "Correct answer"], [2, "Finds the correct primitive, or equivalent merit"], [1, "Writes a correct integral expression, or equivalent merit"]]
-      meta_json: {"criteria_original": [[1, "Integral expression"], [1, "Correct primitive"], [1, "Correct answer"]], "marker_note": "Make sure the correct area is calculated.", "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "$\\dfrac94$"}
+      meta_json: {"criteria_original": [[1, "Integral expression"], [1, "Correct primitive"], [1, "Correct answer"]], "final": "$\\frac{9}{4}$ units$^2$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "marker_note": "Make sure the correct area is calculated.", "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "$\\dfrac94$"}
     difficulty
       band: 4
       wm: PR
@@ -4608,7 +4608,7 @@ document
       source_document_id: 1365
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"top_criterion_original": "$14.43$ hrs"}
+      meta_json: {"final": "14.43 hrs", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "top_criterion_original": "$14.43$ hrs"}
     difficulty
       band: 2
       wm: UF
@@ -4681,7 +4681,7 @@ document
       source_document_id: 1365
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Obtains $\\sin(\\ldots)=1$, or equivalent merit"]]
-      meta_json: {"criteria_original": [[1, "$\\sin(\\ldots)=1$"], [1, "Correct answer"]], "marker_note": "Students were able to get the first mark but calculated $t$ incorrectly.", "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "December"}
+      meta_json: {"criteria_original": [[1, "$\\sin(\\ldots)=1$"], [1, "Correct answer"]], "final": "The longest day is in December.", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement", "marker_note": "Students were able to get the first mark but calculated $t$ incorrectly.", "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "December"}
     difficulty
       band: 3
       wm: PR
@@ -4749,7 +4749,7 @@ document
       source_document_id: 1365
       prompt_version: parse-v1
       criteria_json: [[3, "Correct answer"], [2, "Finds the values of $t$, or equivalent merit"], [1, "Obtains $\\sin(\\ldots)=0.3616$, or equivalent merit"]]
-      meta_json: {"corrected": "Corrected from source: $t=10.1474$ was called 4th Oct but the answer used 5th Oct.", "criteria_original": [[1, "$\\sin(\\ldots)=0.3616$"], [1, "Values of $t$"], [1, "Correct answer"]], "marker_note": "Many students did the wrong time period.", "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "source_original": {"criteria": [[1, "$\\sin(\\ldots)=0.3616$"], [1, "Values of $t$"], [1, "Correct answer"]], "latex": "$$\\begin{aligned} 13 &= 2.24\\sin\\left(\\dfrac{\\pi t}{6}+1.34\\right)+12.19 \\\\ \\sin\\left(\\dfrac{\\pi t}{6}+1.34\\right) &= 0.3616\\ldots \\\\ \\dfrac{\\pi t}{6}+1.34 &= 2.77160\\ldots,\\ 6.6531\\ldots \\\\ t &= 2.734\\ldots,\\ 10.1474\\ldots \\end{aligned}$$\nThese are $20^{\\text{th}}$ Feb and $4^{\\text{th}}$ Oct.\n\n$\\therefore$ Between $5^{\\text{th}}$ Oct until $20^{\\text{th}}$ Feb."}, "top_criterion_original": "Dates"}
+      meta_json: {"corrected": "Corrected from source: $t=10.1474$ was called 4th Oct but the answer used 5th Oct.", "criteria_original": [[1, "$\\sin(\\ldots)=0.3616$"], [1, "Values of $t$"], [1, "Correct answer"]], "final": "Between 5th Oct until 20th Feb.", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement", "marker_note": "Many students did the wrong time period.", "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "source_original": {"criteria": [[1, "$\\sin(\\ldots)=0.3616$"], [1, "Values of $t$"], [1, "Correct answer"]], "latex": "$$\\begin{aligned} 13 &= 2.24\\sin\\left(\\dfrac{\\pi t}{6}+1.34\\right)+12.19 \\\\ \\sin\\left(\\dfrac{\\pi t}{6}+1.34\\right) &= 0.3616\\ldots \\\\ \\dfrac{\\pi t}{6}+1.34 &= 2.77160\\ldots,\\ 6.6531\\ldots \\\\ t &= 2.734\\ldots,\\ 10.1474\\ldots \\end{aligned}$$\nThese are $20^{\\text{th}}$ Feb and $4^{\\text{th}}$ Oct.\n\n$\\therefore$ Between $5^{\\text{th}}$ Oct until $20^{\\text{th}}$ Feb."}, "top_criterion_original": "Dates"}
     difficulty
       band: 4
       wm: PR

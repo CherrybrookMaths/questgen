@@ -1031,7 +1031,7 @@ document
     source_document_id: 1308
     prompt_version: parse-v1
     criteria_json: [[2, "Correct answer"], [1, "Substantial progress, e.g. writes correct equation but does not expand"]]
-    meta_json: {"top_criterion_original": "Writes correct equation in expanded form"}
+    meta_json: {"final": "$x^2+4x+y^2-4y+4=0$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "top_criterion_original": "Writes correct equation in expanded form"}
   part -  id 11
     ordinal: 1
     latex: Find in fully expanded form the equation of a circle that touches both the $x$ axis and the $y$ axis, has centre in the second quadrant and has radius 2 units.
@@ -1104,7 +1104,7 @@ document
     source_document_id: 1308
     prompt_version: parse-v1
     criteria_json: [[2, "Correct answer"], [1, "Substantial progress, e.g. uses the appropriate formula but substitutes one incorrect value"]]
-    meta_json: {"top_criterion_original": "Uses the formula on the reference sheet to show 3 exceeds the lower fence for outliers"}
+    meta_json: {"final": "3 is not an outlier", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement", "top_criterion_original": "Uses the formula on the reference sheet to show 3 exceeds the lower fence for outliers"}
   part -  id 12
     ordinal: 1
     latex: |
@@ -1263,7 +1263,7 @@ document
     source_document_id: 1308
     prompt_version: parse-v1
     criteria_json: [[2, "Correct answer"], [1, "Substantial progress, e.g. deduces $y=x^2$ or uses log law for products correctly"]]
-    meta_json: {"top_criterion_original": "Uses log and index laws correctly to show $x=2$ and $y=4$"}
+    meta_json: {"final": "$x=2,\\ y=4$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "top_criterion_original": "Uses log and index laws correctly to show $x=2$ and $y=4$"}
   part -  id 14
     ordinal: 1
     latex: Solve the pair of simultaneous equations $\log_2 x+\log_2 y=3$ and $\log_x y=2$.
@@ -1351,7 +1351,7 @@ document
     source_document_id: 1308
     prompt_version: parse-v1
     criteria_json: [[2, "Correct answer"], [1, "Substantial progress, e.g. finds one solution"]]
-    meta_json: {"top_criterion_original": "Finds both solutions for $x$"}
+    meta_json: {"final": "$x=\\dfrac{\\pi}{3},\\ \\dfrac{2\\pi}{3}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "top_criterion_original": "Finds both solutions for $x$"}
   part -  id 15
     ordinal: 1
     latex: Solve the equation $\tan^2 x-3=0$ for $0\le x\le \pi$.
@@ -1545,7 +1545,7 @@ document
       source_document_id: 1308
       prompt_version: parse-v1
       criteria_json: [[3, "Correct answer"], [2, "Substantial progress, e.g. correct process, but makes an error in one of the calculations"], [1, "Some progress, e.g. finds the length of $AC$"]]
-      meta_json: {"top_criterion_original": "Uses cosine / sine rules to find $AC$ and a second angle giving the required bearing"}
+      meta_json: {"final": "$108^\\circ$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "top_criterion_original": "Uses cosine / sine rules to find $AC$ and a second angle giving the required bearing"}
     difficulty
       band: 4
       wm: PR
@@ -1584,7 +1584,7 @@ document
     source_document_id: 1308
     prompt_version: parse-v1
     criteria_json: [[2, "Correct answer"], [1, "Substantial progress, e.g. writes the equation of one asymptote"]]
-    meta_json: {"top_criterion_original": "Writes the equations of both asymptotes"}
+    meta_json: {"final": "$x=\\dfrac{\\pi}{4}$ and $x=\\dfrac{5\\pi}{4}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "top_criterion_original": "Writes the equations of both asymptotes"}
   part -  id 18
     ordinal: 1
     latex: Find the equations of the vertical asymptotes on the curve $y=\tan\left(x+\dfrac{\pi}{4}\right)$ for $0\le x\le 2\pi$.
@@ -1653,7 +1653,7 @@ document
     source_document_id: 1308
     prompt_version: parse-v1
     criteria_json: [[2, "Correct answer"], [1, "Substantial progress, e.g. finds the first term"]]
-    meta_json: {"top_criterion_original": "Finds value of first two terms and hence the common difference"}
+    meta_json: {"final": "first term $6$, common difference $4$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "top_criterion_original": "Finds value of first two terms and hence the common difference"}
   part -  id 19
     ordinal: 1
     latex: |
@@ -1726,7 +1726,7 @@ document
     source_document_id: 1308
     prompt_version: parse-v1
     criteria_json: [[3, "Correct answer"], [2, "Substantial progress, e.g. correct procedure but only considers 2 of the 3 pathways for A to win"], [1, "Some progress, e.g. finds the probability A wins both the first 2 sets"]]
-    meta_json: {"top_criterion_original": "Uses multiplication and addition principles to calculate the probability"}
+    meta_json: {"final": "$\\dfrac{20}{27}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "top_criterion_original": "Uses multiplication and addition principles to calculate the probability"}
   part -  id 20
     ordinal: 1
     latex: In any set of tennis between two players A and B, the probability that player A wins the set is $\dfrac{2}{3}$ and the probability that player B wins the set is $\dfrac{1}{3}$. If they continue to play sets of tennis until one of them is the first to win two sets, find the probability that it is player A who is the first to win two sets.
@@ -1792,7 +1792,7 @@ document
     source_document_id: 1308
     prompt_version: parse-v1
     criteria_json: [[3, "Correct answer"], [2, "Substantial progress, e.g. finds the gradient of the tangent correctly"], [1, "Some progress, e.g. differentiates correctly"]]
-    meta_json: {"top_criterion_original": "Uses differentiation to find the gradient of the tangent and hence its equation"}
+    meta_json: {"final": "$y=2x+8$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "top_criterion_original": "Uses differentiation to find the gradient of the tangent and hence its equation"}
   part -  id 21
     ordinal: 1
     latex: Find the equation of the tangent to the curve $y=8\sqrt{x}$ at the point on the curve where $x=4$.
@@ -1935,7 +1935,7 @@ document
       source_document_id: 1308
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Substantial progress, e.g. finds both age limits as $z$ scores"]]
-      meta_json: {"top_criterion_original": "Uses $z$ scores and the empirical rules to estimate the required probability and expected number"}
+      meta_json: {"final": "$14\\,800$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "top_criterion_original": "Uses $z$ scores and the empirical rules to estimate the required probability and expected number"}
     difficulty
       band: 3
       wm: UF
@@ -2027,7 +2027,7 @@ document
       source_document_id: 1308
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Substantial progress, e.g. expresses the required probability as a conditional probability"]]
-      meta_json: {"top_criterion_original": "Expresses the conditional probability in terms of $z$ scores and uses the empirical rules"}
+      meta_json: {"final": "$\\approx 0.156$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "top_criterion_original": "Expresses the conditional probability in terms of $z$ scores and uses the empirical rules"}
     difficulty
       band: 4
       wm: PR
@@ -2068,7 +2068,7 @@ document
     source_document_id: 1308
     prompt_version: parse-v1
     criteria_json: [[3, "Correct answer"], [2, "Substantial progress, e.g. finds both anti-derivatives but not the constant"], [1, "Some progress, e.g. finds one of the two anti-derivatives"]]
-    meta_json: {"top_criterion_original": "Finds the anti-derivative of both functions and evaluates the constant"}
+    meta_json: {"final": "$y=\\dfrac{1}{2}e^{2x}+\\ln(x+1)+\\dfrac{1}{2}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "top_criterion_original": "Finds the anti-derivative of both functions and evaluates the constant"}
   part -  id 24
     ordinal: 1
     latex: Find the equation of the curve through the point $(0,1)$ with gradient function $\dfrac{dy}{dx}=e^{2x}+\dfrac{1}{x+1}$
@@ -2170,7 +2170,7 @@ document
     source_document_id: 1308
     prompt_version: parse-v1
     criteria_json: [[3, "Correct answer"], [2, "Substantial progress, e.g. correct procedure but with one error, or result not exact and simplified"], [1, "Some progress, e.g. at least 2 exact function values found"]]
-    meta_json: {"corrected": "Corrected from source: integrand was missing the $x$ after $\\cos$.", "explained": "Working explained: how h is found, which x values, the trapezoidal formula (owner request, 11 Nov).", "source_original": {"criteria": [[3, "Correct answer"], [2, "Substantial progress, e.g. correct procedure but with one error, or result not exact and simplified"], [1, "Some progress, e.g. at least 2 exact function values found"]], "latex": "$h=\\dfrac{\\pi}{6}$, $f(x)=\\dfrac{1+\\cos x}{\\sin x}$\n\n\\extable{Ts25_1}\n$$\\begin{aligned}\\int_{\\frac{\\pi}{6}}^{\\frac{\\pi}{2}}\\dfrac{1+\\cos}{\\sin x}\\,dx&\\approx\\dfrac{\\pi}{12}\\left\\{(2+\\sqrt{3})+2\\sqrt{3}+1\\right\\}\\\\ &=\\dfrac{\\pi}{4}(1+\\sqrt{3})\\end{aligned}$$"}, "top_criterion_original": "Substitutes $h$ and the 3 exact function values into the formula then gives simplest exact result"}
+    meta_json: {"corrected": "Corrected from source: integrand was missing the $x$ after $\\cos$.", "explained": "Working explained: how h is found, which x values, the trapezoidal formula (owner request, 11 Nov).", "final": "$\\dfrac{\\pi}{4}(1+\\sqrt{3})$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "source_original": {"criteria": [[3, "Correct answer"], [2, "Substantial progress, e.g. correct procedure but with one error, or result not exact and simplified"], [1, "Some progress, e.g. at least 2 exact function values found"]], "latex": "$h=\\dfrac{\\pi}{6}$, $f(x)=\\dfrac{1+\\cos x}{\\sin x}$\n\n\\extable{Ts25_1}\n$$\\begin{aligned}\\int_{\\frac{\\pi}{6}}^{\\frac{\\pi}{2}}\\dfrac{1+\\cos}{\\sin x}\\,dx&\\approx\\dfrac{\\pi}{12}\\left\\{(2+\\sqrt{3})+2\\sqrt{3}+1\\right\\}\\\\ &=\\dfrac{\\pi}{4}(1+\\sqrt{3})\\end{aligned}$$"}, "top_criterion_original": "Substitutes $h$ and the 3 exact function values into the formula then gives simplest exact result"}
     data_table Ts25_1
       header_rows: 0
       label_col: 1
@@ -2380,7 +2380,7 @@ document
       source_document_id: 1308
       prompt_version: parse-v1
       criteria_json: [[3, "Correct answer"], [2, "Substantial progress, e.g. correct except for failure to verify stationary value of $L$ is a minimum"], [1, "Some progress, e.g. correct differentiation of $L$ with respect to $r$"]]
-      meta_json: {"top_criterion_original": "Uses differentiation to find $r$ for stationary $L$, verifies a min. value then calculates this value"}
+      meta_json: {"final": "200 m", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "top_criterion_original": "Uses differentiation to find $r$ for stationary $L$, verifies a min. value then calculates this value"}
     difficulty
       band: 3
       wm: UF
@@ -2452,7 +2452,7 @@ document
       source_document_id: 1308
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Substantial progress, e.g. value of $r$ correct"]]
-      meta_json: {"top_criterion_original": "Calculates the correlation coefficient and finds the required regression line"}
+      meta_json: {"final": "$r=0.5$; $y=8+0.4x$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "top_criterion_original": "Calculates the correlation coefficient and finds the required regression line"}
     difficulty
       band: 3
       wm: UF
@@ -2496,7 +2496,7 @@ document
       source_document_id: 1308
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"top_criterion_original": "Obtains result consistent with substitution in regression line quoted in (a)"}
+      meta_json: {"final": "18", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "top_criterion_original": "Obtains result consistent with substitution in regression line quoted in (a)"}
     difficulty
       band: 2
       wm: UF
@@ -2652,7 +2652,7 @@ document
       source_document_id: 1308
       prompt_version: parse-v1
       criteria_json: [[4, "Correct answer"], [3, "Substantial progress, e.g. obtains the required equation for $k$ by integration"], [2, "Moderate progress, e.g. evaluates the definite integral in terms of $k$"], [1, "Some progress, e.g. writes appropriate definite integral equal to 1, or solves the given quadratic"]]
-      meta_json: {"top_criterion_original": "Writes and evaluates an appropriate definite integral to deduce and solve given quadratic for $k$"}
+      meta_json: {"final": "$k=3$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "top_criterion_original": "Writes and evaluates an appropriate definite integral to deduce and solve given quadratic for $k$"}
     difficulty
       band: 3
       wm: UF
@@ -2715,7 +2715,7 @@ document
       source_document_id: 1308
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"top_criterion_original": "Finds the mode of $X$"}
+      meta_json: {"final": "$\\tfrac{3}{2}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "top_criterion_original": "Finds the mode of $X$"}
     difficulty
       band: 2
       wm: UF
@@ -2916,7 +2916,7 @@ document
       source_document_id: 1308
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"top_criterion_original": "Deduces that the second derivative is always negative so that the curve is concave down"}
+      meta_json: {"final": "The curve is always concave down for $0\\le x\\le\\pi$.", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement", "top_criterion_original": "Deduces that the second derivative is always negative so that the curve is concave down"}
     difficulty
       band: 2
       wm: PR
@@ -3042,7 +3042,7 @@ document
       source_document_id: 1308
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"top_criterion_original": "Calculates total interest"}
+      meta_json: {"final": "$9042.88", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "top_criterion_original": "Calculates total interest"}
     difficulty
       band: 2
       wm: UF
@@ -3089,7 +3089,7 @@ document
       source_document_id: 1308
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Substantial progress, e.g. correct procedure but one error in calculation"]]
-      meta_json: {"top_criterion_original": "Calculates annual flat rate to required accuracy"}
+      meta_json: {"final": "4.52%", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "top_criterion_original": "Calculates annual flat rate to required accuracy"}
     difficulty
       band: 3
       wm: UF
@@ -3169,7 +3169,7 @@ document
       source_document_id: 1308
       prompt_version: parse-v1
       criteria_json: [[3, "Correct answer"], [2, "Substantial progress, e.g. establishes coordinates but not nature of the stationary point"], [1, "Some progress, e.g. finds the first derivative"]]
-      meta_json: {"top_criterion_original": "Uses differentiation to find the coordinates and nature of the single stationary point"}
+      meta_json: {"final": "$(a,\\ 1+\\ln a)$ is a minimum turning point", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement", "top_criterion_original": "Uses differentiation to find the coordinates and nature of the single stationary point"}
     difficulty
       band: 4
       wm: UF
@@ -3242,7 +3242,7 @@ document
       source_document_id: 1308
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"top_criterion_original": "Finds the required inequality for $a$"}
+      meta_json: {"final": "$a\\ge e^{-1}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "top_criterion_original": "Finds the required inequality for $a$"}
     difficulty
       band: 4
       wm: PR
@@ -3319,7 +3319,7 @@ document
       source_document_id: 1308
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Substantial progress, e.g. writes $P_1$ and $P_2$ in terms of $P_0$"]]
-      meta_json: {"top_criterion_original": "Writes the 3 required expressions"}
+      meta_json: {"final": "$P_1=P_0(1.05)-1500$; $P_2=P_0(1.05)^2-1500\\{1+1.05\\}$; $P_3=P_0(1.05)^3-1500\\{1+1.05+(1.05)^2\\}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "top_criterion_original": "Writes the 3 required expressions"}
     difficulty
       band: 3
       wm: UF
@@ -3456,7 +3456,7 @@ document
       source_document_id: 1308
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Substantial progress, e.g. writes an inequality for $n$"]]
-      meta_json: {"top_criterion_original": "Calculates the required number of years"}
+      meta_json: {"final": "Full prize awarded for 22 years", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement", "top_criterion_original": "Calculates the required number of years"}
     difficulty
       band: 4
       wm: UF
@@ -3842,7 +3842,7 @@ document
       source_document_id: 1308
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Substantial progress, e.g. finds time when particle at rest"]]
-      meta_json: {"top_criterion_original": "Finds time and position when particle at rest"}
+      meta_json: {"final": "At rest $(1+\\ln 2)$ m to the right of $O$ at time $\\ln 2$ seconds", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement", "top_criterion_original": "Finds time and position when particle at rest"}
     difficulty
       band: 3
       wm: UF
@@ -3927,7 +3927,7 @@ document
       source_document_id: 1308
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Substantial progress, e.g. finds simplified expression for $x$ when $t=\\ln 8$"]]
-      meta_json: {"top_criterion_original": "Adds distances travelled left and right in the first $\\ln 8$ seconds"}
+      meta_json: {"final": "$\\left(\\dfrac{1}{4}+\\ln 2\\right)$ metres", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "top_criterion_original": "Adds distances travelled left and right in the first $\\ln 8$ seconds"}
     difficulty
       band: 4
       wm: PR
@@ -4173,7 +4173,7 @@ document
       source_document_id: 1308
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Substantial progress, e.g. nominates one of the dilation / translation correctly"]]
-      meta_json: {"top_criterion_original": "Nominates the correct dilation and translation in the appropriate order"}
+      meta_json: {"final": "Vertical dilation by a factor $-1$ followed by a vertical translation upwards by 24.", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement", "top_criterion_original": "Nominates the correct dilation and translation in the appropriate order"}
     difficulty
       band: 3
       wm: PR
@@ -4244,7 +4244,7 @@ document
       source_document_id: 1308
       prompt_version: parse-v1
       criteria_json: [[4, "Correct answer"], [3, "Substantial progress, e.g. writes an equation for $t$ finding both solutions, or one solution and date"], [2, "Moderate progress, e.g. writes an equation for $t$ and finds one solution"], [1, "Some progress, e.g. writes equation for $t$"]]
-      meta_json: {"top_criterion_original": "Writes and solves equation for $t$ when $D=N$, then interprets solutions to give required dates"}
+      meta_json: {"final": "March 18 and September 23", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement", "top_criterion_original": "Writes and solves equation for $t$ when $D=N$, then interprets solutions to give required dates"}
     difficulty
       band: 4
       wm: PR

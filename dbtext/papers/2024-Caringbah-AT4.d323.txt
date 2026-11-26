@@ -1089,7 +1089,7 @@ document
     source_document_id: 323
     prompt_version: parse-v1
     criteria_json: [[2, "Correct answer"], [1, "Correctly applies the product rule, or equivalent merit"]]
-    meta_json: {}
+    meta_json: {"final": "$y'=e^{7x}(7x+1)$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression"}
   part -  id 2282
     ordinal: 1
     latex: Differentiate $y = xe^{7x}$, expressing your answer in factorised form.
@@ -1169,7 +1169,7 @@ document
     source_document_id: 323
     prompt_version: parse-v1
     criteria_json: [[2, "Correct answer"], [1, "Finds $y'=2e^{2x+3}$, or equivalent merit"]]
-    meta_json: {}
+    meta_json: {"final": "$2e^3$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
   part -  id 2283
     ordinal: 1
     latex: Find the exact gradient of the tangent to the curve $y = e^{2x + 3}$ at the point where $x = 0$.
@@ -1232,7 +1232,7 @@ document
     source_document_id: 323
     prompt_version: parse-v1
     criteria_json: [[3, "Correct answer"], [2, "Finds $5^\\circ 44'$, or equivalent merit"], [1, "Finds $\\sin x=\\dfrac{1}{10}$, or equivalent merit"]]
-    meta_json: {}
+    meta_json: {"final": "$x=5^\\circ 44'$ and $174^\\circ 16'$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
   part -  id 2284
     ordinal: 1
     latex: Solve the equation $\dfrac{\operatorname{cosec} x}{5} - 2 = 0$ for $0^\circ \le x \le 360^\circ$, correct to the nearest minute.
@@ -1313,7 +1313,7 @@ document
     source_document_id: 323
     prompt_version: parse-v1
     criteria_json: [[3, "Correct answer"], [2, "Compares $P(N_1\\cap N_2)$ with $P(N_1)\\times P(N_2)$, or equivalent merit"], [1, "Finds $P(N_1)$, $P(N_2)$ and $P(N_1\\cap N_2)$, or equivalent merit"]]
-    meta_json: {}
+    meta_json: {"final": "$N_1$ and $N_2$ are independent.", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement"}
   part -  id 2285
     ordinal: 1
     latex: |
@@ -1602,7 +1602,7 @@ document
       source_document_id: 323
       prompt_version: parse-v1
       criteria_json: [[3, "Correct answer"], [2, "Correct cosine rule set up, or equivalent merit"], [1, "Finds both $SB$ and $BD$, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$64.09$ m", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     figure 323_q16_s2.png
       page: 9
       bbox: [55, 96, 250, 460]
@@ -1653,7 +1653,7 @@ document
     source_document_id: 323
     prompt_version: parse-v1
     criteria_json: [[3, "Correct answer"], [2, "Finds the gradient of the normal, or equivalent merit"], [1, "Correct derivative, or equivalent merit"]]
-    meta_json: {}
+    meta_json: {"final": "$y=-x+2$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression"}
   part -  id 2289
     ordinal: 1
     latex: Find the equation of the normal to the curve $y = \dfrac{\ln(x - 1)}{x - 1}$ at the point $(2,0)$.
@@ -1898,7 +1898,7 @@ document
       source_document_id: 323
       prompt_version: parse-v1
       criteria_json: [[3, "Correct answer"], [2, "Correct primitive of the difference in velocities, or equivalent merit"], [1, "Sets the difference in displacements equal to zero, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "6 seconds", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 4
       wm: PR
@@ -1973,7 +1973,7 @@ document
       source_document_id: 323
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "$y'=2x\\sec^2(x^2)$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression"}
     difficulty
       band: 2
       wm: UF
@@ -2061,7 +2061,7 @@ document
       source_document_id: 323
       prompt_version: parse-v1
       criteria_json: [[3, "Correct answer"], [2, "Writes the integrand as $\\dfrac{1}{2}\\big(2x\\sec^2(x^2)-2x\\big)$, or equivalent merit"], [1, "Uses $\\tan^2(x^2)=\\sec^2(x^2)-1$, or equivalent merit"]]
-      meta_json: {"corrected": "Corrected from source: the second line was written $\\frac{1}{2}\\int 2(x\\sec^2(x^2)-1)\\,dx$; the factor 2 multiplies both terms (next line $2x\\sec^2(x^2)-2x$). Final answer unchanged.", "source_original": "=1/2 ∫ 2(x sec^2(x^2) - 1) dx"}
+      meta_json: {"corrected": "Corrected from source: the second line was written $\\frac{1}{2}\\int 2(x\\sec^2(x^2)-1)\\,dx$; the factor 2 multiplies both terms (next line $2x\\sec^2(x^2)-2x$). Final answer unchanged.", "final": "$\\frac{1}{2}\\left(\\tan(x^2)-x^2\\right)+C$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "source_original": "=1/2 ∫ 2(x sec^2(x^2) - 1) dx"}
     difficulty
       band: 4
       wm: UF
@@ -2095,7 +2095,7 @@ document
     source_document_id: 323
     prompt_version: parse-v1
     criteria_json: [[2, "Correct answer"], [1, "Correct substitution into the trapezoidal rule, or equivalent merit"]]
-    meta_json: {"concern": "source solution uses four strips (h = 0.25), not two applications; rewritten with two strips (same rounded answer 0.38)", "corrected": "Corrected from source: the guideline used 4 sub-intervals ($h=0.25$, $x=1,1.25,1.5,1.75,2$, value $0.383699\\ldots$); the question asks for two applications ($h=0.5$). Answer $0.38$ unchanged.", "source_original": "∫_1^2 ln x dx ≈ 0.25/2 [(0 + ln 2) + 2(ln(1.25) + ln(1.5) + ln(1.75))] = 0.383699... = 0.38"}
+    meta_json: {"concern": "source solution uses four strips (h = 0.25), not two applications; rewritten with two strips (same rounded answer 0.38)", "corrected": "Corrected from source: the guideline used 4 sub-intervals ($h=0.25$, $x=1,1.25,1.5,1.75,2$, value $0.383699\\ldots$); the question asks for two applications ($h=0.5$). Answer $0.38$ unchanged.", "final": "0.38", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "source_original": "∫_1^2 ln x dx ≈ 0.25/2 [(0 + ln 2) + 2(ln(1.25) + ln(1.5) + ln(1.75))] = 0.383699... = 0.38"}
   part -  id 2294
     ordinal: 1
     latex: |
@@ -2252,7 +2252,7 @@ document
       source_document_id: 323
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Writes the integral as $\\displaystyle\\int 2\\tan\\theta\\,d\\theta$ or $\\displaystyle\\int\\dfrac{\\sin\\theta}{\\cos\\theta}\\,d\\theta$, or equivalent merit"]]
-      meta_json: {"corrected": "Corrected from source: the middle line was written $2\\int\\frac{-\\sin\\theta}{\\cos\\theta}\\,d\\theta$ (sign slip); it should be $-2\\int\\frac{-\\sin\\theta}{\\cos\\theta}\\,d\\theta$. Final answer unchanged.", "source_original": "∫2tanθ dθ = 2∫ -sinθ/cosθ dθ = -2ln|cosθ| + c"}
+      meta_json: {"corrected": "Corrected from source: the middle line was written $2\\int\\frac{-\\sin\\theta}{\\cos\\theta}\\,d\\theta$ (sign slip); it should be $-2\\int\\frac{-\\sin\\theta}{\\cos\\theta}\\,d\\theta$. Final answer unchanged.", "final": "$-2\\ln|\\cos\\theta|+C$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "source_original": "∫2tanθ dθ = 2∫ -sinθ/cosθ dθ = -2ln|cosθ| + c"}
     difficulty
       band: 3
       wm: UF
@@ -2667,7 +2667,7 @@ document
       source_document_id: 323
       prompt_version: parse-v1
       criteria_json: [[3, "Correct answer"], [2, "Finds $x=10$ and shows it gives a maximum, or equivalent merit"], [1, "Finds $V=600x-2x^3$, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$4000 \\text{ cm}^3$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 3
       wm: UF
@@ -2896,7 +2896,7 @@ document
       source_document_id: 323
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Uses $|-3\\ln x|<1$, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$e^{-\\frac{1}{3}}<x<e^{\\frac{1}{3}}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression"}
     difficulty
       band: 4
       wm: UF
@@ -2937,7 +2937,7 @@ document
     source_document_id: 323
     prompt_version: parse-v1
     criteria_json: [[3, "Correct answer"], [2, "Finds $\\sin 3x=\\dfrac{\\sqrt{2}}{2}$ and some correct solutions, or equivalent merit"], [1, "Finds $y=2\\sin 3x$, or equivalent merit"]]
-    meta_json: {}
+    meta_json: {"final": "$x=\\dfrac{\\pi}{12},\\ \\dfrac{\\pi}{4},\\ \\dfrac{3\\pi}{4},\\ \\dfrac{11\\pi}{12},\\ \\dfrac{17\\pi}{12},\\ \\dfrac{19\\pi}{12}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
   part -  id 2305
     ordinal: 1
     latex: |
@@ -3061,7 +3061,7 @@ document
       source_document_id: 323
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Finds $m=\\dfrac{5}{7}$, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$y=\\dfrac{5}{7}x+\\dfrac{195}{14}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression"}
     difficulty
       band: 2
       wm: UF
@@ -3182,7 +3182,7 @@ document
       source_document_id: 323
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "$17.6$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 2
       wm: UF
@@ -3242,7 +3242,7 @@ document
       source_document_id: 323
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Finds $\\operatorname{Var}(X)=1.64$, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$1.28$ (2 d.p.)", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 3
       wm: UF
@@ -3415,7 +3415,7 @@ document
       source_document_id: 323
       prompt_version: parse-v1
       criteria_json: [[3, "Correct answer"], [2, "Finds $\\dfrac{3b^{\\frac{4}{3}}}{4}=\\dfrac{4}{27}$, or equivalent merit"], [1, "Sets up $\\displaystyle\\int_0^b y^{\\frac{1}{3}}\\,dy$, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$b=\\dfrac{8}{27}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 4
       wm: PR
@@ -3499,7 +3499,7 @@ document
       source_document_id: 323
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "minimum 2000 km, maximum 14 000 km", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 2
       wm: UF
@@ -3670,7 +3670,7 @@ document
       source_document_id: 323
       prompt_version: parse-v1
       criteria_json: [[3, "Correct answer"], [2, "Finds $t=4,\\ 8,\\ 16,\\ 20$, or equivalent merit"], [1, "Finds $\\sin\\left(\\dfrac{\\pi}{6}(t-15)\\right)=\\dfrac{1}{2}$, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "8 hours each day", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 4
       wm: PR
@@ -3823,7 +3823,7 @@ document
       source_document_id: 323
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Finds $f(x)=\\dfrac{(x-1)^2}{2}$, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$f(x)=\\dfrac{(x-1)^2}{2}$ for $1\\le x\\le\\sqrt[3]{6}+1$, and $0$ otherwise", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression"}
     difficulty
       band: 2
       wm: UF
@@ -3974,7 +3974,7 @@ document
       source_document_id: 323
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Evaluates $f$ at the stationary points and endpoints, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "minimum at $(1,-15)$, maximum at $(4,66)$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement"}
     difficulty
       band: 3
       wm: UF
@@ -4046,7 +4046,7 @@ document
       source_document_id: 323
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Finds $x=-1$ from $f''(x)=0$, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$(-1,1)$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
       data_table Ts2069_1
         header_rows: 0
         label_col: 1
@@ -4270,7 +4270,7 @@ document
       source_document_id: 323
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Finds $2^{-0.01243t}=0.1$, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$t \\approx 4$ h $27$ min (267.25 min)", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 3
       wm: UF

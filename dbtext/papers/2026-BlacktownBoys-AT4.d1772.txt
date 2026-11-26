@@ -974,7 +974,7 @@ document
     source_document_id: 1772
     prompt_version: parse-v1
     criteria_json: [[2, "Correct answer"], [1, "Finds the correct $r$, or equivalent merit"]]
-    meta_json: {}
+    meta_json: {"final": "$\\dfrac{15}{14}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
   part -  id 9496
     ordinal: 1
     latex: |
@@ -1031,7 +1031,7 @@ document
     source_document_id: 1772
     prompt_version: parse-v1
     criteria_json: [[2, "Correct answer"], [1, "Correctly integrates the trigonometric or exponential term, or equivalent merit"]]
-    meta_json: {}
+    meta_json: {"final": "$-\\dfrac{1}{5}\\cos 5x+\\dfrac{3^x}{\\ln 3}+x+C$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression"}
   part -  id 9497
     ordinal: 1
     latex: Find $\displaystyle\int(\sin 5x+3^x+1)\,dx$
@@ -1202,7 +1202,7 @@ document
       source_document_id: 1772
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "One correct value of $x$, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$x=\\dfrac{\\pi}{4},\\ \\dfrac{5\\pi}{4}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 3
       wm: UF
@@ -1302,7 +1302,7 @@ document
       source_document_id: 1772
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Writes both equations, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$p=0.2,\\ q=0.5$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 3
       wm: UF
@@ -1354,7 +1354,7 @@ document
       source_document_id: 1772
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "$0.6$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 2
       wm: UF
@@ -1414,7 +1414,7 @@ document
       source_document_id: 1772
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "$\\dfrac{3}{4}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 3
       wm: UF
@@ -1453,7 +1453,7 @@ document
     source_document_id: 1772
     prompt_version: parse-v1
     criteria_json: [[2, "Correct answer"], [1, "Finds the correct number of terms, or equivalent merit"]]
-    meta_json: {}
+    meta_json: {"final": "$135523$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
   part -  id 9503
     ordinal: 1
     latex: |
@@ -1535,7 +1535,7 @@ document
     source_document_id: 1772
     prompt_version: parse-v1
     criteria_json: [[3, "Correct answer"], [2, "Finds the gradient of the normal, or equivalent merit"], [1, "Finds the correct derivative, or equivalent merit"]]
-    meta_json: {"corrected": "Corrected from source: the guideline found the normal at $x=0$; the question asks at $x=1$: $y-\\dfrac{5e^2}{4}=-\\dfrac{8}{25e^2}(x-1)$.", "overwritten_from_source": "Corrected from source: the guideline found the normal at $x=0$; the question asks at $x=1$: $y-\\dfrac{5e^2}{4}=-\\dfrac{8}{25e^2}(x-1)$.", "source_original": {"criteria": [[3, "Correct answer"], [2, "Finds the gradient of the normal, or equivalent merit"], [1, "Finds the correct derivative, or equivalent merit"]], "latex": "The source working finds the normal at $x=0$, although the printed question says $x=1$.\n\nUsing the quotient rule, $\\dfrac{d}{dx}\\left(\\dfrac{u}{v}\\right)=\\dfrac{u'v-uv'}{v^2}$, with\n$$\\begin{aligned} u&=5e^{2x} & v&=5-x^2\\\\ u'&=10e^{2x} & v'&=-2x\\end{aligned}$$\n$$\\begin{aligned} \\dfrac{dy}{dx}&=\\dfrac{(5-x^2)\\times 10e^{2x}-5e^{2x}(-2x)}{(5-x^2)^2} \\\\ &=\\dfrac{10e^{2x}(5-x^2+x)}{(5-x^2)^2} \\end{aligned}$$\nAt $x=0$: $y=\\dfrac{5e^0}{5}=1$, so the point is $(0,1)$.\n\nThe tangent gradient is\n$$m_T=\\dfrac{10e^0(5)}{25}=2$$\nso the normal gradient is $m_N=-\\dfrac{1}{2}$.\n\nThe normal is\n$$\\begin{aligned} y-1&=-\\dfrac{1}{2}(x-0) \\\\ x+2y-2&=0 \\end{aligned}$$\nor $y=-\\dfrac{1}{2}x+1$."}}
+    meta_json: {"corrected": "Corrected from source: the guideline found the normal at $x=0$; the question asks at $x=1$: $y-\\dfrac{5e^2}{4}=-\\dfrac{8}{25e^2}(x-1)$.", "final": "$y-\\dfrac{5e^2}{4}=-\\dfrac{8}{25e^2}(x-1)$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "overwritten_from_source": "Corrected from source: the guideline found the normal at $x=0$; the question asks at $x=1$: $y-\\dfrac{5e^2}{4}=-\\dfrac{8}{25e^2}(x-1)$.", "source_original": {"criteria": [[3, "Correct answer"], [2, "Finds the gradient of the normal, or equivalent merit"], [1, "Finds the correct derivative, or equivalent merit"]], "latex": "The source working finds the normal at $x=0$, although the printed question says $x=1$.\n\nUsing the quotient rule, $\\dfrac{d}{dx}\\left(\\dfrac{u}{v}\\right)=\\dfrac{u'v-uv'}{v^2}$, with\n$$\\begin{aligned} u&=5e^{2x} & v&=5-x^2\\\\ u'&=10e^{2x} & v'&=-2x\\end{aligned}$$\n$$\\begin{aligned} \\dfrac{dy}{dx}&=\\dfrac{(5-x^2)\\times 10e^{2x}-5e^{2x}(-2x)}{(5-x^2)^2} \\\\ &=\\dfrac{10e^{2x}(5-x^2+x)}{(5-x^2)^2} \\end{aligned}$$\nAt $x=0$: $y=\\dfrac{5e^0}{5}=1$, so the point is $(0,1)$.\n\nThe tangent gradient is\n$$m_T=\\dfrac{10e^0(5)}{25}=2$$\nso the normal gradient is $m_N=-\\dfrac{1}{2}$.\n\nThe normal is\n$$\\begin{aligned} y-1&=-\\dfrac{1}{2}(x-0) \\\\ x+2y-2&=0 \\end{aligned}$$\nor $y=-\\dfrac{1}{2}x+1$."}}
   part -  id 9504
     ordinal: 1
     latex: Find the equation of the normal to the curve $y=\dfrac{5e^{2x}}{5-x^2}$ at $x=1$.
@@ -1655,7 +1655,7 @@ document
       source_document_id: 1772
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Identifies the correct value from the table, or equivalent merit"]]
-      meta_json: {"format_note": "Source wrote 31033.332; rounded to cents in the final line."}
+      meta_json: {"final": "$\\$31033.33$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "format_note": "Source wrote 31033.332; rounded to cents in the final line."}
     difficulty
       band: 3
       wm: UF
@@ -1705,7 +1705,7 @@ document
       source_document_id: 1772
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Correct substitution, or equivalent merit"]]
-      meta_json: {"format_note": "Source gave $20454.04583; shown rounded to cents."}
+      meta_json: {"final": "$\\$20454.05$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "format_note": "Source gave $20454.04583; shown rounded to cents."}
     difficulty
       band: 3
       wm: UF
@@ -1787,7 +1787,7 @@ document
       source_document_id: 1772
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Shows $f'(x)$ or finds $f''(x)$, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$f''(x)=6x-6$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression"}
     difficulty
       band: 3
       wm: UF
@@ -1853,7 +1853,7 @@ document
       source_document_id: 1772
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Finds both stationary points, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$(0,4)$ is a maximum; $(2,0)$ is a minimum", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement"}
     difficulty
       band: 3
       wm: UF
@@ -1912,7 +1912,7 @@ document
       source_document_id: 1772
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "$(1,2)$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 3
       wm: UF
@@ -2008,7 +2008,7 @@ document
       source_document_id: 1772
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "$x<1$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression"}
     difficulty
       band: 2
       wm: UF
@@ -2082,7 +2082,7 @@ document
       source_document_id: 1772
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "Shooting order 2: 10; order 4: 8; order 7: 4", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement"}
     difficulty
       band: 2
       wm: UF
@@ -2123,7 +2123,7 @@ document
       source_document_id: 1772
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "States the form or the direction, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "Form: linear; direction: negative", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement"}
     difficulty
       band: 2
       wm: UF
@@ -2161,7 +2161,7 @@ document
       source_document_id: 1772
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "$y=14.22-1.31x$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression"}
     difficulty
       band: 3
       wm: UF
@@ -2202,7 +2202,7 @@ document
       source_document_id: 1772
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "6.36 successful shots", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 2
       wm: UF
@@ -2331,7 +2331,7 @@ document
       source_document_id: 1772
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Correct differentiation, or equivalent merit"]]
-      meta_json: {"format_note": "Source rubric rows were labelled 1 and 2; rewritten top-down."}
+      meta_json: {"final": "$2\\cot 2x$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression", "format_note": "Source rubric rows were labelled 1 and 2; rewritten top-down."}
     difficulty
       band: 3
       wm: UF
@@ -2425,7 +2425,7 @@ document
       source_document_id: 1772
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Correct integral for $\\cot 2x$ or $\\sec^2 x$, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$\\frac{1}{2}\\ln|\\sin 2x|+3\\tan x+C$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression"}
     difficulty
       band: 3
       wm: UF
@@ -2469,7 +2469,7 @@ document
     source_document_id: 1772
     prompt_version: parse-v1
     criteria_json: [[3, "Correct answer"], [2, "Substitutes into the quadratic formula, or equivalent merit"], [1, "Substitutes into the sum formula, or equivalent merit"]]
-    meta_json: {}
+    meta_json: {"final": "16 rows", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
   part -  id 9519
     ordinal: 1
     latex: |
@@ -2631,7 +2631,7 @@ document
       source_document_id: 1772
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "$\\frac{29}{118}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 3
       wm: UF
@@ -2672,7 +2672,7 @@ document
     source_document_id: 1772
     prompt_version: parse-v1
     criteria_json: [[2, "Correct answer"], [1, "Finds the common ratio, or equivalent merit"]]
-    meta_json: {}
+    meta_json: {"final": "$a=\\frac{3}{2},\\ r=2$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
   part -  id 9522
     ordinal: 1
     latex: In a geometric sequence, the $10th$ term is 768 and the $13th$ term is 6144. Find the first term, and the common ratio.
@@ -2829,7 +2829,7 @@ document
       source_document_id: 1772
       prompt_version: parse-v1
       criteria_json: [[3, "Correct answer"], [2, "Correct integration, or equivalent merit"], [1, "Correct integral set up, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$\\frac{256}{3}$ units$^2$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 3
       wm: UF
@@ -2890,7 +2890,7 @@ document
       source_document_id: 1772
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "$\\frac{1}{12}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 2
       wm: UF
@@ -2952,7 +2952,7 @@ document
       source_document_id: 1772
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Some progress in identifying the second turn, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$\\frac{265}{1728}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 3
       wm: UF
@@ -3014,7 +3014,7 @@ document
       source_document_id: 1772
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Sets up the geometric series and identifies $a$ and $r$, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "$\\frac{12}{23}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 5
       wm: PR
@@ -3130,7 +3130,7 @@ document
       source_document_id: 1772
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "Horizontal dilation by factor 2, then translation 2 units to the right.", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement"}
     difficulty
       band: 3
       wm: UF
@@ -3257,7 +3257,7 @@ document
     source_document_id: 1772
     prompt_version: parse-v1
     criteria_json: [[4, "Correct answer"], [3, "Correct angle $S$, or equivalent merit"], [2, "Correct $LS$, or equivalent merit"], [1, "Either $LB$ or $SB$ correct, or equivalent merit"]]
-    meta_json: {"corrected": "Corrected from source: the sine rule gave $S\\approx85^\\circ$, but $S$ is obtuse (ambiguous case): $S\\approx94.5^\\circ$, so the bearing is $213^\\circ$, not $203^\\circ$.", "format_note": "The sine rule gives $S\\approx 85^\\circ$ as in source (acute assumed); source also used a $\\angle LBS$ taken from bearings.", "overwritten_from_source": "Corrected from source: the sine rule gave $S\\approx85^\\circ$, but $S$ is obtuse (ambiguous case): $S\\approx94.5^\\circ$, so the bearing is $213^\\circ$, not $203^\\circ$.", "source_original": {"criteria": [[4, "Correct answer"], [3, "Correct angle $S$, or equivalent merit"], [2, "Correct $LS$, or equivalent merit"], [1, "Either $LB$ or $SB$ correct, or equivalent merit"]], "latex": "Let $B$ be the point on the valley floor directly below the peak $E$. In each right-angled triangle $LBE$ and $SBE$, use the tangent ratio with $BE=1800$.\n$$\\tan 18^\\circ=\\dfrac{1800}{LB},\\quad LB=5539.8\\text{ m}$$\n$$\\tan 27^\\circ=\\dfrac{1800}{SB},\\quad SB=3532.7\\text{ m}$$\nThe bearings of $B$ from $L$ and $S$ differ, so\n$$\\angle LBS=118^\\circ-72^\\circ=46^\\circ$$\nCosine rule in triangle $LBS$:\n$$\\begin{aligned} LS&=\\sqrt{5539.8^2+3532.7^2-2(5539.8)(3532.7)\\cos 46^\\circ} \\\\ &=3997.47\\ldots\\text{ m} \\end{aligned}$$\nSine rule to find $\\angle S$:\n$$\\dfrac{\\sin S}{LB}=\\dfrac{\\sin 46^\\circ}{LS}$$\n$$\\begin{aligned} \\sin S&=\\dfrac{LB\\sin 46^\\circ}{LS} \\\\ &=0.9964 \\\\ S&\\approx 85^\\circ \\end{aligned}$$\nThe bearing of Liam from Sophie is\n$$118^\\circ+85^\\circ=203^\\circ$$\n$$\\therefore\\ LS\\approx 3997\\text{ m and the bearing of Liam from Sophie is } 203^\\circ$$"}}
+    meta_json: {"corrected": "Corrected from source: the sine rule gave $S\\approx85^\\circ$, but $S$ is obtuse (ambiguous case): $S\\approx94.5^\\circ$, so the bearing is $213^\\circ$, not $203^\\circ$.", "final": "$LS\\approx 3997$ m and the bearing of Liam from Sophie is $213^\\circ$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement", "format_note": "The sine rule gives $S\\approx 85^\\circ$ as in source (acute assumed); source also used a $\\angle LBS$ taken from bearings.", "overwritten_from_source": "Corrected from source: the sine rule gave $S\\approx85^\\circ$, but $S$ is obtuse (ambiguous case): $S\\approx94.5^\\circ$, so the bearing is $213^\\circ$, not $203^\\circ$.", "source_original": {"criteria": [[4, "Correct answer"], [3, "Correct angle $S$, or equivalent merit"], [2, "Correct $LS$, or equivalent merit"], [1, "Either $LB$ or $SB$ correct, or equivalent merit"]], "latex": "Let $B$ be the point on the valley floor directly below the peak $E$. In each right-angled triangle $LBE$ and $SBE$, use the tangent ratio with $BE=1800$.\n$$\\tan 18^\\circ=\\dfrac{1800}{LB},\\quad LB=5539.8\\text{ m}$$\n$$\\tan 27^\\circ=\\dfrac{1800}{SB},\\quad SB=3532.7\\text{ m}$$\nThe bearings of $B$ from $L$ and $S$ differ, so\n$$\\angle LBS=118^\\circ-72^\\circ=46^\\circ$$\nCosine rule in triangle $LBS$:\n$$\\begin{aligned} LS&=\\sqrt{5539.8^2+3532.7^2-2(5539.8)(3532.7)\\cos 46^\\circ} \\\\ &=3997.47\\ldots\\text{ m} \\end{aligned}$$\nSine rule to find $\\angle S$:\n$$\\dfrac{\\sin S}{LB}=\\dfrac{\\sin 46^\\circ}{LS}$$\n$$\\begin{aligned} \\sin S&=\\dfrac{LB\\sin 46^\\circ}{LS} \\\\ &=0.9964 \\\\ S&\\approx 85^\\circ \\end{aligned}$$\nThe bearing of Liam from Sophie is\n$$118^\\circ+85^\\circ=203^\\circ$$\n$$\\therefore\\ LS\\approx 3997\\text{ m and the bearing of Liam from Sophie is } 203^\\circ$$"}}
   figure 1772_q27_1.png
     page: 26
     bbox: [148, 210, 457, 359]
@@ -3460,7 +3460,7 @@ document
       source_document_id: 1772
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "$0.3633$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 2
       wm: UF
@@ -3534,7 +3534,7 @@ document
       source_document_id: 1772
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "$0.0489$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 2
       wm: UF
@@ -3695,7 +3695,7 @@ document
       source_document_id: 1772
       prompt_version: parse-v1
       criteria_json: [[3, "Correct answer"], [2, "Finds $b$, $h$ and $l$, or equivalent merit"], [1, "Finds $b=10\\sqrt{3}$, or equivalent merit"]]
-      meta_json: {"format_note": "Source rubric (1 each for b, h and l, justification) rewritten top-down."}
+      meta_json: {"final": "$10\\sqrt{3}\\times 10\\sqrt{6}\\times 20\\sqrt{6}$ cm", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement", "format_note": "Source rubric (1 each for b, h and l, justification) rewritten top-down."}
     difficulty
       band: 4
       wm: UF
@@ -3811,7 +3811,7 @@ document
     source_document_id: 1772
     prompt_version: parse-v1
     criteria_json: [[4, "Correct answer"], [3, "Finds $P(X<x)$ and $z=-3$, or equivalent merit"], [2, "Finds $P(X>x)$, or equivalent merit"], [1, "Finds the number of females, or equivalent merit"]]
-    meta_json: {}
+    meta_json: {"final": "$x=61.6$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
   part -  id 9537
     ordinal: 1
     latex: |
@@ -3933,7 +3933,7 @@ document
       source_document_id: 1772
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "$26^\\circ\\text{C}$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 2
       wm: UF
@@ -3993,7 +3993,7 @@ document
       source_document_id: 1772
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"final": "$\\dfrac{dT}{dt}=-\\dfrac{2\\pi}{3}\\sin\\left(\\dfrac{\\pi}{12}(t-4)\\right)$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "expression"}
     difficulty
       band: 2
       wm: UF
@@ -4054,7 +4054,7 @@ document
       source_document_id: 1772
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Correct derivative value at $t=0$, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "the temperature is initially increasing", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement"}
     difficulty
       band: 3
       wm: UF
@@ -4146,7 +4146,7 @@ document
       source_document_id: 1772
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Finds the maximum temperature, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "maximum temperature is $30^\\circ\\text{C}$, first at $t=4$ (4 am)", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "statement"}
     difficulty
       band: 2
       wm: UF
@@ -4372,7 +4372,7 @@ document
       source_document_id: 1772
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Sets up the inequality, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"final": "152 months", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value"}
     difficulty
       band: 4
       wm: UF
