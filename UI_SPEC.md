@@ -1654,13 +1654,25 @@ where the answers are attched after all the questions, for students to self chec
   saves, back to My worksheets). Each question has **Swap** (another question with the same home skill, not on the sheet, not swapped out
   before, not used before while Skip is on) and **Remove** beside its QID (screen only). + Add takes more from the chosen skills by the
   same rules. Answer lines − / + per part and the diagram corner handle work as on the exam paper.
-- **Layout.** A4; no cover, no sections, no times, no blank page, no reference sheet (the z-score table still follows when a question
+- **Layout.** A4; no cover, no sections, no times, no reference sheet (blank pages: see "Odd page counts everywhere") (the z-score table still follows when a question
   needs it). A one-line header: the name, "N questions · M marks", "Name ____ Date ____". Two columns (6 mm apart), filled left then right
   and balanced; ruled (dotted) lines under each written part, one a mark plus one (2 to 12; 7.5 mm apart). A question is **wide** and
   spans both columns when it has three or more labelled parts, a table in the question (a data table or a multiple-choice table of
   options), or anything wider than a column at its own size: a diagram at its print size (its picture's width × the exam's size for it)
   or a long line of maths. Judged on the laid-out copy before diagrams are capped to their column (38_worksheets.js WS.widen). The page
   footer: name, document, "Page k of N".
+- **Order: Fit the page / My order (26 Nov).** Owner, to "may worksheets reorder questions to save paper?": "yes but option for user to
+  order as well"; to "publish now or after the packing fix?": "after the packing fix". The Worksheet ▾ menu has "Order of the questions":
+  **Fit the page** (the default; every new or remade worksheet starts there) places the questions before the sheet is numbered: from the
+  skill order, it fills both columns of a band with the earliest question that fits before anything else (a wide question waits until no
+  narrow one fits beside the band), then the next question that fits the page, else a new page; it tries three starting orders (skill order,
+  tallest first, wide first) and keeps the one with the fewest pages, the skill order on a tie. Measured on the worksheet version and
+  deterministic; every version (worksheet, worked solutions, with answers, solutions at the back) has the same order and numbers.
+  **My order**: ↑ ↓ beside each question's Swap / Remove move it (the exam builder's ▲ ▼ pattern, exOrder); the first move switches to My
+  order, which is kept (saved with the worksheet as ws.order) until Fit the page is chosen again; + Add puts new questions at the end.
+  Measured 26 Nov on 12-question sheets, pages of questions before → after (before the odd-page rule): Standard trigonometry mixed 6 → 5,
+  easier 5 → 4; Advanced calculus and trigonometry mixed 5 → 5, easier 4 → 4; Advanced integration 2 → 2 both. Most of what is left is
+  questions taller than half a page in a column, which no order can pair.
 - **Four versions**, each as HTML, PDF and Word (file names end "", " - worked solutions", " - with answers", " - with solutions at the
   back"): the worksheet; worked solutions (the exam marking guide's solutions, headed "Worked solutions"); with answers, where Final answer /
   Worked solution / Both replace the lines under each question (the data records a short answer only for multiple-choice questions, the
@@ -1680,3 +1692,17 @@ where the answers are attched after all the questions, for students to self chec
   xPreview (bar, two-column packing, `ws-sheet`), xDownload, xPdf, xWord (two-column sections), EXAS (autosave, guard, close, version
   names), renderMine (My exams' list, by kind), XG (gates and Already learnt), xaHomes, xaSwap, qDifOK / qDiff, EXSEC.ord, xaRng.
   Tests: the `worksheets: …` checks in tools/page_test.js (group worksheets), and the sweep's worksheets-mine / worksheets-setup tabs.
+
+## Odd page counts everywhere (26 Nov)
+Owner, 26 Nov, verbatim: "Also for all output methods, there has to be an odd number of pages. Use intentional empty page if its not", and,
+clarifying, "I want the back page to be empty". Supersedes the 19 Nov rule (exam paper only) and the worksheet "no blank page" line above.
+- Every printable document (exam paper, marking guide, paper with answers, solutions at the back; worksheet, worked solutions, worksheet
+  with answers, worksheet then solutions) ends on an odd page: an even count gets one page "This page is intentionally left blank."
+  (the exam's .xblank block). On an exam paper it stays where it was (after the last question page, before the z-score table and the
+  reference sheet); elsewhere it ends the document.
+- A stacked document (solutions at the back) first makes its first part even, with a blank page where needed, so the solutions start on a
+  fresh sheet (an odd page number); then the whole is made odd.
+- Counted on the laid-out sheets (the preview); HTML and PDF are those sheets. Word puts each blank page on a page of its own (a page break
+  before it, none after the last); Word repaginates the rest itself, so its page count on another machine is not guaranteed.
+- Code: 24_exams.js xPreview (blank), 30_word.js. Tests: `print: every exam document has an odd number of pages …` (flows), `worksheets:
+  Fit the page … odd pages`, the stacked checks (blank pages aside, the guide starts on an odd page).

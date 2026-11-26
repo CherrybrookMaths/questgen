@@ -173,6 +173,18 @@ let outside = [];
 async function waitPv2(p) { await p.waitForTimeout(300); await p.waitForFunction(() => { const i = document.querySelector('#xInfo'); return i && !/Laying out/.test(i.textContent) }, null, {timeout: 30000}) }
 async function pvClick(p, sel) { await p.evaluate(s => { const pop = document.querySelector(s)?.closest('.xmenu-pop'); if (pop && pop.hidden) pop.previousElementSibling.click() }, sel); await p.click(sel) }
 async function genClick(p, sel) { await pvClick(p, sel); const a = await p.waitForSelector('#exAsk [data-ask="replace"]', {timeout: 1500}).catch(() => null); if (a) await a.click() }
+// owner 26 Nov: "Also for all output methods, there has to be an odd number of pages. Use intentional empty page if its not" ("I want the
+// back page to be empty"): the laid-out document's parts, each with its blank pages beyond an exam cover's back; oddRule lists what breaks it
+const printShape = p => p.evaluate(() => { const sh = [...document.querySelectorAll('#xPages .sheet')], parts = [];
+  sh.forEach((s, i) => { let P = parts[parts.length - 1]; if (!P || P.part !== s.dataset.part) { P = {part: s.dataset.part, n: 0, extra: 0, start: i}; parts.push(P) }
+    const k = P.n++; if (s.querySelector('.xblank') && !s.querySelector('section.xq') && !(k === 1 && sh[P.start].querySelector('.xcover'))) P.extra++ });
+  return {n: sh.length, parts: parts.map(({part, n, extra, start}) => ({part, n, extra, start}))} });
+const oddRule = r => { const bad = []; if (r.n % 2 === 0) bad.push(`${r.n} pages`);
+  r.parts.forEach((P, i) => { if (P.extra > 1) bad.push(`${P.part}: ${P.extra} blank pages`);
+    if (i < r.parts.length - 1) { if (P.n % 2) bad.push(`${P.part} has ${P.n} pages before the next part`); if (P.extra && P.n % 2 === 0 && (P.n - 1) % 2 === 0) bad.push(`${P.part}: blank not needed`) }
+    else { const before = r.parts.slice(0, i).reduce((t, x) => t + x.n, 0); if (P.extra && (before + P.n - 1) % 2 === 1) bad.push(`${P.part}: blank not needed`) } });
+  r.parts.slice(1).forEach(P => { if (P.start % 2) bad.push(`${P.part} starts on page ${P.start + 1}`) });
+  return bad };
 async function check(name, page, fn) {
   const t = Date.now(); let ok = true, detail = '', shot = null;
   try { detail = (await fn()) || '' } catch (e) { ok = false; detail = String(e && e.message || e).split('\n')[0].slice(0, 600) }
@@ -484,7 +496,7 @@ async function flows(browser, base, seed, seedR) {
   // choose single number, worked or both). Really should be an option to print exam with answers too in our current builder."
   // and "NO I ALSO MEANT a version where the answers are attched after all the questions, for students to self check, just the two pdfs
   // stacked one after anotrher" (20_exam.js xQ / xBlocks: docs 'answers' and 'stack')
-  const sheetTexts = () => page.evaluate(() => [...document.querySelectorAll('#xPages .sheet')].map(s => ({part: s.dataset.part, t: s.textContent.replace(/\s+/g, ' ').trim()})));
+  const sheetTexts = () => page.evaluate(() => [...document.querySelectorAll('#xPages .sheet')].map(s => ({part: s.dataset.part, b: !!s.querySelector('.xblank') && !s.querySelector('section.xq'), t: s.querySelector('.sheetbody').textContent.replace(/\s+/g, ' ').trim()})));
   const docShape = () => page.evaluate(() => { const P = document.querySelector('#xPages');
     return {sol: P.querySelectorAll('.xsol').length, ans: P.querySelectorAll('.ex-ans').length, ok: P.querySelectorAll('.xo.xok').length, lines: P.querySelectorAll('.exln').length, key: !!P.querySelector('.xkey'), cover: !!P.querySelector('.xcover')} });
   let guideT = null, examT = null, guideS = null, examS = null;
@@ -542,14 +554,21 @@ async function flows(browser, base, seed, seedR) {
     assert(examT && guideT, 'the check above did not record the paper and guide');
     await page.click('#xPv [data-xdoc="stack"]'); await waitPv();
     const st = await sheetTexts(), s = await sheetCheck(); errs();
-    const ex = st.filter(x => x.part === 'exam'), gd = st.filter(x => x.part === 'guide'), firstG = st.findIndex(x => x.part === 'guide');
-    assert(ex.length === examT.length && gd.length === guideT.length && firstG === ex.length, `parts: ${st.map(x => x.part[0]).join('')}; paper ${examT.length} sheets, guide ${guideT.length}`);
+    // owner 26 Nov (odd pages): blank pages differ (the paper is made even so the guide starts on a fresh sheet), so they are left out here
+    const nb = a => a.filter(x => !x.b), exA = st.filter(x => x.part === 'exam'), ex = nb(exA), gd = nb(st.filter(x => x.part === 'guide')), firstG = st.findIndex(x => x.part === 'guide');
+    const eT = nb(examT), gT = nb(guideT); { const examT = eT, guideT = gT;
+    assert(ex.length === examT.length && gd.length === guideT.length && firstG === exA.length && firstG % 2 === 0, `parts: ${st.map(x => x.part[0]).join('')}; paper ${examT.length} sheets, guide ${guideT.length}`);
     const dE = ex.findIndex((x, i) => x.t !== examT[i].t), dG = gd.findIndex((x, i) => x.t !== guideT[i].t);
     assert(dE < 0, `paper sheet ${dE + 1} differs: “${ex[dE]?.t.slice(0, 120)}” vs “${examT[dE]?.t.slice(0, 120)}”`);
     assert(dG < 0, `guide sheet ${dG + 1} differs: “${gd[dG]?.t.slice(0, 120)}” vs “${guideT[dG]?.t.slice(0, 120)}”`);
-    assert(!s.over.length && !s.empty, `sheets over A4 ${JSON.stringify(s.over)}, ${s.empty} empty`);
-    return `${ex.length} paper + ${gd.length} guide sheets, text identical to each alone`;
+    assert(!s.over.length && !s.empty, `sheets over A4 ${JSON.stringify(s.over)}, ${s.empty} empty`); }
+    return `${ex.length} paper + ${gd.length} guide sheets (blank pages aside), text identical to each alone; the guide starts on page ${firstG + 1}`;
   });
+  await check('print: every exam document has an odd number of pages, a blank page only where needed; the guide at the back starts a fresh sheet', page, async () => {
+    const out = [];
+    for (const d of ['exam', 'guide', 'answers', 'stack']) { await page.click(`#xPv [data-xdoc="${d}"]`); await waitPv(); const r = await printShape(page), bad = oddRule(r); errs();
+      assert(!bad.length, `${d}: ${bad.join('; ')} (${JSON.stringify(r.parts)})`); out.push(`${d} ${r.n}${r.parts.some(p => p.extra) ? ' (' + r.parts.filter(p => p.extra).map(p => p.part + ' +1 blank').join(', ') + ')' : ''}`) }
+    return out.join(' · ') });
   await check('export: solutions at the back as HTML, PDF and Word', page, () => dlAll('with solutions at the back'));
   // owner 17 Nov: exams holding a question that refers to the z-score table at the back get the table on the last page
   await check('preview: z-score table at the back only when a question needs it', page, async () => {
@@ -4282,7 +4301,7 @@ async function worksheets(browser, base, seed) {
     const d = await page.evaluate(() => window.__pt.downloads[window.__pt.downloads.length - 1]); return {d, buf: fs.readFileSync(path.join(DL, d.filename.replace(/[^\w.\- ]+/g, '_')))} };
   const sheets = () => page.evaluate(() => { const host = document.querySelector('#xPages'), pr = document.createElement('div'); pr.style.cssText = 'height:297mm;width:1px;flex:none'; host.appendChild(pr);
     const H = pr.offsetHeight; pr.remove(); const sh = [...host.querySelectorAll('.sheet')];
-    return {n: sh.length, over: sh.map((s, i) => [i + 1, s.offsetHeight]).filter(([, h]) => h > H + 1), parts: sh.map(s => s.dataset.part), t: sh.map(s => s.textContent.replace(/\s+/g, ' ').trim())} });
+    return {n: sh.length, over: sh.map((s, i) => [i + 1, s.offsetHeight]).filter(([, h]) => h > H + 1), parts: sh.map(s => s.dataset.part), b: sh.map(s => !!s.querySelector('.xblank')), t: sh.map(s => s.querySelector('.sheetbody').textContent.replace(/\s+/g, ' ').trim())} });
   const TRIG = ['Sine rule (side)', 'Sine rule (angle)', 'Cosine rule (side)', 'Cosine rule (angle)', 'Area of a triangle (1/2 ab sin C)', 'True and compass bearings'];
 
   await check('worksheets: its own top-bar tab, opening on My worksheets', page, async () => {
@@ -4354,7 +4373,7 @@ async function worksheets(browser, base, seed) {
       const wide = [...host.querySelectorAll('.sheetbody>.xblk.ws-wide')].filter(b => b.querySelector('section.xq')).map(why), narrow = [...host.querySelectorAll('.ws-col>.xblk')].map(b => ({...why(b), over: b.scrollWidth > b.clientWidth + 2}));
       const lines = [...host.querySelectorAll('.xlines[data-ln]')].map(l => { const [qi, pi] = l.dataset.ln.split(':').map(Number), q = xq(qi), p = q.parts.find(x => x.id === pi); return [l.querySelectorAll('i').length, +(p.marks ?? q.marks)] });
       const col = host.querySelector('.ws-band'), cw = col ? [...col.children].map(c => Math.round(c.getBoundingClientRect().width)) : [];
-      return {head: b1?.querySelector(':scope>.ws-head')?.innerText.replace(/\s+/g, ' ') || null, cover: !!host.querySelector('.xcover,.xblank'), secs: host.querySelectorAll('.xsechd').length,
+      return {head: b1?.querySelector(':scope>.ws-head')?.innerText.replace(/\s+/g, ' ') || null, cover: !!host.querySelector('.xcover') || [...host.querySelectorAll('.sheet')].slice(0, -1).some(s => s.querySelector('.xblank')), secs: host.querySelectorAll('.xsechd').length,
         time: /Allow about|Working time|Reading time/.test(host.textContent), bands: host.querySelectorAll('.ws-band').length, cw, wide, narrow, lines, n: EX.items.length, m: xMarks(EX.items.map(xq)), lvl: EX.ws.level} });
     await page.screenshot({path: path.join(SHOTS, 'worksheets_sheet.png')}); errs();
     assert(!s.over.length, `sheets taller than A4: ${JSON.stringify(s.over)}`);
@@ -4403,9 +4422,11 @@ async function worksheets(browser, base, seed) {
     assert(g.sol > 0 && !g.lines && /Worked solutions/.test(g.head) && !gd.over.length, `worked solutions: ${JSON.stringify(g)}`);
     assert(f.key === f.mc && !f.lines && f.sol > 0 && /no short answer recorded/.test(f.info), `final answers: ${JSON.stringify(f)}`);
     assert(!w.key && w.sol >= f.sol && b.key === f.mc && b.sol === w.sol, `worked ${JSON.stringify(w)}, both ${JSON.stringify(b)}`);
-    const ex = st.parts.filter(p => p === 'exam').length, firstG = st.parts.indexOf('guide');
-    assert(ex === ws.n && st.n === ws.n + gd.n && firstG === ws.n && !st.over.length, `stack: ${st.parts.map(p => p[0]).join('')} (worksheet ${ws.n}, solutions ${gd.n})`);
-    const dE = st.t.slice(0, ws.n).findIndex((t, i) => t !== ws.t[i]), dG = st.t.slice(ws.n).findIndex((t, i) => t !== gd.t[i]);
+    // blank pages aside (owner 26 Nov: odd pages; the solutions start on a fresh sheet)
+    const nb = (x, part) => x.t.filter((t, i) => !x.b[i] && (!part || x.parts[i] === part)), firstG = st.parts.indexOf('guide');
+    const sE = nb(st, 'exam'), sG = nb(st, 'guide'), wE = nb(ws), wG = nb(gd);
+    assert(sE.length === wE.length && sG.length === wG.length && firstG % 2 === 0 && st.n % 2 === 1 && !st.over.length, `stack: ${st.parts.map(p => p[0]).join('')} (worksheet ${ws.n}, solutions ${gd.n})`);
+    const dE = sE.findIndex((t, i) => t !== wE[i]), dG = sG.findIndex((t, i) => t !== wG[i]);
     assert(dE < 0 && dG < 0, `stack differs from each alone at worksheet sheet ${dE + 1} / solutions sheet ${dG + 1}`);
     return `worksheet ${ws.n} + worked solutions ${gd.n} pages = stack ${st.n}; final answers: ${f.key} letters, ${f.sol} written parts show their working`;
   });
@@ -4426,6 +4447,49 @@ async function worksheets(browser, base, seed) {
         assert(/w:num="2"/.test(x) && /<w:pageBreakBefore\/>/.test(x), `stack Word: two columns ${/w:num="2"/.test(x)}, a page break ${/pageBreakBefore/.test(x)}`); out.push('stack Word') }
     }
     return out.join(', ');
+  });
+  // owner 26 Nov, to "may worksheets reorder questions to save paper?": "yes but option for user to order as well"; "after the packing fix"
+  const nums = () => page.evaluate(() => [...document.querySelectorAll('#xPages section.xq')].filter(x => x.querySelector(':scope>.xqn,:scope>.xqh:not(.cont)')).map(x => [x.closest('.sheet').dataset.part, x.querySelector(':scope>.xqn,:scope>.xqh b').textContent.replace(/\D/g, ''), +x.dataset.q]));
+  await check('worksheets: Fit the page: no column left empty beside a wide question while a later one fits; the same numbers in every version; odd pages', page, async () => {
+    await page.click('#xPv [data-xdoc="exam"]'); await waitPv();
+    const r = await page.evaluate(() => { const host = document.querySelector('#xPages'), H = (() => { const p = document.createElement('div'); p.style.height = '250mm'; host.appendChild(p); const h = p.getBoundingClientRect().height; p.remove(); return h })();
+      const rows = [...host.querySelectorAll('.sheetbody>*')], waste = [];
+      rows.forEach((row, i) => { if (!row.classList.contains('ws-band')) return; const [L, Rc] = row.children; if (Rc.children.length && L.children.length) return;
+        const full = (L.children.length ? L : Rc).getBoundingClientRect().height;
+        const later = rows.slice(i + 1).flatMap(x => x.classList.contains('ws-band') ? [...x.querySelectorAll('.ws-col>.xblk')] : []).filter(b => b.querySelector('section.xq'));
+        const fits = later.filter(b => b.getBoundingClientRect().height <= full - 1).map(b => +b.querySelector('section.xq').dataset.q);
+        if (fits.length) waste.push({band: i, full: Math.round(full), fits}) });
+      return {order: WS.S().order, waste, n: host.querySelectorAll('.sheet').length, items: EX.items.slice()} });
+    const per = {};
+    for (const d of ['exam', 'guide', 'answers', 'stack']) { await page.click(`#xPv [data-xdoc="${d}"]`); await waitPv(); per[d] = await nums(); const o = oddRule(await printShape(page)); assert(!o.length, `${d}: ${o.join('; ')}`) }
+    errs();
+    assert(r.order === 'fit', `order mode ${r.order}`);
+    assert(!r.waste.length, `columns left empty although a later question fits: ${JSON.stringify(r.waste)}`);
+    const want = r.items.map((id, i) => [String(i + 1), id]), same = (a, part) => JSON.stringify(a.filter(x => !part || x[0] === part).map(x => [x[1], x[2]])) === JSON.stringify(want);
+    assert(same(per.exam) && same(per.guide) && same(per.answers) && same(per.stack, 'exam') && same(per.stack, 'guide'), `numbers differ: ${JSON.stringify({exam: per.exam.slice(0, 4), guide: per.guide.slice(0, 4)})}`);
+    return `${r.n} pages, no column left empty while a later question fits; Q1–Q${want.length} the same questions in all four versions`;
+  });
+  await check('worksheets: My order: ↑ ↓ set the tutor\'s order, kept after save and reopen; Fit the page packs again', page, async () => {
+    await page.click('#xPv [data-xdoc="exam"]'); await waitPv();
+    const fitOrder = await page.evaluate(() => EX.items.slice());
+    await page.click(`#xPages [data-wsmv="1"][data-id="${fitOrder[0]}"]`); await waitPv();
+    await page.click(`#xPages [data-wsmv="1"][data-id="${fitOrder[0]}"]`); await waitPv();
+    const mine = await page.evaluate(() => ({items: EX.items.slice(), order: WS.S().order}));
+    await page.waitForFunction(() => EX.id && exmState() === 'saved', null, {timeout: 15000});
+    const id = await page.evaluate(() => EX.id), doc = await page.evaluate(k => JSON.parse(JSON.stringify(window.__pt.store.get(k))), 'exams/' + id);
+    await page.click('#xPvClose'); await settle(page, 1500, 2);
+    await page.click(`#wsMine [data-exm="${id}"] .exm-t`); await waitPv();
+    const back = await page.evaluate(() => ({items: EX.items.slice(), order: WS.S().order})), n1 = await nums();
+    await pvClick(page, '#xPv [data-wsord="fit"]'); await waitPv();
+    const refit = await page.evaluate(() => ({items: EX.items.slice(), order: WS.S().order}));
+    await page.waitForFunction(() => exmState() === 'saved', null, {timeout: 15000}); errs();
+    const exp = fitOrder.slice(); [exp[0], exp[1], exp[2]] = [exp[1], exp[2], exp[0]];
+    assert(mine.order === 'mine' && JSON.stringify(mine.items) === JSON.stringify(exp), `after ↓ ↓: ${JSON.stringify(mine)} (want ${exp.slice(0, 3)})`);
+    assert(doc.ws.order === 'mine' && JSON.stringify(doc.items) === JSON.stringify(exp), `saved: order ${doc.ws.order}, items ${doc.items.slice(0, 3)}`);
+    assert(back.order === 'mine' && JSON.stringify(back.items) === JSON.stringify(exp) && n1.map(x => x[2]).join() === exp.join() && n1[0][1] === '1', `reopened: ${JSON.stringify(back)}`);
+    assert(refit.order === 'fit' && JSON.stringify(refit.items) === JSON.stringify(fitOrder), `Fit the page again: ${refit.items.slice(0, 3)} (packed ${fitOrder.slice(0, 3)})`);
+    first = await page.evaluate(() => ({id: EX.id, items: EX.items.slice(), sub: EX.sub}));
+    return `Q1 moved down twice → QID ${exp.slice(0, 3).join(', ')} first; saved and reopened in that order; Fit the page restores ${fitOrder.slice(0, 3).join(', ')}`;
   });
   // owner 19 Nov: "they should see that its been used for now yes"; owner 26 Nov: "Used before is also important"
   await check('worksheets: saved in exams as kind worksheet, listed on Worksheets only; used before in the exam builder and back', page, async () => {

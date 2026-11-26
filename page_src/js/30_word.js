@@ -114,15 +114,20 @@ async function xWord(doc){
     // owner 26 Nov (worksheets): "1 is the best so far" (two columns): a worksheet's two-column bands become two-column sections of the
     // document, its wide questions one-column ones (continuous section breaks; Word balances and paginates the columns itself)
     const segs=[{cols:1,ch:[]}],seg=c=>{let g=segs[segs.length-1];if(g.cols!==c){g={cols:c,ch:[]};segs.push(g)}return g.ch};
-    let body=seg(1);const sheets=[...host.querySelectorAll('.sheet')];let k=0,was=null;
+    let body=seg(1);const sheets=[...host.querySelectorAll('.sheet')];let k=0,was=null,after=false;
+    // one page break at a time (a break right after a break would make an empty page of its own)
+    const brk=()=>{const l=body[body.length-1];if(!l||!l._brk){const p=new Paragraph({children:[],pageBreakBefore:true});p._brk=1;body.push(p)}};
     for(const sh of sheets){k++;say(`Making the Word file: page ${k} of ${sheets.length}…`);
       // owner 26 Nov (doc 'stack', 20_exam.js xBlocks): the marking guide after the paper starts a new page
-      const part=sh.dataset.part||doc;if(was&&part!==was)body.push(new Paragraph({children:[],pageBreakBefore:true}));was=part;
+      const part=sh.dataset.part||doc;if(was&&part!==was){body=seg(1);brk()}was=part;
       for(const blk of sh.querySelectorAll(':scope>.sheetbody>*')){const cv=blk.querySelector('.xcover');
         // owner 18 Nov: the blank back of the cover and each reference-sheet page are pages of their own in Word too
-        if(blk.querySelector('.xblank')){body.push(new Paragraph({alignment:AlignmentType.CENTER,spacing:{before:5600},children:[new TextRun({text:blk.textContent.trim(),font:FONT,italics:true})]}),new Paragraph({children:[],pageBreakBefore:true}));continue}
-        if(blk.querySelector('.xref'))body.push(new Paragraph({children:[],pageBreakBefore:true}));
-        if(cv){await cover(cv,body);body.push(new Paragraph({children:[],pageBreakBefore:true}));continue}
+        if(after){brk();after=false}
+        // owner 26 Nov: "Also for all output methods, there has to be an odd number of pages. Use intentional empty page if its not" ("I want
+        // the back page to be empty"): the blank pages of the laid-out document, each on a page of its own; nothing follows the last one
+        if(blk.querySelector('.xblank')){body=seg(1);brk();body.push(new Paragraph({alignment:AlignmentType.CENTER,spacing:{before:5600},children:[new TextRun({text:blk.textContent.trim(),font:FONT,italics:true})]}));after=true;continue}
+        if(blk.querySelector('.xref')){body=seg(1);brk()}
+        if(cv){await cover(cv,body);brk();continue}
         if(blk.matches('.ws-band')){body=seg(2);for(const c of blk.querySelectorAll(':scope>.ws-col>*'))await blocks(c,{font:FONT,part,right:COL2},body);continue}
         body=seg(1);await blocks(blk,{font:FONT,part},body)}
       await new Promise(r=>setTimeout(r,0))}

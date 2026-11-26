@@ -483,6 +483,20 @@ function exRejoin(root){let last=new Map();const qk=sec=>(sec.closest('.sheet')?
     last.set(qk(sec),sec)})}
 // owner 26 Nov: what follows each question on the paper with answers (exams and worksheets)
 EXSEC.ansSeg=()=>`<div class="xseg ex-ansm" role="group" aria-label="After each question">${[['final','Final answer'],['worked','Worked solution'],['both','Both']].map(([k,t])=>`<button data-xans="${k}" aria-pressed="${EXV.ans===k}">${t}</button>`).join('')}</div>`;
+// the blocks laid out off screen at print width (typeset, pictures loaded, typeset bodies cached): their heights, and H, the content
+// height of one A4 sheet. Shared by the paper (xPreview) and a worksheet's Fit the page (WS.fit), which measures before it orders
+async function exMeasure(bl,ws){const ck=b=>exCKey(b.q,b.part+(b.part==='answers'?':'+EXV.ans:''),b.html);
+  const meas=document.createElement('div');meas.className='xmeasure sheetbody'+(ws?' ws-meas':'');
+  meas.innerHTML=bl.map((b,i)=>`<div class="xblk${b.cover?' cover':''}${b.wide?' ws-wide':''}" data-i="${i}">${b.html}</div>`).join('');document.body.appendChild(meas);
+  bl.forEach((b,i)=>{if(!b.q)return;const el=meas.querySelector(`[data-i="${i}"]`),c=EXC.get(ck(b)),qb=el.querySelector('.xqb');
+    if(c&&qb){qb.innerHTML=c;el.dataset.cached=1}else hydrate(el,b.q,'bank')});
+  await typeset(meas);await xWait(meas);await typeset(meas);
+  bl.forEach((b,i)=>{if(!b.q)return;const el=meas.querySelector(`[data-i="${i}"]`);if(!el.dataset.cached){const qb=el.querySelector('.xqb');if(qb)EXC.set(ck(b),qb.innerHTML)}});
+  if(ws)WS.widen(bl,meas);   // owner 26 Nov: a question too wide for one column spans both (judged before diagrams are capped to their column)
+  $$('img.fig',meas).forEach(im=>{im.style.maxWidth='100%'});EXSEC.fitOpts(meas);
+  // 14 Nov: content height 250 mm, not 259: the review pass measured only ~250 mm fitting inside a 297 mm sheet (padding + footer), so full sheets ran past A4 and were cut off in PDF/print.
+  const probe=document.createElement('div');probe.style.height='250mm';meas.appendChild(probe);const H=probe.getBoundingClientRect().height;probe.remove();
+  return {meas,H}}
 async function xPreview(doc,opts={}){exA();EXV.doc=doc;let ov=$('#xPv');
   if(!ov){ov=document.createElement('div');ov.id='xPv';ov.className='xpv expv';document.body.appendChild(ov)}
   const keepScroll=opts.keep?ov.scrollTop:0;
@@ -502,17 +516,8 @@ async function xPreview(doc,opts={}){exA();EXV.doc=doc;let ov=$('#xPv');
   ov.hidden=false;document.body.classList.add('xpv-on');ov.classList.toggle('grade-off',!EXV.grade);$('#exGrade')?.setAttribute('aria-pressed',String(EXV.grade));
   await QG.need(EX.items.map(xq));   // Fix 1 (owner 14 Nov: "Ok we should run Fix 1 and 2"): the paper's questions' topic files, before layout
   // the cache key names the block's own document ('stack' holds paper and guide blocks of one question) and the answers mode
-  const ck=b=>exCKey(b.q,b.part+(b.part==='answers'?':'+EXV.ans:''),b.html);
-  const bl=xBlocks(doc),meas=document.createElement('div');meas.className='xmeasure sheetbody'+(ws?' ws-meas':'');
-  meas.innerHTML=bl.map((b,i)=>`<div class="xblk${b.cover?' cover':''}${b.wide?' ws-wide':''}" data-i="${i}">${b.html}</div>`).join('');document.body.appendChild(meas);
-  bl.forEach((b,i)=>{if(!b.q)return;const el=meas.querySelector(`[data-i="${i}"]`),c=EXC.get(ck(b)),qb=el.querySelector('.xqb');
-    if(c&&qb){qb.innerHTML=c;el.dataset.cached=1}else hydrate(el,b.q,'bank')});
-  await typeset(meas);await xWait(meas);await typeset(meas);
-  bl.forEach((b,i)=>{if(!b.q)return;const el=meas.querySelector(`[data-i="${i}"]`);if(!el.dataset.cached){const qb=el.querySelector('.xqb');if(qb)EXC.set(ck(b),qb.innerHTML)}});
-  if(ws)WS.widen(bl,meas);   // owner 26 Nov: a question too wide for one column spans both (judged before diagrams are capped to their column)
-  $$('img.fig',meas).forEach(im=>{im.style.maxWidth='100%'});EXSEC.fitOpts(meas);
-  // 14 Nov: content height 250 mm, not 259: the review pass measured only ~250 mm fitting inside a 297 mm sheet (padding + footer), so full sheets ran past A4 and were cut off in PDF/print.
-  const probe=document.createElement('div');probe.style.height='250mm';meas.appendChild(probe);const H=probe.getBoundingClientRect().height;probe.remove();
+  if(ws)await WS.fit();   // owner 26 Nov: "yes but option for user to order as well": Fit the page orders the questions first (38_worksheets.js)
+  const bl=xBlocks(doc),{meas,H}=await exMeasure(bl,ws);
   // hardening 14 Nov (page test): with many topics the cover ran past 297 mm, and the PDF and print cut "Marks by topic" off.
   // When the cover is too tall, the table moves to a page of its own straight after it (the Word file still puts it on its cover)
   // owner 18 Nov: "it's very important marks by topic is on the cover page": a cover too tall for its sheet no longer sends the table to
@@ -546,11 +551,17 @@ async function xPreview(doc,opts={}){exA();EXV.doc=doc;let ov=$('#xPv');
   // owner 19 Nov: "The exam should always have an odd number of pages so no nothing is printing on the back page, add an intentional
   // blank marked page where needed": an even count gets a marked blank page after the last question page (before the z-score table
   // and the reference sheet, which stay at the back)
-  // the paper with answers too; 'stack': the paper's own pages (the guide after it then starts on a new sheet of paper)
-  const ppr=s=>s.part!=='guide';
-  // a worksheet has no cover and conserves space: no blank page (owner 26 Nov)
-  if(doc!=='guide'&&!ws&&sheets.filter(ppr).length%2===0){const at=sheets.map(s=>ppr(s)&&s.some(el=>el.querySelector('section.xq'))).lastIndexOf(true)+1,b=document.createElement('div');
-    b.className='xblk cover';b.innerHTML='<div class="xblank">This page is intentionally left blank.</div>';const s=[b];s.part=sheets[0].part;sheets.splice(at>0?at:sheets.filter(ppr).length,0,s)}
+  // owner 26 Nov: "Also for all output methods, there has to be an odd number of pages. Use intentional empty page if its not", clarifying
+  // "I want the back page to be empty": every document (exam paper, marking guide, paper with answers, solutions at the back; the four
+  // worksheet versions) ends on an odd page; a stacked document's first part is made even first, so the solutions start on a fresh sheet.
+  // An exam paper's blank page stays after its last question page (before the z-score table and reference sheet); elsewhere it ends the part
+  const ppr=s=>s.part!=='guide',isQ=s=>s.some(el=>el.querySelector('section.xq'));
+  const blank=part=>{const p=sheets.map((s,i)=>s.part===part?i:-1).filter(i=>i>=0),q=!ws&&part!=='guide'?p.filter(i=>isQ(sheets[i])).pop():null;
+    const b=document.createElement('div');b.className='xblk cover';b.innerHTML='<div class="xblank">This page is intentionally left blank.</div>';const s=[b];s.part=part;
+    sheets.splice(q!=null?q+1:p[p.length-1]+1,0,s)};
+  const parts=[...new Set(sheets.map(s=>s.part))];
+  if(parts.length>1&&sheets.filter(s=>s.part===parts[0]).length%2)blank(parts[0]);
+  if(sheets.length%2===0)blank(parts[parts.length-1]);
   const host=$('#xPages');host.innerHTML='';
   const nPart={},kPart={};sheets.forEach(s=>{nPart[s.part]=(nPart[s.part]||0)+1});   // each document numbers its own pages ('stack')
   sheets.forEach(s=>{const k=kPart[s.part]=(kPart[s.part]||0)+1,sh=document.createElement('div');sh.className='sheet'+(ws?' ws-sheet':'');sh.dataset.part=s.part;const body=document.createElement('div');body.className='sheetbody';s.forEach(el=>body.appendChild(el));sh.appendChild(body);

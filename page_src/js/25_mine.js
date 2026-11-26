@@ -23,7 +23,7 @@ const exmWho=x=>!x.by?'':x.by===me?'you':(EXM.names[x.by]||'a colleague');
 // owner 25 Nov ("Besides that, yes action all these things"; review: "the list showed "Saved 4:06 pm" for the exam while the banner said it
 // wasn't saved"): the database may hand an object back with its keys in another order, so lines and diagram sizes compare sorted (before,
 // a saved exam could read as changed for good: "Saving…" stayed, the banner said not saved). Locks are part of the exam (saved with it).
-const exmSig=x=>{const o=v=>Object.keys(v||{}).sort().map(k=>[k,v[k]]);return JSON.stringify([x.title||'',x.sub||'',x.school||'',x.cert||'',x.bytopic!==false,x.time||'',x.reading||'',(x.items||[]).concat((x.gone||[]).map(g=>g.id)).map(Number),x.instr||null,o(x.lines),o(x.figscale),((x.auto&&x.auto.locked)||[]).map(Number).sort((a,b)=>a-b)])};
+const exmSig=x=>{const o=v=>Object.keys(v||{}).sort().map(k=>[k,v[k]]);return JSON.stringify([x.title||'',x.sub||'',x.school||'',x.cert||'',x.bytopic!==false,x.time||'',x.reading||'',(x.items||[]).concat((x.gone||[]).map(g=>g.id)).map(Number),x.instr||null,o(x.lines),o(x.figscale),((x.auto&&x.auto.locked)||[]).map(Number).sort((a,b)=>a-b),(x.ws&&x.ws.order)||null])};   // a worksheet's order mode is part of it (owner 26 Nov)
 function exmState(){if(!EX.items.length)return '';if(!EX.id)return 'new';const s=XSAVED.find(x=>x.id===EX.id);if(!s)return db?'new':'';return exmSig(s)===exmSig(EX)?'saved':'changed'}
 // owner 14 Nov (Fix 2): "Ok we should run Fix 1 and 2": a saved exam finds its questions by key (RKEY.items), id as fallback
 function exmStats(x){const qs=RKEY.items(x).map(xq).filter(Boolean);let m=0,pr=0,w=0,mc=0;

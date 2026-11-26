@@ -22,7 +22,7 @@
    autosave, used-before (EXAS.used, xaSavedIds) and the stored database rules are the exams' own; My exams leaves worksheets out.
    One page-wide name (CODE_HEALTH rule 1). */
 const WS={view:(load('ws_view')||'mine'),setupFor:null,open:new Set(),m:null,
-  DEF:()=>({skills:[],n:10,level:'mixed',avoid:true,name:'',seed:0,last:null}),
+  DEF:()=>({skills:[],n:10,level:'mixed',avoid:true,name:'',seed:0,last:null,order:'fit'}),
   // an empty worksheet (EX while on Worksheets; xKind in 20_exam.js)
   blank:()=>({kind:'worksheet',course:QG.course,title:QG.courseData.name,sub:'Worksheet',school:'CMC Education',time:'',timeAuto:false,mpm:1.8,reading:'',items:[],lines:{},figscale:{},ws:WS.DEF()}),
   S(){if(!EX.ws||typeof EX.ws!=='object')EX.ws=WS.DEF();const d=WS.DEF();for(const k in d)if(EX.ws[k]===undefined)EX.ws[k]=d[k];return EX.ws},
@@ -66,13 +66,14 @@ const WS={view:(load('ws_view')||'mine'),setupFor:null,open:new Set(),m:null,
     return `Only ${n} question${s} ${n===1?'is':'are'} left for these skills (${[L.used?`${L.used} already in your saved exams and worksheets`:'',L.gate?`${L.gate} need topics not yet learnt`:''].filter(Boolean).join(', ')}), so the worksheet has ${n} instead of ${L.asked}.`},
   generate(){const S=WS.S();if(!S.skills.length)return null;const P=WS.pool(S);S.seed=(Math.random()*2**31)>>>0;
     const qs=WS.pick(P.keep,Math.max(1,+S.n||10),S,xaRng(S.seed),new Map());
-    EX.items=WS.sort(qs).map(q=>q.id);EX.sub=S.name||WS.autoName(S);XA_SWAPPED.clear();
+    EX.items=WS.sort(qs).map(q=>q.id);EX.sub=S.name||WS.autoName(S);XA_SWAPPED.clear();S.order='fit';WS._fit=null;
     S.last={n:qs.length,asked:+S.n||10,all:P.all.length,used:P.used,gate:P.out.length};xsave();return S.last},
   // + Add a question / + Add 5: more from the chosen skills (same rules), skills with the fewest on the sheet first
+  // My order: new ones go at the end; Fit the page places them
   add(k){const S=WS.S(),on=new Set(EX.items),have=new Map();EX.items.forEach(i=>{const q=xq(i),h=q&&WS.home(q);if(h)have.set(h,(have.get(h)||0)+1)});
     const qs=WS.pick(WS.pool(S).keep.filter(q=>!on.has(q.id)&&!XA_SWAPPED.has(q.id)),k,S,xaRng((Math.random()*2**31)>>>0),have);
     if(!qs.length){toast('No more questions for these skills'+(S.avoid?' that are not in your saved exams and worksheets':''));return}
-    EX.items=WS.sort([...EX.items.map(xq).filter(Boolean),...qs]).map(q=>q.id);xsave();exRelayout();toast(`Added ${qs.length} question${qs.length===1?'':'s'}`)},
+    EX.items=S.order==='mine'?[...EX.items,...qs.map(q=>q.id)]:WS.sort([...EX.items.map(xq).filter(Boolean),...qs]).map(q=>q.id);xsave();exRelayout();toast(`Added ${qs.length} question${qs.length===1?'':'s'}`)},
   // Swap: another question with the same home skill, not on the sheet, not swapped out before, not used before (when skipping)
   swap(id){const q=xq(id),h=q&&WS.home(q);if(!h)return;const S=WS.S(),on=new Set(EX.items);
     const c=WS.pick(WS.pool({...S,skills:[h]}).keep.filter(x=>!on.has(x.id)&&!XA_SWAPPED.has(x.id)),1,S,xaRng((Math.random()*2**31)>>>0),new Map());
@@ -143,11 +144,11 @@ const WS={view:(load('ws_view')||'mine'),setupFor:null,open:new Set(),m:null,
   bar(doc){const D=[['exam','Worksheet'],['guide','Worked solutions'],['answers','With answers',"The worksheet with each question's answer under it, in place of the lines"],['stack','Solutions at the back','The worksheet, then the worked solutions from a new page, in one file: for students to check their own work']];
     return `<div class="xtool"><div class="xseg">${D.map(([k,t,ti])=>`<button data-xdoc="${k}" aria-pressed="${doc===k}"${ti?` title="${esc(ti)}"`:''}>${t}</button>`).join('')}</div>${doc==='answers'?EXSEC.ansSeg():''}
       <span class="xinfo" id="xInfo">Laying out pages…</span><span class="sp"></span><span class="xpvsave" id="xPvSave"></span>
-      <span class="xmenu"><button class="act" data-xmenu aria-expanded="false">Worksheet</button><span class="xmenu-pop" hidden><button class="act" id="wsPvSet" title="Change the skills, number of questions or level and make the worksheet again">Settings…</button><button class="act" data-wsadd="1">+ Add a question</button><button class="act" data-wsadd="5">+ Add 5</button></span></span>
+      <span class="xmenu"><button class="act" data-xmenu aria-expanded="false">Worksheet</button><span class="xmenu-pop" hidden><button class="act" id="wsPvSet" title="Change the skills, number of questions or level and make the worksheet again">Settings…</button><button class="act" data-wsadd="1">+ Add a question</button><button class="act" data-wsadd="5">+ Add 5</button><span class="ws-ordl">Order of the questions</span>${[['fit','Fit the page','Questions placed to fill both columns and use as few pages as possible'],['mine','My order','Your own order: move questions with ↑ ↓ on the sheet']].map(([k,t,ti])=>`<button class="act" data-wsord="${k}" aria-pressed="${WS.S().order===k}" title="${ti}">${t}</button>`).join('')}</span></span>
       <button class="act" id="wsPvAnother" title="A new worksheet with the same settings and none of the questions in your saved exams and worksheets">Make another like this</button>
       <span class="xmenu"><button class="act ok" data-xmenu aria-expanded="false">Download</button><span class="xmenu-pop" hidden><button class="act" id="xDl" disabled>HTML</button></span></span><button class="act ghost" id="xPvClose">Close</button></div>
       <div class="expvbody"><div class="xpages" id="xPages"></div><aside class="expvside" id="exGSide" aria-label="Questions"></aside></div>`},
-  qctl:(q,n)=>`<span class="scr-only ws-qctl"><button type="button" data-wsswap="${q.id}" title="Another question on the same skill">Swap</button><button type="button" data-wsrm="${q.id}" title="Take Q${n} off the worksheet">Remove</button></span>`,
+  qctl:(q,n)=>`<span class="scr-only ws-qctl"><button type="button" data-wsmv="-1" data-id="${q.id}" title="Move Q${n} up (My order)" aria-label="Move Q${n} up">↑</button><button type="button" data-wsmv="1" data-id="${q.id}" title="Move Q${n} down (My order)" aria-label="Move Q${n} down">↓</button><button type="button" data-wsswap="${q.id}" title="Another question on the same skill">Swap</button><button type="button" data-wsrm="${q.id}" title="Take Q${n} off the worksheet">Remove</button></span>`,
   // one line at the top: the name, N questions · M marks, Name and Date (no cover, sections or time)
   blocks(doc){const qs=EX.items.map(xq).filter(Boolean),m=xMarks(qs),bl=[],t={guide:'Worked solutions',answers:'With answers'}[doc];if(doc==='answers')EXV.fb=0;
     bl.push({wide:true,html:`<div class="ws-head"><b class="ws-ht">${esc(EX.sub)}${t?` <span>· ${t}</span>`:''}</b><span class="ws-hm">${qs.length} question${qs.length===1?'':'s'} · ${m} mark${m===1?'':'s'}</span>${doc==='guide'?'':'<span class="ws-who">Name ________________ Date ____________</span>'}</div>`});
@@ -161,10 +162,38 @@ const WS={view:(load('ws_view')||'mine'),setupFor:null,open:new Set(),m:null,
     const fig=[...el.querySelectorAll('img.fig')].some(im=>{const w=parseFloat(im.style.width)||im.getBoundingClientRect().width,s=+(im.closest('[data-figw]')?.style.getPropertyValue('--fs'))||1;return w*s>W+1});
     if(parts||tab||fig||el.scrollWidth>el.clientWidth+2){b.wide=true;el.classList.add('ws-wide')}})},
   // pages of two columns: a run of narrow questions fills a band, left column then right, balanced; a wide one closes the band and spans both
+  /* ---------- order: Fit the page (default) or My order ----------
+     owner 26 Nov, to "may worksheets reorder questions to save paper?": "yes but option for user to order as well"; to "publish now or after
+     the packing fix?": "after the packing fix". Fit the page orders the questions before the sheet is numbered (so every version, with or
+     without answers, solutions alone or at the back, has the same numbers): starting from the skill order, it fills both columns of a
+     band with the earliest question that fits before anything else (a wide question waits until no narrow one fits beside the band), then
+     the next question in order that fits the page, else a new page; three starting orders are tried and the one with the fewest pages
+     kept. Measured on the worksheet version, deterministic. My order (the tutor
+     moved a question) is kept as it is, saved with the worksheet, until Fit the page is chosen again. */
+  split(hs){const tot=hs.reduce((a,x)=>a+x,0);let l=0,best={k:hs.length,h:tot};for(let k=0;k<=hs.length;k++){const h=Math.max(l,tot-l);if(h<best.h)best={k,h};if(k<hs.length)l+=hs[k]}return best},
+  order(items,H,h0){const rest=items.slice(),out=[];let used=h0,band=null;out.pages=1;
+    const inBand=x=>!x.wide&&(band?used+WS.split([...band.hs,x.h]).h<=H:used+x.h<=H),below=x=>used+(band?band.h:0)+x.h<=H;
+    while(rest.length){let p=band?rest.find(inBand):null;   // a band is filled first: a column is never left empty while a later question fits it
+      if(!p)p=below(rest[0])?rest[0]:rest.find(below);
+      if(!p){if(!used&&!band)p=rest[0];else{used=0;band=null;out.pages++;continue}}   // nothing fits: a new page (one taller than a page goes on its own and is cut)
+      if(p.wide){if(band){used+=band.h;band=null}used+=p.h}else if(band){band.hs.push(p.h);band.h=WS.split(band.hs).h}else band={hs:[p.h],h:p.h};
+      out.push(p);rest.splice(rest.indexOf(p),1)}
+    return out},
+  _fit:null,
+  async fit(){const S=WS.S();if(S.order==='mine'||EX.items.length<2)return;const base=WS.sort(EX.items.map(xq).filter(Boolean)).map(q=>q.id),sig=JSON.stringify([base,EX.lines,EX.figscale]);
+    if(WS._fit===sig)return;const was=EX.items.join();EX.items=base;
+    const bl=xBlocks('exam'),{meas,H}=await exMeasure(bl,true),hOf=el=>el.getBoundingClientRect().height+parseFloat(getComputedStyle(el).marginBottom||0);
+    const it=bl.map((b,i)=>({id:b.q?.id,wide:!!b.wide,h:hOf(meas.children[i])})),qs=it.filter(x=>x.id);meas.remove();
+    // three starting orders (the skill order, tallest first, wide ones first then tallest), each packed the same way: the fewest pages
+    // wins, the skill order on a tie
+    const h0=it[0].id?0:it[0].h,by=(a,b)=>b.h-a.h,tries=[qs,qs.slice().sort(by),qs.slice().sort((a,b)=>b.wide-a.wide||by(a,b))].map(o=>WS.order(o,H,h0));
+    EX.items=tries.reduce((a,b)=>b.pages<a.pages?b:a).map(x=>x.id);WS._fit=sig;if(EX.items.join()!==was)xsave()},
+  move(id,d){const i=EX.items.indexOf(id),j=i+d;if(i<0||j<0||j>=EX.items.length)return;const ord=EX.items.slice();[ord[i],ord[j]]=[ord[j],ord[i]];WS.S().order='mine';exOrder(ord,id)},
+  setOrder(k){const S=WS.S();if(S.order===k)return;S.order=k;WS._fit=null;xsave();exRelayout();toast(k==='fit'?'Fit the page: questions placed to use as few pages as possible':'My order: move questions with ↑ ↓ beside each one')},
   pack(els,bl,H){const sheets=[];let cur=null,used=0,band=null;
     const hOf=el=>el.getBoundingClientRect().height+parseFloat(getComputedStyle(el).marginBottom||0);
     const start=part=>{cur=[];cur.part=part;sheets.push(cur);used=0;band=null};
-    const split=hs=>{const tot=hs.reduce((a,x)=>a+x,0);let l=0,best={k:hs.length,h:tot};for(let k=0;k<=hs.length;k++){const h=Math.max(l,tot-l);if(h<best.h)best={k,h};if(k<hs.length)l+=hs[k]}return best};
+    const split=WS.split;
     const close=()=>{if(band){used+=band.h;band=null}};
     els.forEach((el,i)=>{const b=bl[i],h=hOf(el);if(!cur||b.newpage||cur.part!==b.part)start(b.part);
       if(b.wide||b.cover){close();if(used+h>H&&cur.length)start(b.part);cur.push(el);used+=h;return}
@@ -173,7 +202,7 @@ const WS={view:(load('ws_view')||'mine'),setupFor:null,open:new Set(),m:null,
     return sheets.map(s=>{const o=s.map(x=>{if(!x.els)return x;const d=document.createElement('div');d.className='ws-band';const c=[0,1].map(()=>{const e=document.createElement('div');e.className='ws-col';d.appendChild(e);return e});
       x.els.forEach((e,j)=>c[j<x.k?0:1].appendChild(e));return d});o.part=s.part;return o})},
   info(n,doc){const qs=EX.items.map(xq).filter(Boolean),m=xMarks(qs),L=EX.ws?.last,sh=L&&L.n===qs.length?WS.short(L):'';
-    return `${n} page${n===1?'':'s'} · ${qs.length} question${qs.length===1?'':'s'} · ${m} mark${m===1?'':'s'}${doc==='answers'&&EXV.ans!=='worked'&&EXV.fb?` · ${EXV.fb} written part${EXV.fb===1?' has':'s have'} no short answer recorded, so ${EXV.fb===1?'it shows its':'they show their'} worked solution`:''}${sh?' · '+sh:''}`}};
+    return `${n} page${n===1?'':'s'} · ${qs.length} question${qs.length===1?'':'s'} · ${m} mark${m===1?'':'s'} · ${WS.S().order==='mine'?'My order':'Fit the page'}${doc==='answers'&&EXV.ans!=='worked'&&EXV.fb?` · ${EXV.fb} written part${EXV.fb===1?' has':'s have'} no short answer recorded, so ${EXV.fb===1?'it shows its':'they show their'} worked solution`:''}${sh?' · '+sh:''}`}};
 
 /* ---------- events ---------- */
 document.addEventListener('click',e=>{const t=e.target;if(!t.closest)return;
@@ -202,7 +231,7 @@ document.addEventListener('change',e=>{const t=e.target;if(!t.closest||!t.closes
   if(t.matches('[data-xlshow]')){XG.show=t.checked;WS.tree();WS.avail()}});
 // on the sheet: Swap / Remove on each question, + Add, Settings, Make another like this (before the exam paper's own click handler)
 document.addEventListener('click',e=>{const t=e.target;if(!t.closest||!t.closest('#xPv')||EX.kind!=='worksheet')return;
-  const b=t.closest('[data-wsswap],[data-wsrm],[data-wsadd],#wsPvSet,#wsPvAnother');if(!b)return;e.stopImmediatePropagation();
-  if(b.dataset.wsswap)WS.swap(+b.dataset.wsswap);else if(b.dataset.wsrm)WS.remove(+b.dataset.wsrm);else if(b.dataset.wsadd)WS.add(+b.dataset.wsadd);
+  const b=t.closest('[data-wsswap],[data-wsrm],[data-wsadd],[data-wsmv],[data-wsord],#wsPvSet,#wsPvAnother');if(!b)return;e.stopImmediatePropagation();
+  if(b.dataset.wsmv)WS.move(+b.dataset.id,+b.dataset.wsmv);else if(b.dataset.wsord)WS.setOrder(b.dataset.wsord);else if(b.dataset.wsswap)WS.swap(+b.dataset.wsswap);else if(b.dataset.wsrm)WS.remove(+b.dataset.wsrm);else if(b.dataset.wsadd)WS.add(+b.dataset.wsadd);
   else if(b.id==='wsPvAnother')WS.another();
   else{exClosePv();WS.view='setup';WS.setupFor=EX.id||'open';save('ws_view','setup');WS.render();window.scrollTo({top:0})}},true);
