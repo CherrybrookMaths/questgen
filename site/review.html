@@ -5500,7 +5500,7 @@ document.addEventListener('keydown',e=>{const h=e.target.closest&&e.target.close
   const d={ArrowRight:.05,ArrowUp:.05,ArrowLeft:-.05,ArrowDown:-.05}[e.key];if(d==null&&e.key!=='Home')return;e.preventDefault();e.stopPropagation();
   const k=h.dataset.figh,w=h.closest('.exfigw'),smax=exFigBase(w).smax;const cur=Math.min(smax,EXFKEY&&EXFKEY.k===k?EXFKEY.s:(EX.figscale[k]||1));
   const s=e.key==='Home'?1:Math.round(Math.max(.3,Math.min(smax,cur+d))*100)/100;exFigSet(w,s);w.classList.add('resizing');
-  if(EXFKEY)clearTimeout(EXFKEY.t);EXFKEY={k,s,t:setTimeout(()=>{EXFKEY=null;w.classList.remove('resizing');if(exFigCommit(k,s)){let n=0;const iv=setInterval(()=>{const el=document.querySelector(`#xPv [data-figh="${k}"]`);if(el&&el!==h){clearInterval(iv);el.focus({preventScroll:true})}else if(++n>40)clearInterval(iv)},100)}},600)}});
+  if(EXFKEY)clearTimeout(EXFKEY.t);EXFKEY={k,s,t:setTimeout(()=>{EXFKEY=null;w.classList.remove('resizing');if(exFigCommit(k,s)){let n=0;const iv=setInterval(()=>{const el=document.querySelector(`#xPv [data-figh="${k}"]`);if(el&&el!==h){clearInterval(iv);el.focus({preventScroll:true})}else if(++n>200)clearInterval(iv)},100)}},600)}});   // 26 Nov: wait up to 20 s for the relayout (4 s lost focus on a busy machine; the full page test caught it)
 // drag to reorder in the grading list
 let EXDRAG=null;
 document.addEventListener('dragstart',e=>{const r=e.target.closest&&e.target.closest('#exGSide [data-drag]');if(!r)return;EXDRAG=+r.dataset.drag;e.dataTransfer.effectAllowed='move';try{e.dataTransfer.setData('text/plain',String(EXDRAG))}catch(_){}r.closest('.gq').classList.add('dragging')});
@@ -7186,7 +7186,7 @@ const RUNDO={N:20,prev:{},undone:[],
    comes back into view and right before every approval; once a newer version is live, a bar asks for a reload and approvals
    (questions, diagrams, papers, paper calls, difficulty) are refused until then. Flags and notes still save. One page-wide name
    (CODE_HEALTH rule 1). */
-const FRESH={build:'1bde5d3a1bed5e04',stale:false,t:null,at:0,
+const FRESH={build:'dd79a6be26224a54',stale:false,t:null,at:0,
   async check(){if(this.stale||this.build.startsWith('__'))return this.stale;
     try{const r=await fetch('data/version.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)return false;const v=await r.json();
       this.at=Date.now();if(v&&v.build&&v.build!==this.build){this.stale=true;this.bar()}}catch(e){}
