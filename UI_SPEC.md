@@ -1585,3 +1585,23 @@ Owner 25 Nov, on a review of the page: "Besides that, yes action all these thing
 - Tests: the `bank: search reads one search file …`, `bank: a search with no matches …`, `bank: a multiple-choice solution …`,
   `header: the search hint …`, `zoom: …` (3), `bank: opens on the course's first topic …` and `review (checker|editor): the last flag
   run …` checks in tools/page_test.js (fixes1125).
+
+## Exams: paper with answers, and solutions at the back (26 Nov)
+Owner, 26 Nov: "Give options to print worksheet (with no answer), worked solutions, and worksheet with answers (this is where they can
+choose single number, worked or both). Really should be an option to print exam with answers too in our current builder."
+Then: "NO I ALSO MEANT a version where the answers are attched after all the questions, for students to self check, just the two pdfs
+stacked one after anotrher".
+- **Paper with answers** (doc `answers`; "Paper with answers" beside Marking guide in the exam panel, "With answers" in the preview's
+  switch). The exam paper as printed (cover, numbering, sections, diagrams, z-score table, reference sheet; no answer lines), each
+  question followed by its answer. A second switch picks what follows: **Final answer** (a multiple-choice question's letter, as
+  "Answer: B"), **Worked solution** (what the marking guide shows), or **Both**; the choice is kept in this browser (`ex_ans`, default
+  Both). The correct option is highlighted in every mode. The data records a short answer only for multiple-choice questions; a written
+  part has none, so it shows its worked solution in every mode (never a made-up value), and the info line says how many parts do so.
+- **Solutions at the back** (doc `stack`; "Solutions at the back" in the preview's switch). The exam paper exactly as printed, then the
+  marking guide exactly as it prints alone, from a new page, in one file. Each numbers its own pages ("Page k of N" as when printed
+  alone). In Word the guide also starts on a new page; the Word footer and page numbers run over the whole file.
+- Both download as HTML, PDF and Word like the paper and the guide; file names end " - with answers" and " - with solutions at the back".
+  The exam paper and the marking guide are unchanged.
+- Code: 20_exam.js xQ / xBlocks / xDocSfx, 24_exams.js xPreview (sheet parts, per-part page numbers), 29_pdf.js, 30_word.js.
+  Tests: the `exams: paper with answers …`, `export: paper with answers …`, `exams: solutions at the back …` and
+  `export: solutions at the back …` checks in tools/page_test.js (flows).

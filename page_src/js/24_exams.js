@@ -7,7 +7,8 @@
    now opens this page. Difficulty: band 2-6 and fluency (UF) / problem solving (PR) per part, from DIFFICULTY_SPEC. */
 const EXV={view:(load('ex_view')||'mine'),setupFor:null,
   pk:{topic:'all',q:'',paper:'all',type:'all',marks:'all',sort:'new',band:'all',wm:'all',fig:false,hide:false,limit:20},
-  open:new Set(),pkOpen:new Set(),sel:null,doc:'exam',grade:true,built:false,moved:null};
+  open:new Set(),pkOpen:new Set(),sel:null,doc:'exam',grade:true,built:false,moved:null,
+  ans:(load('ex_ans')||'both'),fb:0};   // owner 26 Nov: Paper with answers shows the final answer, the worked solution or both (20_exam.js xQ)
 const exSaveView=()=>{save('ex_view',EXV.view);};
 
 /* ---------- settings (kept in EX.auto with the stage-2 fields) ---------- */
@@ -402,7 +403,7 @@ const EXSEC={   // one page-wide name (CODE_HEALTH rule 1)
   blocks(mc,wr,tot){const W=this.mins(EX.time),secs=this.secs(mc,wr);
     return secs.map(x=>`<div class="cv-sec"><p class="cv-sech"><b>Section ${x.r} – ${x.mk} mark${x.mk===1?'':'s'}</b> <span class="cv-pg" data-pgsec="${x.n}"></span></p><ul><li>Attempt Questions ${x.q}</li>${W&&x.min>0?`<li>Allow about ${this.dur(x.min)} for this section</li>`:''}</ul></div>`).join('')},
   // the pages each section runs over, as the page footers number them (the cover is page 1)
-  pages(host){const sh=[...host.querySelectorAll('.sheet')],at=n=>sh.findIndex(s=>s.querySelector(`.xsechd[data-sec="${n}"]`));
+  pages(host){const sh=[...host.querySelectorAll('.sheet:not([data-part="guide"])')],at=n=>sh.findIndex(s=>s.querySelector(`.xsechd[data-sec="${n}"]`));
     const last=sh.map(s=>!!s.querySelector('section.xq')).lastIndexOf(true);   // the z-score table and reference sheet after it are not a section's pages
     const a1=at(1),a2=at(2),rng=(a,b)=>a<0||b<a?'':a===b?`(page ${a+1})`:`(pages ${a+1}–${b+1})`;
     host.querySelectorAll('.cv-pg').forEach(el=>{el.textContent=el.dataset.pgsec==='1'?rng(a1,a2>=0?a2-1:last):rng(a2,last)})}};
@@ -472,18 +473,19 @@ function exCont(blk,path,move,open){const q2=open(false),nb=q2.closest('.xblk');
   let n=move[0];const all=[];while(n){all.push(n);n=n.nextSibling}all.forEach(x=>host.appendChild(x));return nb}
 // The Word file flows its own pages, so it gets each question whole, as before: pieces cut inside a part (exCont) are put back
 // together in its copy of the sheets (30_word.js). Pieces cut between parts stay as they always were.
-function exRejoin(root){let last=new Map();
+function exRejoin(root){let last=new Map();const qk=sec=>(sec.closest('.sheet')?.dataset.part||'')+'|'+sec.dataset.q;   // 'stack': a question is on the paper and in the guide
   const merge=(dst,src)=>{[...src.childNodes].forEach(c=>{if(c.nodeType===1&&c.dataset.cut==='x')return;
     if(c.nodeType===1&&c.dataset.cut==='1'){const t=[...dst.children].reverse().find(d=>d.tagName===c.tagName&&d.className===c.className);if(t){merge(t,c);return}c.removeAttribute('data-cut')}
     dst.appendChild(c)});dst.normalize()};   // fix 13 Nov: text split at a line (exFlowCut) becomes one text node again
-  root.querySelectorAll('section.xq').forEach(sec=>{const qb=sec.querySelector(':scope>.xqb'),prev=last.get(sec.dataset.q);
+  root.querySelectorAll('section.xq').forEach(sec=>{const qb=sec.querySelector(':scope>.xqb'),prev=last.get(qk(sec));
     if(prev&&qb&&qb.querySelector(':scope>[data-cut]')){merge(prev.querySelector(':scope>.xqb'),qb);const src=sec.querySelector(':scope>.xsrc');if(src)prev.appendChild(src);sec.closest('.xblk')?.remove();return}
-    last.set(sec.dataset.q,sec)})}
+    last.set(qk(sec),sec)})}
 async function xPreview(doc,opts={}){exA();EXV.doc=doc;let ov=$('#xPv');
   if(!ov){ov=document.createElement('div');ov.id='xPv';ov.className='xpv expv';document.body.appendChild(ov)}
   const keepScroll=opts.keep?ov.scrollTop:0;
   if(!opts.keep||!$('#xPages')){
-    ov.innerHTML=`<div class="xtool"><div class="xseg"><button data-xdoc="exam" aria-pressed="${doc==='exam'}">Exam paper</button><button data-xdoc="guide" aria-pressed="${doc==='guide'}">Marking guide</button></div>
+    ov.innerHTML=`<div class="xtool"><div class="xseg"><button data-xdoc="exam" aria-pressed="${doc==='exam'}">Exam paper</button><button data-xdoc="guide" aria-pressed="${doc==='guide'}">Marking guide</button><button data-xdoc="answers" aria-pressed="${doc==='answers'}" title="The paper with each question's answer straight after it">With answers</button><button data-xdoc="stack" aria-pressed="${doc==='stack'}" title="The paper, then the marking guide from a new page, in one file: for students to check their own work">Solutions at the back</button></div>
+      ${doc==='answers'?`<div class="xseg ex-ansm" role="group" aria-label="After each question">${[['final','Final answer'],['worked','Worked solution'],['both','Both']].map(([k,t])=>`<button data-xans="${k}" aria-pressed="${EXV.ans===k}">${t}</button>`).join('')}</div>`:''}
       <span class="xinfo" id="xInfo">Laying out pages…</span><span class="sp"></span><span class="xpvsave" id="xPvSave"></span>
       <button class="act" id="exGrade" aria-pressed="${EXV.grade}">Questions</button>
       <span class="xmenu"><button class="act" data-xmenu aria-expanded="false">Exam</button><span class="xmenu-pop" hidden><button class="act" id="exPvSet" title="Change this exam's topics, marks or difficulty and regenerate it">Settings…</button><button class="act" id="exPvRegen"${exA().topics.length?'':' disabled title="Choose topics in Exam setup first"'}>Regenerate</button><button class="act" id="exPvTopic" aria-pressed="${EX.bytopic!==false}" title="Show the marks-by-topic table at the bottom of the cover">Topic table on the cover</button></span></span>
@@ -495,12 +497,14 @@ async function xPreview(doc,opts={}){exA();EXV.doc=doc;let ov=$('#xPv');
   if(!document.body.classList.contains('xpv-on')){EXV.pageY=scrollY;window.scrollTo(0,0)}   // a scrolled page underneath misplaces the fixed panels on phones
   ov.hidden=false;document.body.classList.add('xpv-on');ov.classList.toggle('grade-off',!EXV.grade);$('#exGrade')?.setAttribute('aria-pressed',String(EXV.grade));
   await QG.need(EX.items.map(xq));   // Fix 1 (owner 14 Nov: "Ok we should run Fix 1 and 2"): the paper's questions' topic files, before layout
+  // the cache key names the block's own document ('stack' holds paper and guide blocks of one question) and the answers mode
+  const ck=b=>exCKey(b.q,b.part+(b.part==='answers'?':'+EXV.ans:''),b.html);
   const bl=xBlocks(doc),meas=document.createElement('div');meas.className='xmeasure sheetbody';
   meas.innerHTML=bl.map((b,i)=>`<div class="xblk${b.cover?' cover':''}" data-i="${i}">${b.html}</div>`).join('');document.body.appendChild(meas);
-  bl.forEach((b,i)=>{if(!b.q)return;const el=meas.querySelector(`[data-i="${i}"]`),c=EXC.get(exCKey(b.q,doc,b.html)),qb=el.querySelector('.xqb');
+  bl.forEach((b,i)=>{if(!b.q)return;const el=meas.querySelector(`[data-i="${i}"]`),c=EXC.get(ck(b)),qb=el.querySelector('.xqb');
     if(c&&qb){qb.innerHTML=c;el.dataset.cached=1}else hydrate(el,b.q,'bank')});
   await typeset(meas);await xWait(meas);await typeset(meas);
-  bl.forEach((b,i)=>{if(!b.q)return;const el=meas.querySelector(`[data-i="${i}"]`);if(!el.dataset.cached){const qb=el.querySelector('.xqb');if(qb)EXC.set(exCKey(b.q,doc,b.html),qb.innerHTML)}});
+  bl.forEach((b,i)=>{if(!b.q)return;const el=meas.querySelector(`[data-i="${i}"]`);if(!el.dataset.cached){const qb=el.querySelector('.xqb');if(qb)EXC.set(ck(b),qb.innerHTML)}});
   $$('img.fig',meas).forEach(im=>{im.style.maxWidth='100%'});EXSEC.fitOpts(meas);
   // 14 Nov: content height 250 mm, not 259: the review pass measured only ~250 mm fitting inside a 297 mm sheet (padding + footer), so full sheets ran past A4 and were cut off in PDF/print.
   const probe=document.createElement('div');probe.style.height='250mm';meas.appendChild(probe);const H=probe.getBoundingClientRect().height;probe.remove();
@@ -527,25 +531,28 @@ async function xPreview(doc,opts={}){exA();EXV.doc=doc;let ov=$('#xPv');
     // hardening 14 Nov (page test): a single part (or one part's worked solution) taller than a page was left whole, so its
     // sheet grew past 297 mm and the PDF / print cut the bottom off. Such a piece is now also cut inside the part, between lines
     for(let k=0;k<pieces.length;k++){let g=0;while(pieces[k].getBoundingClientRect().height>lim(k)*0.98&&g++<40){const nx=exCutTall(pieces[k],lim(k),open);if(!nx)break;pieces.splice(pieces.indexOf(nx),1);pieces.splice(k+1,0,nx);k++}}
-    if(src)pieces[pieces.length-1].querySelector('section').appendChild(src);el.remove();pieces.forEach(()=>bl2.push({q:bl[i].q}));return pieces});
+    if(src)pieces[pieces.length-1].querySelector('section').appendChild(src);el.remove();pieces.forEach(()=>bl2.push({q:bl[i].q,part:bl[i].part}));return pieces});
   bl.length=0;bl.push(...bl2);
-  const sheets=[];let cur=null,used=0;const start=()=>{cur=[];sheets.push(cur);used=0};
+  const sheets=[];let cur=null,used=0;const start=b=>{cur=[];cur.part=b.part;sheets.push(cur);used=0};
   els.forEach((el,i)=>{const b=bl[i],h=el.getBoundingClientRect().height+parseFloat(getComputedStyle(el).marginBottom||0);
     const nextH=b.sec&&els[i+1]?els[i+1].getBoundingClientRect().height:0,onlyHead=cur&&cur.length===1&&bl[els.indexOf(cur[0])]?.sec;
-    if(!cur||b.cover||b.newpage||(used+h+nextH>H&&cur.length&&!onlyHead))start();
+    if(!cur||b.cover||b.newpage||(used+h+nextH>H&&cur.length&&!onlyHead))start(b);
     cur.push(el);used+=h;if(b.cover)cur=null});
   // owner 19 Nov: "The exam should always have an odd number of pages so no nothing is printing on the back page, add an intentional
   // blank marked page where needed": an even count gets a marked blank page after the last question page (before the z-score table
   // and the reference sheet, which stay at the back)
-  if(doc==='exam'&&sheets.length%2===0){const at=sheets.map(s=>s.some(el=>el.querySelector('section.xq'))).lastIndexOf(true)+1,b=document.createElement('div');
-    b.className='xblk cover';b.innerHTML='<div class="xblank">This page is intentionally left blank.</div>';sheets.splice(at>0?at:sheets.length,0,[b])}
+  // the paper with answers too; 'stack': the paper's own pages (the guide after it then starts on a new sheet of paper)
+  const ppr=s=>s.part!=='guide';
+  if(doc!=='guide'&&sheets.filter(ppr).length%2===0){const at=sheets.map(s=>ppr(s)&&s.some(el=>el.querySelector('section.xq'))).lastIndexOf(true)+1,b=document.createElement('div');
+    b.className='xblk cover';b.innerHTML='<div class="xblank">This page is intentionally left blank.</div>';const s=[b];s.part=sheets[0].part;sheets.splice(at>0?at:sheets.filter(ppr).length,0,s)}
   const host=$('#xPages');host.innerHTML='';
-  sheets.forEach((s,k)=>{const sh=document.createElement('div');sh.className='sheet';const body=document.createElement('div');body.className='sheetbody';s.forEach(el=>body.appendChild(el));sh.appendChild(body);
+  const nPart={},kPart={};sheets.forEach(s=>{nPart[s.part]=(nPart[s.part]||0)+1});   // each document numbers its own pages ('stack')
+  sheets.forEach(s=>{const k=kPart[s.part]=(kPart[s.part]||0)+1,sh=document.createElement('div');sh.className='sheet';sh.dataset.part=s.part;const body=document.createElement('div');body.className='sheetbody';s.forEach(el=>body.appendChild(el));sh.appendChild(body);
     // owner 18 Nov: "remove the footer on the cover page", "instead of 1/28 write Page 1 of 28"
-    if(!(doc==='exam'&&k===0))sh.insertAdjacentHTML('beforeend',`<div class="sheetfoot">${esc(EX.title)} · ${esc(EX.sub)}${doc==='guide'?' · marking guide':''}<span>Page ${k+1} of ${sheets.length}</span></div>`);host.appendChild(sh)});
+    if(!(ppr(s)&&k===1))sh.insertAdjacentHTML('beforeend',`<div class="sheetfoot">${esc(EX.title)} · ${esc(EX.sub)}${xDocSfx(s.part,' · ')}<span>Page ${k} of ${nPart[s.part]}</span></div>`);host.appendChild(sh)});
   meas.remove();EXSEC.pages(host);scaleTables(host,true);exZoom();
   const qs=EX.items.map(xq).filter(Boolean),tot=xMarks(qs);let F=0,P=0,w=0;qs.forEach(q=>{const e=exEst(q);if(e){F+=e.fl;P+=e.ps;w+=e.d*e.m}});
-  $('#xInfo').textContent=`${sheets.length} page${sheets.length===1?'':'s'} · ${qs.length} questions · ${tot} marks${F+P?` · ${Math.round(P/(F+P)*100)}% problem solving · average band ${(w/(F+P)).toFixed(1)}`:''}`;
+  $('#xInfo').textContent=`${sheets.length} page${sheets.length===1?'':'s'} · ${qs.length} questions · ${tot} marks${F+P?` · ${Math.round(P/(F+P)*100)}% problem solving · average band ${(w/(F+P)).toFixed(1)}`:''}${doc==='answers'&&EXV.ans!=='worked'&&EXV.fb?` · ${EXV.fb} written part${EXV.fb===1?' has':'s have'} no short answer recorded, so ${EXV.fb===1?'it shows its':'they show their'} worked solution`:''}`;
   $('#xDl').disabled=false;$('#xDl').dataset.doc=doc;EXAS.bar();
   exGrading();if(opts.keep)ov.scrollTop=keepScroll;else ov.scrollTop=0;
   // owner 14 Nov ("make it so we can export pdfs from here"): PDF (29_pdf.js) and Word (30_word.js) join HTML in the Download menu

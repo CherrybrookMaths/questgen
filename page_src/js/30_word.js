@@ -62,7 +62,7 @@ async function xWord(doc){
       if(el.matches('.xlines,.exln')){const n=el.querySelectorAll('i').length;if(n){out.push(P([],{after:0}));out.push(lines(n,ctx.indent||0))}out.push(P([],{after:280}));return}   // owner 18 Nov: more space before the next part
       if(el.matches('table')){out.push(await table(el,ctx));out.push(P([],{after:60}));return}
       if(el.matches('.xsechd')){const sec2=el.dataset.sec==='2';const t=el.querySelector('b')?.textContent.trim()||el.textContent.trim();   // owner 18 Nov: NESA-style section heading
-        out.push(new Paragraph({children:[new TextRun({text:t,bold:true,font:UI,size:30})],pageBreakBefore:sec2&&doc==='exam',keepNext:true,spacing:{before:200,after:120}}));
+        out.push(new Paragraph({children:[new TextRun({text:t,bold:true,font:UI,size:30})],pageBreakBefore:sec2&&ctx.part!=='guide',keepNext:true,spacing:{before:200,after:120}}));
         const ps=[...el.querySelectorAll('p')];ps.forEach((p,i)=>out.push(new Paragraph({children:[new TextRun({text:p.textContent.trim(),font:UI,size:24})],keepNext:true,spacing:{after:i===ps.length-1?200:60},
           border:i===ps.length-1?{bottom:{style:BorderStyle.SINGLE,size:6,color:'666666',space:6}}:undefined})));
         if(!ps.length)out.push(new Paragraph({children:[],spacing:{after:120},border:{bottom:{style:BorderStyle.SINGLE,size:6,color:'666666',space:2}}}));return}
@@ -79,7 +79,7 @@ async function xWord(doc){
         else if(lab||mk)sub.unshift(new Paragraph({children:[...head,...(mk?[new TextRun({text:'\t'+mk,bold:true,font:UI,size:20})]:[])],indent:{left:ind,hanging:567},tabStops:[{type:TabStopType.LEFT,position:ind},{type:TabStopType.RIGHT,position:RIGHT}]}));
         out.push(...sub);return}
       if(el.matches('.xo')){const lb=el.querySelector(':scope>b'),lab=lb?.textContent||'';const rs=[new TextRun({text:lab+'\t',bold:true,font:UI,size:20})];for(const c of el.childNodes){if(c===lb)continue;await runs(c,fmt,rs)}
-        const ok=el.classList.contains('xok')&&doc==='guide';out.push(new Paragraph({children:rs,indent:{left:(ctx.indent||0)+567,hanging:567},tabStops:[{type:TabStopType.LEFT,position:(ctx.indent||0)+567}],spacing:{after:80},...(ok?{shading:{type:ShadingType.CLEAR,fill:'E3F1E5',color:'auto'},border:{left:{style:BorderStyle.SINGLE,size:6,color:'2F7A43',space:6}}}:{})}));return}
+        const ok=el.classList.contains('xok')&&ctx.part!=='exam';out.push(new Paragraph({children:rs,indent:{left:(ctx.indent||0)+567,hanging:567},tabStops:[{type:TabStopType.LEFT,position:(ctx.indent||0)+567}],spacing:{after:80},...(ok?{shading:{type:ShadingType.CLEAR,fill:'E3F1E5',color:'auto'},border:{left:{style:BorderStyle.SINGLE,size:6,color:'2F7A43',space:6}}}:{})}));return}
       if(el.matches('.xsol,.sol')&&!ctx.inSol){const sub=[];for(const c of el.children)await blocks(c,{...ctx,inSol:true,indent:(ctx.indent||0)+284},sub);
         out.push(...sub.map(x=>x));return}
       if(el.matches('ul,ol')){let k=0;for(const li of el.children){if(li.matches(W_SKIP))continue;k++;const rs=[new TextRun({text:(el.tagName==='OL'?k+'.':'•')+'\t',font:fmt.font})];for(const c of li.childNodes)await runs(c,fmt,rs);
@@ -111,24 +111,26 @@ async function xWord(doc){
       const tt=cv.querySelector('.extopictbl');if(tt){   // owner 18 Nov: marks by topic is always on the cover
       out.push(new Paragraph({children:[],spacing:{before:480}}));const t=tt.querySelector('table');if(t)out.push(await table(t,{font:UI,size:18}))}}   // owner 18 Nov: no "Marks by topic" heading
     // ---- walk the sheets ----
-    const body=[];const sheets=[...host.querySelectorAll('.sheet')];let k=0;
+    const body=[];const sheets=[...host.querySelectorAll('.sheet')];let k=0,was=null;
     for(const sh of sheets){k++;say(`Making the Word file: page ${k} of ${sheets.length}…`);
+      // owner 26 Nov (doc 'stack', 20_exam.js xBlocks): the marking guide after the paper starts a new page
+      const part=sh.dataset.part||doc;if(was&&part!==was)body.push(new Paragraph({children:[],pageBreakBefore:true}));was=part;
       for(const blk of sh.querySelectorAll(':scope>.sheetbody>*')){const cv=blk.querySelector('.xcover');
         // owner 18 Nov: the blank back of the cover and each reference-sheet page are pages of their own in Word too
         if(blk.querySelector('.xblank')){body.push(new Paragraph({alignment:AlignmentType.CENTER,spacing:{before:5600},children:[new TextRun({text:blk.textContent.trim(),font:FONT,italics:true})]}),new Paragraph({children:[],pageBreakBefore:true}));continue}
         if(blk.querySelector('.xref'))body.push(new Paragraph({children:[],pageBreakBefore:true}));
         if(cv){await cover(cv,body);body.push(new Paragraph({children:[],pageBreakBefore:true}));continue}
-        await blocks(blk,{font:FONT},body)}
+        await blocks(blk,{font:FONT,part},body)}
       await new Promise(r=>setTimeout(r,0))}
-    const title=`${EX.sub||EX.title||'Exam'}${doc==='guide'?' – marking guide':''}`;
+    const title=`${EX.sub||EX.title||'Exam'}${xDocSfx(doc,' – ')}`;
     const wd=new D.Document({creator:'Questgen',title,styles:{default:{document:{run:{font:FONT,size:23}}}},
       // owner 18 Nov: no footer on the cover (a blank first-page footer), and "Page 1 of 28"
-      sections:[{properties:{titlePage:doc==='exam',page:{size:{width:11906,height:16838},margin:{top:1134,bottom:1134,left:1134,right:1134}}},
-        footers:{first:new Footer({children:[new Paragraph({children:[]})]}),default:new Footer({children:[new Paragraph({alignment:AlignmentType.CENTER,children:[new TextRun({text:`${EX.title||''} · ${EX.sub||''}${doc==='guide'?' · marking guide':''}    `,font:UI,size:16,color:'777777'}),new TextRun({children:['Page ',PageNumber.CURRENT,' of ',PageNumber.TOTAL_PAGES],font:UI,size:16,color:'777777'})]})]})},
+      sections:[{properties:{titlePage:doc!=='guide',page:{size:{width:11906,height:16838},margin:{top:1134,bottom:1134,left:1134,right:1134}}},
+        footers:{first:new Footer({children:[new Paragraph({children:[]})]}),default:new Footer({children:[new Paragraph({alignment:AlignmentType.CENTER,children:[new TextRun({text:`${EX.title||''} · ${EX.sub||''}${xDocSfx(doc,' · ')}    `,font:UI,size:16,color:'777777'}),new TextRun({children:['Page ',PageNumber.CURRENT,' of ',PageNumber.TOTAL_PAGES],font:UI,size:16,color:'777777'})]})]})},
         children:body}]});
     say('Packing…');const blob=await D.Packer.toBlob(wd);
     const name=(EX.sub||EX.title||'exam').replace(/[^\w\- ]+/g,'').trim()||'exam';
-    await dl.save({filename:`${name}${doc==='guide'?' - marking guide':''}.docx`,data:blob});
+    await dl.save({filename:`${name}${xDocSfx(doc,' - ')}.docx`,data:blob});
     toast(fails?`Word file saved · ${fails} of ${maths} equations kept as pictures`:'Word file saved, with editable equations')}
   catch(e){if(e?.code!=='declined')toast(e?.code?`Could not save the Word file (${e.code})`:`Could not make the Word file: ${e.message||e}`);console.error(e)}
   finally{host?.remove();if(btn)btn.disabled=false;say(old||'')}}

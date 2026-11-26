@@ -47,9 +47,9 @@ async function xPdf(doc){
       pdf.addImage(cv.toDataURL('image/jpeg',0.9),'JPEG',0,0,210,297,undefined,'FAST');
       await new Promise(res=>setTimeout(res,0))}   // let the page breathe between sheets
     const title=(EX.sub||EX.title||'exam').replace(/[^\w\- ]+/g,'').trim()||'exam';
-    pdf.setProperties({title:`${EX.sub||EX.title||'Exam'}${doc==='guide'?' – marking guide':''}`,creator:'Questgen'});
+    pdf.setProperties({title:`${EX.sub||EX.title||'Exam'}${xDocSfx(doc,' – ')}`,creator:'Questgen'});
     const blob=pdf.output('blob');say('Saving…');
-    await dl.save({filename:`${title}${doc==='guide'?' - marking guide':''}.pdf`,data:blob});
+    await dl.save({filename:`${title}${xDocSfx(doc,' - ')}.pdf`,data:blob});
     toast(`PDF saved · ${sheets.length} page${sheets.length===1?'':'s'}`)}
   catch(e){if(e?.code==='declined'){}else toast(e?.code?`Could not save the PDF (${e.code})`:`Could not make the PDF: ${e.message||e}`)}
   finally{host?.remove();if(btn)btn.disabled=false;say(old||'')}}

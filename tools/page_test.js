@@ -477,6 +477,77 @@ async function flows(browser, base, seed, seedR) {
     return `${r.n} sheets`;
   });
   if (!QUICK) await check('export: Word (marking guide)', page, wordCheck);
+  // owner 26 Nov: "Give options to print worksheet (with no answer), worked solutions, and worksheet with answers (this is where they can
+  // choose single number, worked or both). Really should be an option to print exam with answers too in our current builder."
+  // and "NO I ALSO MEANT a version where the answers are attched after all the questions, for students to self check, just the two pdfs
+  // stacked one after anotrher" (20_exam.js xQ / xBlocks: docs 'answers' and 'stack')
+  const sheetTexts = () => page.evaluate(() => [...document.querySelectorAll('#xPages .sheet')].map(s => ({part: s.dataset.part, t: s.textContent.replace(/\s+/g, ' ').trim()})));
+  const docShape = () => page.evaluate(() => { const P = document.querySelector('#xPages');
+    return {sol: P.querySelectorAll('.xsol').length, ans: P.querySelectorAll('.ex-ans').length, ok: P.querySelectorAll('.xo.xok').length, lines: P.querySelectorAll('.exln').length, key: !!P.querySelector('.xkey'), cover: !!P.querySelector('.xcover')} });
+  let guideT = null, examT = null, guideS = null, examS = null;
+  await check('exams: paper with answers (final answer, worked solution, both) and the paper and guide unchanged', page, async () => {
+    guideT = await sheetTexts(); guideS = await docShape();   // the marking guide is open after the check above
+    await page.click('[data-xdoc="exam"]'); await waitPv(); examT = await sheetTexts(); examS = await docShape();
+    const before = await page.evaluate(() => [xBlocks('exam').map(b => b.html).join(''), xBlocks('guide').map(b => b.html).join('')]);
+    assert(!examS.sol && !examS.ans && !examS.ok && examS.lines > 0 && examS.cover && !examS.key, `exam paper: ${JSON.stringify(examS)}`);
+    assert(guideS.sol > 0 && !guideS.ans && !guideS.lines && !guideS.cover, `marking guide: ${JSON.stringify(guideS)}`);
+    await page.click('#xPv [data-xdoc="answers"]'); await waitPv();
+    const out = [];
+    for (const m of ['final', 'worked', 'both']) {
+      await page.click(`#xPv [data-xans="${m}"]`); await waitPv();
+      const r = await page.evaluate(m => { const P = document.querySelector('#xPages'), qs = EX.items.map(xq).filter(Boolean), mc = qs.filter(q => q.type === 'mcq');
+        const inQ = (q, sel) => [...P.querySelectorAll(`section.xq[data-q="${q.id}"] ${sel}`)];
+        // each multiple-choice answer comes straight after the question's options
+        const after = mc.filter(q => { const els = [...P.querySelectorAll(`section.xq[data-q="${q.id}"] :is(.xo, table.ot, .ex-ans)`)], a = els.findIndex(e => e.matches('.ex-ans'));
+          return a >= 0 && els.slice(a + 1).every(e => e.matches('.ex-ans')) && a > 0 });
+        const letters = mc.filter(q => inQ(q, '.ex-ans').map(e => e.textContent.trim()).join() === 'Answer: ' + q.options.find(o => o.is_correct).label).length;
+        const mcSol = mc.filter(q => inQ(q, '.xsol').length).length, wr = qs.filter(q => q.type !== 'mcq'), wrSol = wr.filter(q => inQ(q, '.xsol').length).length;
+        const nums = [...P.querySelectorAll('section.xq :is(.xqn, .xqh:not(.cont) b)')].map(e => e.textContent.trim());
+        return {m, mc: mc.length, wr: wr.length, after: after.length, letters, mcSol, wrSol, lines: P.querySelectorAll('.exln').length, ok: P.querySelectorAll('.xo.xok, table.ot tr.correct').length,
+          cover: !!P.querySelector('.sheet .xcover'), nums: nums.join(','), info: document.querySelector('#xInfo').textContent, fb: EXV.fb, pressed: document.querySelector(`[data-xans="${m}"]`).getAttribute('aria-pressed')} }, m);
+      const s = await sheetCheck(); errs();
+      const want = await page.evaluate(() => { const qs = EX.items.map(xq).filter(Boolean); return qs.map((q, i) => q.type === 'mcq' ? String(i + 1) : `QUESTION ${i + 1}`).join(',') });
+      assert(r.pressed === 'true', `${m}: its button is not pressed`);
+      assert(r.cover && !r.lines && r.nums === want, `${m}: cover ${r.cover}, ${r.lines} answer lines, numbering “${r.nums.slice(0, 80)}” (want “${want.slice(0, 80)}”)`);
+      assert(r.ok >= r.mc, `${m}: ${r.ok} correct options highlighted for ${r.mc} multiple-choice questions`);
+      if (m === 'worked') assert(!r.letters && r.mcSol === r.mc, `worked: ${r.letters} letters shown, ${r.mcSol}/${r.mc} MC worked solutions`);
+      else assert(r.letters === r.mc && r.after === r.mc, `${m}: ${r.letters}/${r.mc} correct letters, ${r.after} straight after the options`);
+      if (m === 'final') assert(!r.mcSol, `final: ${r.mcSol} MC questions show working`);
+      if (m === 'both') assert(r.mcSol === r.mc, `both: ${r.mcSol}/${r.mc} MC worked solutions`);
+      assert(r.wrSol === r.wr, `${m}: ${r.wrSol}/${r.wr} written questions show their worked solution`);
+      assert(m === 'worked' ? !/no short answer/.test(r.info) : r.fb > 0 && r.info.includes(`${r.fb} written part`), `${m}: info line “${r.info}” (fallbacks ${r.fb})`);
+      assert(!s.over.length && !s.empty, `${m}: sheets over A4 ${JSON.stringify(s.over)}, ${s.empty} empty`);
+      out.push(`${m}: ${s.n} sheets${m === 'worked' ? '' : `, ${r.fb} written parts fall back`}`);
+    }
+    const after = await page.evaluate(() => [xBlocks('exam').map(b => b.html).join(''), xBlocks('guide').map(b => b.html).join('')]);
+    assert(after[0] === before[0] && after[1] === before[1], 'the exam paper or marking guide changed after the paper with answers was laid out');
+    return out.join(' · ');
+  });
+  const dlFile = async sel => { const n0 = await nDl(); await pvClick(page, sel); const d = await waitDl(n0, 180000); return {d, buf: fs.readFileSync(path.join(DL, d.filename.replace(/[^\w.\- ]+/g, '_')))} };
+  // every format of the two new documents, also in a --only run: these are their only download checks
+  const dlAll = async suffix => { const n = (await page.$$('#xPages .sheet')).length, out = [];
+    const h = await dlFile('#xDl'); errs(); assert(h.d.filename.endsWith(` - ${suffix}.html`) && /^<!doctype html>/i.test(h.buf.toString('utf8')), `HTML: ${h.d.filename}`);
+    assert((h.buf.toString('utf8').match(/class="sheet"/g) || []).length === n, 'HTML sheet count differs from the preview'); out.push(h.d.filename);
+    const p = await dlFile('#xPdf'), pages = (p.buf.toString('latin1').match(/\/Type\s*\/Page(?![s\w])/g) || []).length; errs();
+    assert(p.d.filename.endsWith(` - ${suffix}.pdf`) && p.buf.slice(0, 5).toString('latin1') === '%PDF-' && pages === n, `PDF: ${p.d.filename}, ${pages} pages for ${n} sheets`); out.push(`${pages}-page PDF`);
+    const w = await dlFile('#xWord'), z = unzip(w.buf), x = z['word/document.xml']?.toString('utf8') || ''; errs();
+    assert(w.d.filename.endsWith(` - ${suffix}.docx`) && (x.match(/<m:oMath[\s>]/g) || []).length > 0, `Word: ${w.d.filename}, ${x.length} bytes of document.xml`); out.push(`${(w.d.size / 1e3).toFixed(0)} kB .docx`);
+    return out.join(', ') };
+  await check('export: paper with answers as HTML, PDF and Word', page, async () => {
+    await page.click('#xPv [data-xans="both"]'); await waitPv(); return dlAll('with answers') });
+  await check('exams: solutions at the back is the exam paper, then the marking guide from a new page', page, async () => {
+    assert(examT && guideT, 'the check above did not record the paper and guide');
+    await page.click('#xPv [data-xdoc="stack"]'); await waitPv();
+    const st = await sheetTexts(), s = await sheetCheck(); errs();
+    const ex = st.filter(x => x.part === 'exam'), gd = st.filter(x => x.part === 'guide'), firstG = st.findIndex(x => x.part === 'guide');
+    assert(ex.length === examT.length && gd.length === guideT.length && firstG === ex.length, `parts: ${st.map(x => x.part[0]).join('')}; paper ${examT.length} sheets, guide ${guideT.length}`);
+    const dE = ex.findIndex((x, i) => x.t !== examT[i].t), dG = gd.findIndex((x, i) => x.t !== guideT[i].t);
+    assert(dE < 0, `paper sheet ${dE + 1} differs: “${ex[dE]?.t.slice(0, 120)}” vs “${examT[dE]?.t.slice(0, 120)}”`);
+    assert(dG < 0, `guide sheet ${dG + 1} differs: “${gd[dG]?.t.slice(0, 120)}” vs “${guideT[dG]?.t.slice(0, 120)}”`);
+    assert(!s.over.length && !s.empty, `sheets over A4 ${JSON.stringify(s.over)}, ${s.empty} empty`);
+    return `${ex.length} paper + ${gd.length} guide sheets, text identical to each alone`;
+  });
+  await check('export: solutions at the back as HTML, PDF and Word', page, () => dlAll('with solutions at the back'));
   // owner 17 Nov: exams holding a question that refers to the z-score table at the back get the table on the last page
   await check('preview: z-score table at the back only when a question needs it', page, async () => {
     const id = await page.evaluate(() => { const id = EX.items[0]; reviews['q' + id] = { ...(reviews['q' + id] || {}), zt: true }; return id; });

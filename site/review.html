@@ -1057,6 +1057,9 @@ table.gparts th,table.gparts td{padding:4px 6px;text-align:left;border-bottom:1p
 .sheet table.ot tr.correct.show td,.xmeasure table.ot tr.correct.show td{background:#edf5f3}
 .sheet .xsol,.xmeasure .xsol{border-left:.75pt solid #a8a8a8;padding:.6mm 0 .6mm 4mm}
 .sheet .xsol .sol,.xmeasure .xsol .sol{border-left:0;border-radius:0;background:none;padding:0}
+/* owner 26 Nov ("worksheet with answers ... single number, worked or both"): Paper with answers, a multiple-choice question's letter */
+.sheet .ex-ans,.xmeasure .ex-ans{border-left:.75pt solid #a8a8a8;padding:.6mm 0 .6mm 4mm;margin:2mm 0 1mm}
+.expv .ex-ansm{margin-left:8px}
 @media print{.lnctl,.figctl,.figpct,.figh,.exaddli,.expvside,.scr-only{display:none!important}.expvbody{display:block}}
 
 /* narrow screens: side columns become drawers, like the owner's exam maker */
@@ -4216,7 +4219,7 @@ function xPanel(){
       <div class="xf2"><label>Minutes per mark<input type="number" data-xmpm min="0.5" max="4" step="0.1" value="${+EX.mpm||1.8}"></label><div class="xmpmh">${EX.timeAuto===false?`Working time typed by hand. <button type="button" class="linkbtn" data-xtauto>Work it out from the marks</button>`:'Working time = marks × minutes per mark (HSC Advanced: 1.8).'}</div></div></div>
     ${EX.items.length?`${mc.length?`<div class="xsec">Section I · multiple choice · ${xMarks(mc)} marks</div><ol class="xlist">${mc.map(row).join('')}</ol>`:''}${wr.length?`<div class="xsec">Section II · ${xMarks(wr)} marks</div><ol class="xlist">${wr.map(row).join('')}</ol>`:''}`
       :'<div class="xempty">No questions yet. Press <b>+ Add to exam</b> on any question in the Bank.</div>'}
-    <div class="xacts"><button class="act ok" id="xPrev" ${EX.items.length?'':'disabled'}>Preview paper</button><button class="act" id="xGuide" ${EX.items.length?'':'disabled'}>Marking guide</button></div>
+    <div class="xacts"><button class="act ok" id="xPrev" ${EX.items.length?'':'disabled'}>Preview paper</button><button class="act" id="xGuide" ${EX.items.length?'':'disabled'}>Marking guide</button><button class="act" id="xAns" ${EX.items.length?'':'disabled'} title="The paper with each question's answer straight after it">Paper with answers</button></div>
 `;
   // owner 19 Nov ("too many outs and ways to replace the questions accidentally"): the panel's own list of saved exams (it replaced the
   // open exam in one click) is gone; exams are opened from My exams
@@ -4244,6 +4247,7 @@ document.addEventListener('click',e=>{
     const a1=EX.items.indexOf(id),a2=EX.items.indexOf(t);[EX.items[a1],EX.items[a2]]=[EX.items[a2],EX.items[a1]];xsave();return}
   if(e.target.closest('#xPrev')){xPreview('exam');return}
   if(e.target.closest('#xGuide')){xPreview('guide');return}
+  if(e.target.closest('#xAns')){xPreview('answers');return}
   if(e.target.closest('[data-xtauto]')){EX.timeAuto=true;xsave();return}
 });
 document.addEventListener('input',e=>{const f=e.target.closest('[data-xf]');if(f){EX[f.dataset.xf]=f.value;if(f.dataset.xf==='time')EX.timeAuto=false;save(XKEY,JSON.stringify(EX));if(typeof EXAS!=='undefined')EXAS.schedule()}});
@@ -4255,22 +4259,29 @@ function xFigSlots(q,keys){return keys.map(k=>`<span class="figslot" data-fig="$
 // One question as printed. On the exam paper (not the guide) every diagram slot gets a corner resize handle (exFigWrap) and each
 // leaf part gets editable answer lines (exLines), both from the Exams page (owner 14 Nov). The source line ends with an ⓘ that
 // opens the question's dot points, band and Report, screen only (question reports, owner 14 Nov, alpha; ⓘ owner 14 Nov).
+// owner 26 Nov: "Give options to print worksheet (with no answer), worked solutions, and worksheet with answers (this is where they can
+// choose single number, worked or both). Really should be an option to print exam with answers too in our current builder."
+// doc 'answers' (Paper with answers): the exam paper, each question followed by its answer (EXV.ans): 'final' the short answer, 'worked'
+// the marking guide's worked solution, 'both'. Only a multiple-choice question records a short answer (its letter); a written part has
+// none in the data, so it shows its worked solution in every mode (counted in EXV.fb for the preview's info line; never made up).
 function xQ(q,n,doc){exA();
-  const fk=figKeys(q), guide=doc==='guide';
+  const fk=figKeys(q), guide=doc==='guide', ans=doc==='answers', am=ans?EXV.ans:'', key=q.type==='mcq'&&q.options.find(o=>o.is_correct)?.label;
   const loose=fk.all.filter(k=>!fk.inline.has(k)&&!fk.opt.has(k)&&!q.figures.find(f=>f.src.endsWith('/'+k+'.png')&&f.part));
   const partFigs=pid=>q.figures.filter(f=>f.part===pid).map(f=>f.src.split('/').pop().replace('.png','')).filter(k=>!fk.inline.has(k));
   // guide: worked solution only; no internal review notes, no rubric for MCQ (the key is highlighted and tabled)
   const clean=h=>h.replace(/<div class="callout"><b>(Check this|Corrected from source)[\s\S]*?<\/div>/g,'').replace(/<div class="help">(?:<[^>]*>)*\s*Corrected from source[\s\S]*?<\/div>/g,'').replace(q.type==='mcq'?/<table class="rub">[\s\S]*?<\/table>/g:/$^/,'');
-  const sols=pid=>{if(!guide)return '';const s=solsFor(q,pid,'bank');return s.count?`<div class="xsol">${clean(s.html)}</div>`:''};
-  const mcSols=q.type==='mcq'?q.parts.map(p=>sols(p.id)).join(''):'';
+  const sols=pid=>{if(!guide&&!ans)return '';const s=solsFor(q,pid,'bank');if(s.count&&ans&&am!=='worked'&&q.type!=='mcq')EXV.fb++;return s.count?`<div class="xsol">${clean(s.html)}</div>`:''};
+  const mcOnly=q.type==='mcq'&&am==='final'&&key;   // final answer only: the letter, no working (filed under its part or the whole question)
+  const mcSols=q.type==='mcq'&&!mcOnly?q.parts.map(p=>sols(p.id)).join(''):'';
+  const mcKey=q.type==='mcq'&&key&&(am==='final'||am==='both')?`<div class="ex-ans"><b>Answer:</b> ${esc(key)}</div>`:'';
   const lone=q.parts.length===1&&!q.parts[0].label;
   const parts=q.parts.map(p=>{const lf=leaf(q,p);
     const mk=p.marks!=null&&!lone?`<span class="xpm">[${p.marks}]</span>`:'';   // owner 18 Nov (sample layout): part marks as "[2]" at the right
     return `<div class="xpart ${p.parent?'child':''} ${p.label?'':'nolab'}">${p.label?`<span class="xpl">(${esc(p.label)})</span>`:''}<div class="xpb"><div class="tx">${tex(p.latex)}${xFigSlots(q,partFigs(p.id))}</div>
-      ${lf&&q.type!=='mcq'&&!guide?exLines(q,p):''}${q.type==='mcq'?'':sols(p.id)}</div>${mk}</div>`}).join('');
+      ${lf&&q.type!=='mcq'&&doc==='exam'?exLines(q,p):''}${q.type==='mcq'?'':sols(p.id)}</div>${mk}</div>`}).join('');
   let opts='';const lay=q.layout||(q.opt_table?'table':'text');
-  if(q.type==='mcq'){const ok=o=>guide&&o.is_correct?' xok':'';
-    if(lay==='table'&&q.opt_table)opts=optTableHTML(q,guide);
+  if(q.type==='mcq'){const ok=o=>(guide||ans)&&o.is_correct?' xok':'';
+    if(lay==='table'&&q.opt_table)opts=optTableHTML(q,guide||ans);
     else if(lay==='graph')opts=`<div class="xog">${q.options.map(o=>`<div class="xo${ok(o)}"><b>${o.label}.</b>${o.fig?xFigSlots(q,[o.fig]):`<span class="tx">${tex(o.latex)}</span>`}</div>`).join('')}</div>`;
     else opts=`<div class="xol">${q.options.map(o=>`<div class="xo${ok(o)}"><b>${o.label}.</b><span class="tx">${tex(o.latex)}</span></div>`).join('')}</div>`}
   const head=q.type==='mcq'?`<span class="xqn">${n}</span>`:`<div class="xqh"><b>QUESTION ${n}</b><span>(${q.marks??'?'} mark${q.marks===1?'':'s'})</span></div>`;
@@ -4282,7 +4293,7 @@ function xQ(q,n,doc){exA();
   // owner 18 Nov: "In the PDF output, remove the school name, just the qid for each question": the paper (and so its PDF, Word and HTML
   // downloads) shows only the QID; the marking guide keeps the source, and ⓘ still shows it on screen
   const src=`<div class="xsrc exsrc"><span class="exsrcl">${guide?esc(srcLine(q))+' · ':''}${qid(q)}</span>${qiButton(q,n)}</div>`;
-  const h=`<section class="xq ${q.type==='mcq'?'mc':'wr'}" data-q="${q.id}">${head}<div class="xqb">${q.stem?`<div class="tx">${tex(q.stem)}</div>`:''}${xFigSlots(q,loose)}${parts}${opts}${mcSols}${sols(null)}</div>${src}</section>`;
+  const h=`<section class="xq ${q.type==='mcq'?'mc':'wr'}" data-q="${q.id}">${head}<div class="xqb">${q.stem?`<div class="tx">${tex(q.stem)}</div>`:''}${xFigSlots(q,loose)}${parts}${opts}${mcKey}${mcSols}${mcOnly?'':sols(null)}</div>${src}</section>`;
   // every diagram slot, including inline \exfigure ones that tex() writes, so this runs on the finished HTML.
   // owner 25 Nov: "This is currently independent, but it should be the same in question and solutions is what I meant": the marking
   // guide draws each diagram at the exam's size for it too (EX.figscale, one size per figure per exam), with the same corner handle,
@@ -4290,21 +4301,27 @@ function xQ(q,n,doc){exA();
   return h.replace(/<span class="figslot" data-fig="([\w.()-]+)"><\/span>/g,(m,k)=>exFigWrap(k));
 }
 // xCover (the editable cover) is in 24_exams.js
-function xBlocks(doc){const {mc,wr}=xSections();const bl=[];let n=0;
-  if(doc==='exam')bl.push({cover:true,html:xCover(mc,wr)},{cover:true,html:'<div class="xblank">This page is intentionally left blank.</div>'});   // owner 18 Nov: the back of the first page is blank
+// owner 26 Nov: "NO I ALSO MEANT a version where the answers are attched after all the questions, for students to self check, just the two
+// pdfs stacked one after anotrher": doc 'stack' is the exam paper as printed, then the marking guide from a new page, each numbering its own
+// pages (b.part says which; 24_exams.js xPreview)
+function xBlocks(doc){if(doc==='stack')return [...xBlocks('exam'),...xBlocks('guide').map((b,i)=>({...b,newpage:b.newpage||!i}))];
+  const {mc,wr}=xSections(),paper=doc!=='guide';const bl=[];let n=0;if(doc==='answers')EXV.fb=0;
+  if(paper)bl.push({cover:true,html:xCover(mc,wr)},{cover:true,html:'<div class="xblank">This page is intentionally left blank.</div>'});   // owner 18 Nov: the back of the first page is blank
   else{const keys=mc.map((q,i)=>`<td>${i+1}</td><td><b>${q.options.find(o=>o.is_correct)?.label||'–'}</b></td>`);
     bl.push({html:`<div class="xgh"><div class="xeyebrow">${esc(EX.school)} · ${esc(EX.title)}</div><h1>${esc(EX.sub)} – marking guide</h1></div>${mc.length?`<div class="xsechd"><b>Section I – answer key</b></div><table class="xkey"><tbody>${keys.map(k=>`<tr>${k}</tr>`).join('')}</tbody></table>`:''}`})}
   const SH=EXSEC.secs(mc,wr);   // owner 18 Nov: section headings as on a NESA paper (EXSEC.head, 24_exams.js)
-  if(mc.length){bl.push({sec:true,html:EXSEC.head(SH[0],doc==='guide')});mc.forEach(q=>bl.push({html:xQ(q,++n,doc),q}))}
+  if(mc.length){bl.push({sec:true,html:EXSEC.head(SH[0],!paper)});mc.forEach(q=>bl.push({html:xQ(q,++n,doc),q}))}
   // owner 17 Nov: questions that "refer to the z score table at the back of the exam" keep that wording, and the exam gets the
   // table appended at the back (zTableHTML, 19_ztable.js). Questions that print their own portion of the table keep it.
-  const zAtEnd=doc==='exam'&&[...mc,...wr].some(needsZ);
-  if(wr.length){bl.push({sec:true,newpage:doc==='exam',html:EXSEC.head(SH[SH.length-1],doc==='guide')});wr.forEach(q=>bl.push({html:xQ(q,++n,doc),q}))}
+  const zAtEnd=paper&&[...mc,...wr].some(needsZ);
+  if(wr.length){bl.push({sec:true,newpage:paper,html:EXSEC.head(SH[SH.length-1],!paper)});wr.forEach(q=>bl.push({html:xQ(q,++n,doc),q}))}
   if(zAtEnd)bl.push({newpage:true,html:zTableHTML()});
   // owner 18 Nov: "attach an advanced reference sheet at the end for students. This should be an extension 1 or 2 one or a standard one
   // when we do more courses later so plan for that": each course names its NESA reference sheet pages (QG.courses[..].ref)
-  if(doc==='exam')(QG.courseData.ref||[]).forEach((p,i)=>bl.push({newpage:true,html:`<div class="xref"><img src="${esc(QG.url(p))}" alt="Reference sheet, page ${i+1}"></div>`}));
-  return bl}
+  if(paper)(QG.courseData.ref||[]).forEach((p,i)=>bl.push({newpage:true,html:`<div class="xref"><img src="${esc(QG.url(p))}" alt="Reference sheet, page ${i+1}"></div>`}));
+  bl.forEach(b=>{b.part=doc});return bl}
+// a document's name after the exam's (titles, file names, page footers); the exam paper has none
+const XDOC={guide:'marking guide',answers:'with answers',stack:'with solutions at the back'},xDocSfx=(doc,sep)=>XDOC[doc]?sep+XDOC[doc]:'';
 const xWait=root=>new Promise(res=>{const t0=performance.now();const tick=()=>{const imgs=[...root.querySelectorAll('img')];const done=imgs.every(i=>i.getAttribute('src')&&i.complete||i.alt==='Redraw missing'||/^Image missing/.test(i.alt));
   if(done||performance.now()-t0>8000)res();else setTimeout(tick,120)};tick()});
 // xPreview (A4 preview, grading panel, Fit pages, export buttons) is in 24_exams.js
@@ -4331,18 +4348,19 @@ async function xDownload(doc){const live=$('#xPages');if(!live)return;const clon
   // downloaded file, so the file keeps the Google Fonts links it always had (same faces; the viewer's browser fetches them).
   const fonts=EXPORT_FONT_LINKS;
   const name=(EX.sub||'exam').replace(/[^\w\- ]+/g,'').trim()||'exam';
-  const html=`<!doctype html><html lang="en-AU" data-theme="light"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(EX.sub)}${doc==='guide'?' – marking guide':''}</title>${fonts}<style>${css}
+  const html=`<!doctype html><html lang="en-AU" data-theme="light"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(EX.sub)}${xDocSfx(doc,' – ')}</title>${fonts}<style>${css}
 body{background:#e9e6df!important}body>*:not(.xpages){display:none!important}.xpages{display:flex!important;padding:24px 0}
 html,body{margin:0!important;padding:0!important}:root{padding:0!important}
 @media print{body{background:#fff!important}.xpages{padding:0!important;gap:0!important}.sheet{height:297mm!important;min-height:0!important;overflow:hidden;margin:0!important;box-shadow:none!important}}</style></head><body>${cache?cache.outerHTML:''}<div class="xpages">${$('#xPages').innerHTML}</div>
 <script>/* Print with Ctrl+P / Cmd+P, or save as PDF from the print dialog. Made with Questgen. */<\/script></body></html>`;
   if(!dl){toast('Downloading is not available in this view');return}
-  try{await dl.save({filename:`${name}${doc==='guide'?' - marking guide':''}.html`,data:html});toast('Saved. Open the file and print it, or save it as PDF.')}
+  try{await dl.save({filename:`${name}${xDocSfx(doc,' - ')}.html`,data:html});toast('Saved. Open the file and print it, or save it as PDF.')}
   catch(e){if(e?.code!=='declined')toast('Could not download ('+(e?.code||'error')+')')}
   }finally{clone.remove();live.id='xPages'}}
 document.addEventListener('click',e=>{
   if(e.target.closest('#xPvClose')){xClosePv();return}
   const s=e.target.closest('[data-xdoc]');if(s){xPreview(s.dataset.xdoc);return}
+  const a=e.target.closest('[data-xans]');if(a){EXV.ans=a.dataset.xans;save('ex_ans',EXV.ans);xPreview('answers');return}   // owner 26 Nov: see xQ
   const d=e.target.closest('#xDl');if(d&&!d.disabled){xDownload(d.dataset.doc);return}});
 
 xCount();
@@ -4682,7 +4700,8 @@ document.addEventListener('click',e=>{if(!e.target.closest('#xPanel'))return;
    now opens this page. Difficulty: band 2-6 and fluency (UF) / problem solving (PR) per part, from DIFFICULTY_SPEC. */
 const EXV={view:(load('ex_view')||'mine'),setupFor:null,
   pk:{topic:'all',q:'',paper:'all',type:'all',marks:'all',sort:'new',band:'all',wm:'all',fig:false,hide:false,limit:20},
-  open:new Set(),pkOpen:new Set(),sel:null,doc:'exam',grade:true,built:false,moved:null};
+  open:new Set(),pkOpen:new Set(),sel:null,doc:'exam',grade:true,built:false,moved:null,
+  ans:(load('ex_ans')||'both'),fb:0};   // owner 26 Nov: Paper with answers shows the final answer, the worked solution or both (20_exam.js xQ)
 const exSaveView=()=>{save('ex_view',EXV.view);};
 
 /* ---------- settings (kept in EX.auto with the stage-2 fields) ---------- */
@@ -5077,7 +5096,7 @@ const EXSEC={   // one page-wide name (CODE_HEALTH rule 1)
   blocks(mc,wr,tot){const W=this.mins(EX.time),secs=this.secs(mc,wr);
     return secs.map(x=>`<div class="cv-sec"><p class="cv-sech"><b>Section ${x.r} – ${x.mk} mark${x.mk===1?'':'s'}</b> <span class="cv-pg" data-pgsec="${x.n}"></span></p><ul><li>Attempt Questions ${x.q}</li>${W&&x.min>0?`<li>Allow about ${this.dur(x.min)} for this section</li>`:''}</ul></div>`).join('')},
   // the pages each section runs over, as the page footers number them (the cover is page 1)
-  pages(host){const sh=[...host.querySelectorAll('.sheet')],at=n=>sh.findIndex(s=>s.querySelector(`.xsechd[data-sec="${n}"]`));
+  pages(host){const sh=[...host.querySelectorAll('.sheet:not([data-part="guide"])')],at=n=>sh.findIndex(s=>s.querySelector(`.xsechd[data-sec="${n}"]`));
     const last=sh.map(s=>!!s.querySelector('section.xq')).lastIndexOf(true);   // the z-score table and reference sheet after it are not a section's pages
     const a1=at(1),a2=at(2),rng=(a,b)=>a<0||b<a?'':a===b?`(page ${a+1})`:`(pages ${a+1}–${b+1})`;
     host.querySelectorAll('.cv-pg').forEach(el=>{el.textContent=el.dataset.pgsec==='1'?rng(a1,a2>=0?a2-1:last):rng(a2,last)})}};
@@ -5147,18 +5166,19 @@ function exCont(blk,path,move,open){const q2=open(false),nb=q2.closest('.xblk');
   let n=move[0];const all=[];while(n){all.push(n);n=n.nextSibling}all.forEach(x=>host.appendChild(x));return nb}
 // The Word file flows its own pages, so it gets each question whole, as before: pieces cut inside a part (exCont) are put back
 // together in its copy of the sheets (30_word.js). Pieces cut between parts stay as they always were.
-function exRejoin(root){let last=new Map();
+function exRejoin(root){let last=new Map();const qk=sec=>(sec.closest('.sheet')?.dataset.part||'')+'|'+sec.dataset.q;   // 'stack': a question is on the paper and in the guide
   const merge=(dst,src)=>{[...src.childNodes].forEach(c=>{if(c.nodeType===1&&c.dataset.cut==='x')return;
     if(c.nodeType===1&&c.dataset.cut==='1'){const t=[...dst.children].reverse().find(d=>d.tagName===c.tagName&&d.className===c.className);if(t){merge(t,c);return}c.removeAttribute('data-cut')}
     dst.appendChild(c)});dst.normalize()};   // fix 13 Nov: text split at a line (exFlowCut) becomes one text node again
-  root.querySelectorAll('section.xq').forEach(sec=>{const qb=sec.querySelector(':scope>.xqb'),prev=last.get(sec.dataset.q);
+  root.querySelectorAll('section.xq').forEach(sec=>{const qb=sec.querySelector(':scope>.xqb'),prev=last.get(qk(sec));
     if(prev&&qb&&qb.querySelector(':scope>[data-cut]')){merge(prev.querySelector(':scope>.xqb'),qb);const src=sec.querySelector(':scope>.xsrc');if(src)prev.appendChild(src);sec.closest('.xblk')?.remove();return}
-    last.set(sec.dataset.q,sec)})}
+    last.set(qk(sec),sec)})}
 async function xPreview(doc,opts={}){exA();EXV.doc=doc;let ov=$('#xPv');
   if(!ov){ov=document.createElement('div');ov.id='xPv';ov.className='xpv expv';document.body.appendChild(ov)}
   const keepScroll=opts.keep?ov.scrollTop:0;
   if(!opts.keep||!$('#xPages')){
-    ov.innerHTML=`<div class="xtool"><div class="xseg"><button data-xdoc="exam" aria-pressed="${doc==='exam'}">Exam paper</button><button data-xdoc="guide" aria-pressed="${doc==='guide'}">Marking guide</button></div>
+    ov.innerHTML=`<div class="xtool"><div class="xseg"><button data-xdoc="exam" aria-pressed="${doc==='exam'}">Exam paper</button><button data-xdoc="guide" aria-pressed="${doc==='guide'}">Marking guide</button><button data-xdoc="answers" aria-pressed="${doc==='answers'}" title="The paper with each question's answer straight after it">With answers</button><button data-xdoc="stack" aria-pressed="${doc==='stack'}" title="The paper, then the marking guide from a new page, in one file: for students to check their own work">Solutions at the back</button></div>
+      ${doc==='answers'?`<div class="xseg ex-ansm" role="group" aria-label="After each question">${[['final','Final answer'],['worked','Worked solution'],['both','Both']].map(([k,t])=>`<button data-xans="${k}" aria-pressed="${EXV.ans===k}">${t}</button>`).join('')}</div>`:''}
       <span class="xinfo" id="xInfo">Laying out pages…</span><span class="sp"></span><span class="xpvsave" id="xPvSave"></span>
       <button class="act" id="exGrade" aria-pressed="${EXV.grade}">Questions</button>
       <span class="xmenu"><button class="act" data-xmenu aria-expanded="false">Exam</button><span class="xmenu-pop" hidden><button class="act" id="exPvSet" title="Change this exam's topics, marks or difficulty and regenerate it">Settings…</button><button class="act" id="exPvRegen"${exA().topics.length?'':' disabled title="Choose topics in Exam setup first"'}>Regenerate</button><button class="act" id="exPvTopic" aria-pressed="${EX.bytopic!==false}" title="Show the marks-by-topic table at the bottom of the cover">Topic table on the cover</button></span></span>
@@ -5170,12 +5190,14 @@ async function xPreview(doc,opts={}){exA();EXV.doc=doc;let ov=$('#xPv');
   if(!document.body.classList.contains('xpv-on')){EXV.pageY=scrollY;window.scrollTo(0,0)}   // a scrolled page underneath misplaces the fixed panels on phones
   ov.hidden=false;document.body.classList.add('xpv-on');ov.classList.toggle('grade-off',!EXV.grade);$('#exGrade')?.setAttribute('aria-pressed',String(EXV.grade));
   await QG.need(EX.items.map(xq));   // Fix 1 (owner 14 Nov: "Ok we should run Fix 1 and 2"): the paper's questions' topic files, before layout
+  // the cache key names the block's own document ('stack' holds paper and guide blocks of one question) and the answers mode
+  const ck=b=>exCKey(b.q,b.part+(b.part==='answers'?':'+EXV.ans:''),b.html);
   const bl=xBlocks(doc),meas=document.createElement('div');meas.className='xmeasure sheetbody';
   meas.innerHTML=bl.map((b,i)=>`<div class="xblk${b.cover?' cover':''}" data-i="${i}">${b.html}</div>`).join('');document.body.appendChild(meas);
-  bl.forEach((b,i)=>{if(!b.q)return;const el=meas.querySelector(`[data-i="${i}"]`),c=EXC.get(exCKey(b.q,doc,b.html)),qb=el.querySelector('.xqb');
+  bl.forEach((b,i)=>{if(!b.q)return;const el=meas.querySelector(`[data-i="${i}"]`),c=EXC.get(ck(b)),qb=el.querySelector('.xqb');
     if(c&&qb){qb.innerHTML=c;el.dataset.cached=1}else hydrate(el,b.q,'bank')});
   await typeset(meas);await xWait(meas);await typeset(meas);
-  bl.forEach((b,i)=>{if(!b.q)return;const el=meas.querySelector(`[data-i="${i}"]`);if(!el.dataset.cached){const qb=el.querySelector('.xqb');if(qb)EXC.set(exCKey(b.q,doc,b.html),qb.innerHTML)}});
+  bl.forEach((b,i)=>{if(!b.q)return;const el=meas.querySelector(`[data-i="${i}"]`);if(!el.dataset.cached){const qb=el.querySelector('.xqb');if(qb)EXC.set(ck(b),qb.innerHTML)}});
   $$('img.fig',meas).forEach(im=>{im.style.maxWidth='100%'});EXSEC.fitOpts(meas);
   // 14 Nov: content height 250 mm, not 259: the review pass measured only ~250 mm fitting inside a 297 mm sheet (padding + footer), so full sheets ran past A4 and were cut off in PDF/print.
   const probe=document.createElement('div');probe.style.height='250mm';meas.appendChild(probe);const H=probe.getBoundingClientRect().height;probe.remove();
@@ -5202,25 +5224,28 @@ async function xPreview(doc,opts={}){exA();EXV.doc=doc;let ov=$('#xPv');
     // hardening 14 Nov (page test): a single part (or one part's worked solution) taller than a page was left whole, so its
     // sheet grew past 297 mm and the PDF / print cut the bottom off. Such a piece is now also cut inside the part, between lines
     for(let k=0;k<pieces.length;k++){let g=0;while(pieces[k].getBoundingClientRect().height>lim(k)*0.98&&g++<40){const nx=exCutTall(pieces[k],lim(k),open);if(!nx)break;pieces.splice(pieces.indexOf(nx),1);pieces.splice(k+1,0,nx);k++}}
-    if(src)pieces[pieces.length-1].querySelector('section').appendChild(src);el.remove();pieces.forEach(()=>bl2.push({q:bl[i].q}));return pieces});
+    if(src)pieces[pieces.length-1].querySelector('section').appendChild(src);el.remove();pieces.forEach(()=>bl2.push({q:bl[i].q,part:bl[i].part}));return pieces});
   bl.length=0;bl.push(...bl2);
-  const sheets=[];let cur=null,used=0;const start=()=>{cur=[];sheets.push(cur);used=0};
+  const sheets=[];let cur=null,used=0;const start=b=>{cur=[];cur.part=b.part;sheets.push(cur);used=0};
   els.forEach((el,i)=>{const b=bl[i],h=el.getBoundingClientRect().height+parseFloat(getComputedStyle(el).marginBottom||0);
     const nextH=b.sec&&els[i+1]?els[i+1].getBoundingClientRect().height:0,onlyHead=cur&&cur.length===1&&bl[els.indexOf(cur[0])]?.sec;
-    if(!cur||b.cover||b.newpage||(used+h+nextH>H&&cur.length&&!onlyHead))start();
+    if(!cur||b.cover||b.newpage||(used+h+nextH>H&&cur.length&&!onlyHead))start(b);
     cur.push(el);used+=h;if(b.cover)cur=null});
   // owner 19 Nov: "The exam should always have an odd number of pages so no nothing is printing on the back page, add an intentional
   // blank marked page where needed": an even count gets a marked blank page after the last question page (before the z-score table
   // and the reference sheet, which stay at the back)
-  if(doc==='exam'&&sheets.length%2===0){const at=sheets.map(s=>s.some(el=>el.querySelector('section.xq'))).lastIndexOf(true)+1,b=document.createElement('div');
-    b.className='xblk cover';b.innerHTML='<div class="xblank">This page is intentionally left blank.</div>';sheets.splice(at>0?at:sheets.length,0,[b])}
+  // the paper with answers too; 'stack': the paper's own pages (the guide after it then starts on a new sheet of paper)
+  const ppr=s=>s.part!=='guide';
+  if(doc!=='guide'&&sheets.filter(ppr).length%2===0){const at=sheets.map(s=>ppr(s)&&s.some(el=>el.querySelector('section.xq'))).lastIndexOf(true)+1,b=document.createElement('div');
+    b.className='xblk cover';b.innerHTML='<div class="xblank">This page is intentionally left blank.</div>';const s=[b];s.part=sheets[0].part;sheets.splice(at>0?at:sheets.filter(ppr).length,0,s)}
   const host=$('#xPages');host.innerHTML='';
-  sheets.forEach((s,k)=>{const sh=document.createElement('div');sh.className='sheet';const body=document.createElement('div');body.className='sheetbody';s.forEach(el=>body.appendChild(el));sh.appendChild(body);
+  const nPart={},kPart={};sheets.forEach(s=>{nPart[s.part]=(nPart[s.part]||0)+1});   // each document numbers its own pages ('stack')
+  sheets.forEach(s=>{const k=kPart[s.part]=(kPart[s.part]||0)+1,sh=document.createElement('div');sh.className='sheet';sh.dataset.part=s.part;const body=document.createElement('div');body.className='sheetbody';s.forEach(el=>body.appendChild(el));sh.appendChild(body);
     // owner 18 Nov: "remove the footer on the cover page", "instead of 1/28 write Page 1 of 28"
-    if(!(doc==='exam'&&k===0))sh.insertAdjacentHTML('beforeend',`<div class="sheetfoot">${esc(EX.title)} · ${esc(EX.sub)}${doc==='guide'?' · marking guide':''}<span>Page ${k+1} of ${sheets.length}</span></div>`);host.appendChild(sh)});
+    if(!(ppr(s)&&k===1))sh.insertAdjacentHTML('beforeend',`<div class="sheetfoot">${esc(EX.title)} · ${esc(EX.sub)}${xDocSfx(s.part,' · ')}<span>Page ${k} of ${nPart[s.part]}</span></div>`);host.appendChild(sh)});
   meas.remove();EXSEC.pages(host);scaleTables(host,true);exZoom();
   const qs=EX.items.map(xq).filter(Boolean),tot=xMarks(qs);let F=0,P=0,w=0;qs.forEach(q=>{const e=exEst(q);if(e){F+=e.fl;P+=e.ps;w+=e.d*e.m}});
-  $('#xInfo').textContent=`${sheets.length} page${sheets.length===1?'':'s'} · ${qs.length} questions · ${tot} marks${F+P?` · ${Math.round(P/(F+P)*100)}% problem solving · average band ${(w/(F+P)).toFixed(1)}`:''}`;
+  $('#xInfo').textContent=`${sheets.length} page${sheets.length===1?'':'s'} · ${qs.length} questions · ${tot} marks${F+P?` · ${Math.round(P/(F+P)*100)}% problem solving · average band ${(w/(F+P)).toFixed(1)}`:''}${doc==='answers'&&EXV.ans!=='worked'&&EXV.fb?` · ${EXV.fb} written part${EXV.fb===1?' has':'s have'} no short answer recorded, so ${EXV.fb===1?'it shows its':'they show their'} worked solution`:''}`;
   $('#xDl').disabled=false;$('#xDl').dataset.doc=doc;EXAS.bar();
   exGrading();if(opts.keep)ov.scrollTop=keepScroll;else ov.scrollTop=0;
   // owner 14 Nov ("make it so we can export pdfs from here"): PDF (29_pdf.js) and Word (30_word.js) join HTML in the Download menu
@@ -6150,9 +6175,9 @@ async function xPdf(doc){
       pdf.addImage(cv.toDataURL('image/jpeg',0.9),'JPEG',0,0,210,297,undefined,'FAST');
       await new Promise(res=>setTimeout(res,0))}   // let the page breathe between sheets
     const title=(EX.sub||EX.title||'exam').replace(/[^\w\- ]+/g,'').trim()||'exam';
-    pdf.setProperties({title:`${EX.sub||EX.title||'Exam'}${doc==='guide'?' – marking guide':''}`,creator:'Questgen'});
+    pdf.setProperties({title:`${EX.sub||EX.title||'Exam'}${xDocSfx(doc,' – ')}`,creator:'Questgen'});
     const blob=pdf.output('blob');say('Saving…');
-    await dl.save({filename:`${title}${doc==='guide'?' - marking guide':''}.pdf`,data:blob});
+    await dl.save({filename:`${title}${xDocSfx(doc,' - ')}.pdf`,data:blob});
     toast(`PDF saved · ${sheets.length} page${sheets.length===1?'':'s'}`)}
   catch(e){if(e?.code==='declined'){}else toast(e?.code?`Could not save the PDF (${e.code})`:`Could not make the PDF: ${e.message||e}`)}
   finally{host?.remove();if(btn)btn.disabled=false;say(old||'')}}
@@ -6224,7 +6249,7 @@ async function xWord(doc){
       if(el.matches('.xlines,.exln')){const n=el.querySelectorAll('i').length;if(n){out.push(P([],{after:0}));out.push(lines(n,ctx.indent||0))}out.push(P([],{after:280}));return}   // owner 18 Nov: more space before the next part
       if(el.matches('table')){out.push(await table(el,ctx));out.push(P([],{after:60}));return}
       if(el.matches('.xsechd')){const sec2=el.dataset.sec==='2';const t=el.querySelector('b')?.textContent.trim()||el.textContent.trim();   // owner 18 Nov: NESA-style section heading
-        out.push(new Paragraph({children:[new TextRun({text:t,bold:true,font:UI,size:30})],pageBreakBefore:sec2&&doc==='exam',keepNext:true,spacing:{before:200,after:120}}));
+        out.push(new Paragraph({children:[new TextRun({text:t,bold:true,font:UI,size:30})],pageBreakBefore:sec2&&ctx.part!=='guide',keepNext:true,spacing:{before:200,after:120}}));
         const ps=[...el.querySelectorAll('p')];ps.forEach((p,i)=>out.push(new Paragraph({children:[new TextRun({text:p.textContent.trim(),font:UI,size:24})],keepNext:true,spacing:{after:i===ps.length-1?200:60},
           border:i===ps.length-1?{bottom:{style:BorderStyle.SINGLE,size:6,color:'666666',space:6}}:undefined})));
         if(!ps.length)out.push(new Paragraph({children:[],spacing:{after:120},border:{bottom:{style:BorderStyle.SINGLE,size:6,color:'666666',space:2}}}));return}
@@ -6241,7 +6266,7 @@ async function xWord(doc){
         else if(lab||mk)sub.unshift(new Paragraph({children:[...head,...(mk?[new TextRun({text:'\t'+mk,bold:true,font:UI,size:20})]:[])],indent:{left:ind,hanging:567},tabStops:[{type:TabStopType.LEFT,position:ind},{type:TabStopType.RIGHT,position:RIGHT}]}));
         out.push(...sub);return}
       if(el.matches('.xo')){const lb=el.querySelector(':scope>b'),lab=lb?.textContent||'';const rs=[new TextRun({text:lab+'\t',bold:true,font:UI,size:20})];for(const c of el.childNodes){if(c===lb)continue;await runs(c,fmt,rs)}
-        const ok=el.classList.contains('xok')&&doc==='guide';out.push(new Paragraph({children:rs,indent:{left:(ctx.indent||0)+567,hanging:567},tabStops:[{type:TabStopType.LEFT,position:(ctx.indent||0)+567}],spacing:{after:80},...(ok?{shading:{type:ShadingType.CLEAR,fill:'E3F1E5',color:'auto'},border:{left:{style:BorderStyle.SINGLE,size:6,color:'2F7A43',space:6}}}:{})}));return}
+        const ok=el.classList.contains('xok')&&ctx.part!=='exam';out.push(new Paragraph({children:rs,indent:{left:(ctx.indent||0)+567,hanging:567},tabStops:[{type:TabStopType.LEFT,position:(ctx.indent||0)+567}],spacing:{after:80},...(ok?{shading:{type:ShadingType.CLEAR,fill:'E3F1E5',color:'auto'},border:{left:{style:BorderStyle.SINGLE,size:6,color:'2F7A43',space:6}}}:{})}));return}
       if(el.matches('.xsol,.sol')&&!ctx.inSol){const sub=[];for(const c of el.children)await blocks(c,{...ctx,inSol:true,indent:(ctx.indent||0)+284},sub);
         out.push(...sub.map(x=>x));return}
       if(el.matches('ul,ol')){let k=0;for(const li of el.children){if(li.matches(W_SKIP))continue;k++;const rs=[new TextRun({text:(el.tagName==='OL'?k+'.':'•')+'\t',font:fmt.font})];for(const c of li.childNodes)await runs(c,fmt,rs);
@@ -6273,24 +6298,26 @@ async function xWord(doc){
       const tt=cv.querySelector('.extopictbl');if(tt){   // owner 18 Nov: marks by topic is always on the cover
       out.push(new Paragraph({children:[],spacing:{before:480}}));const t=tt.querySelector('table');if(t)out.push(await table(t,{font:UI,size:18}))}}   // owner 18 Nov: no "Marks by topic" heading
     // ---- walk the sheets ----
-    const body=[];const sheets=[...host.querySelectorAll('.sheet')];let k=0;
+    const body=[];const sheets=[...host.querySelectorAll('.sheet')];let k=0,was=null;
     for(const sh of sheets){k++;say(`Making the Word file: page ${k} of ${sheets.length}…`);
+      // owner 26 Nov (doc 'stack', 20_exam.js xBlocks): the marking guide after the paper starts a new page
+      const part=sh.dataset.part||doc;if(was&&part!==was)body.push(new Paragraph({children:[],pageBreakBefore:true}));was=part;
       for(const blk of sh.querySelectorAll(':scope>.sheetbody>*')){const cv=blk.querySelector('.xcover');
         // owner 18 Nov: the blank back of the cover and each reference-sheet page are pages of their own in Word too
         if(blk.querySelector('.xblank')){body.push(new Paragraph({alignment:AlignmentType.CENTER,spacing:{before:5600},children:[new TextRun({text:blk.textContent.trim(),font:FONT,italics:true})]}),new Paragraph({children:[],pageBreakBefore:true}));continue}
         if(blk.querySelector('.xref'))body.push(new Paragraph({children:[],pageBreakBefore:true}));
         if(cv){await cover(cv,body);body.push(new Paragraph({children:[],pageBreakBefore:true}));continue}
-        await blocks(blk,{font:FONT},body)}
+        await blocks(blk,{font:FONT,part},body)}
       await new Promise(r=>setTimeout(r,0))}
-    const title=`${EX.sub||EX.title||'Exam'}${doc==='guide'?' – marking guide':''}`;
+    const title=`${EX.sub||EX.title||'Exam'}${xDocSfx(doc,' – ')}`;
     const wd=new D.Document({creator:'Questgen',title,styles:{default:{document:{run:{font:FONT,size:23}}}},
       // owner 18 Nov: no footer on the cover (a blank first-page footer), and "Page 1 of 28"
-      sections:[{properties:{titlePage:doc==='exam',page:{size:{width:11906,height:16838},margin:{top:1134,bottom:1134,left:1134,right:1134}}},
-        footers:{first:new Footer({children:[new Paragraph({children:[]})]}),default:new Footer({children:[new Paragraph({alignment:AlignmentType.CENTER,children:[new TextRun({text:`${EX.title||''} · ${EX.sub||''}${doc==='guide'?' · marking guide':''}    `,font:UI,size:16,color:'777777'}),new TextRun({children:['Page ',PageNumber.CURRENT,' of ',PageNumber.TOTAL_PAGES],font:UI,size:16,color:'777777'})]})]})},
+      sections:[{properties:{titlePage:doc!=='guide',page:{size:{width:11906,height:16838},margin:{top:1134,bottom:1134,left:1134,right:1134}}},
+        footers:{first:new Footer({children:[new Paragraph({children:[]})]}),default:new Footer({children:[new Paragraph({alignment:AlignmentType.CENTER,children:[new TextRun({text:`${EX.title||''} · ${EX.sub||''}${xDocSfx(doc,' · ')}    `,font:UI,size:16,color:'777777'}),new TextRun({children:['Page ',PageNumber.CURRENT,' of ',PageNumber.TOTAL_PAGES],font:UI,size:16,color:'777777'})]})]})},
         children:body}]});
     say('Packing…');const blob=await D.Packer.toBlob(wd);
     const name=(EX.sub||EX.title||'exam').replace(/[^\w\- ]+/g,'').trim()||'exam';
-    await dl.save({filename:`${name}${doc==='guide'?' - marking guide':''}.docx`,data:blob});
+    await dl.save({filename:`${name}${xDocSfx(doc,' - ')}.docx`,data:blob});
     toast(fails?`Word file saved · ${fails} of ${maths} equations kept as pictures`:'Word file saved, with editable equations')}
   catch(e){if(e?.code!=='declined')toast(e?.code?`Could not save the Word file (${e.code})`:`Could not make the Word file: ${e.message||e}`);console.error(e)}
   finally{host?.remove();if(btn)btn.disabled=false;say(old||'')}}
@@ -7088,7 +7115,7 @@ const RUNDO={N:20,prev:{},undone:[],
    comes back into view and right before every approval; once a newer version is live, a bar asks for a reload and approvals
    (questions, diagrams, papers, paper calls, difficulty) are refused until then. Flags and notes still save. One page-wide name
    (CODE_HEALTH rule 1). */
-const FRESH={build:'99901f6653e39c56',stale:false,t:null,at:0,
+const FRESH={build:'2bb76bcff7dbf471',stale:false,t:null,at:0,
   async check(){if(this.stale||this.build.startsWith('__'))return this.stale;
     try{const r=await fetch('data/version.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)return false;const v=await r.json();
       this.at=Date.now();if(v&&v.build&&v.build!==this.build){this.stale=true;this.bar()}}catch(e){}
