@@ -110,5 +110,23 @@
   },
   "notes": "Restored backup predates afternoon DB edits (QID 6403 fix etc.): publish, difficulty save, scan --apply and backup held. Full page test 260/260 after building the fixture (needed Pillow reinstall: system PIL broken). Folder walk 76 search_files calls in a subagent (~53 min, the bulk of the run).",
   "effort": "moderate; most time in the Drive folder walk"
+ },
+ {
+  "night": "2026-11-28",
+  "started": "2026-11-28T22:12+11:00",
+  "finished": "2026-11-28T22:39+11:00",
+  "minutes": {
+   "setup_restore_fetch": 3,
+   "requests": 0,
+   "folder_rescan": 2,
+   "images": 1,
+   "difficulty": 1,
+   "lean": 1,
+   "prepublish_publish": 10,
+   "full_page_test": 8,
+   "backup_push": 2
+  },
+  "notes": "No import running, no requests. Restored questions_20261126-2011 (matches v367; last night's 27 Nov night_log entry is not in this file: GitHub main was force-updated to v367 after that run). Fetched 60 published files + 40 asset packs (one read each). Folder rescan: 8 search_files calls (ancestors, pageSize 1000, orderBy modifiedTime desc), 7,067 items: 217 new files recorded (all Year 12 Standard folders, status excluded), 0 copies, 0 moved, 31 missing (same as before). Images: 0 cleared. Difficulty: 225 ratings, database already held them. Lean: 1 CSS rule removed. Prepublish needed the Pillow reinstall again (system PIL broken); core test 229/229, 0 blockers; published v368 (first publish refused until the live page and 8 data files were read; live = v367 exactly). Full page test 286/287: same dataSplit check as 26 Nov. DB backup questions_20261128-2229 uploaded (4 parts), 20261126-2011 set renamed superseded.",
+  "effort": "light; the reviews export (6 pages) and folder listing (8 pages) were most of the tool calls"
  }
 ]
